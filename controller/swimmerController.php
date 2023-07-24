@@ -23,12 +23,28 @@ class SwimmerController extends BaseController
 
         $competitions = Competition::getAll($conditions, $orders);
 
+        $conditions = [
+            'deadLine >= "' . $now->format('Y-m-d H:i') . '"',
+            'state = "open"'
+        ];
+
+        $orders = ['deadLine'];
+
+        $questionaries = Questionary::getAll($conditions, $orders);
+
         foreach ($competitions as $competition) {
 
             $events[] = $competition;
         }
 
         usort($events, fn ($a, $b) => strcmp($a->getInscriptionsDeadLine(), $b->getInscriptionsDeadLine()));
+
+        foreach ($questionaries as $questionary) {
+
+            $events[] = $questionary;
+        }
+
+        usort($events, fn ($a, $b) => strcmp($a->getInscriptionsDeadLine(), $b->getDeadLine()));
 
         return [
             'success' => true,

@@ -37,7 +37,7 @@ class AdminCompetitionController extends BaseController
         $competition->setInscriptionsLimit($_POST['inscriptionsLimit']);
         $competition->setStartDate($_POST['startDate']);
         $competition->setEndDate($_POST['endDate']);
-        $competition->setInscriptionsDeadLine($_POST['inscriptionsDeadLine']);
+        $competition->setDeadLine($_POST['deadLine']);
 
         if ($_FILES['picture']['size'] != 0) {
 
@@ -74,7 +74,7 @@ class AdminCompetitionController extends BaseController
             ];
         }
 
-        if ($competition->getStartDate() <= $competition->getInscriptionsDeadLine()) {
+        if ($competition->getStartDate() <= $competition->getDeadLine()) {
 
             return [
                 'success' => false,
@@ -167,7 +167,7 @@ class AdminCompetitionController extends BaseController
 
         $this->view = 'admin/competition/details';
 
-        $validation = self::checkRequiredFields(array('name', 'place', 'inscriptionsLimit', 'startDate', 'endDate', 'inscriptionsDeadLine'));
+        $validation = self::checkRequiredFields(array('name', 'place', 'inscriptionsLimit', 'startDate', 'endDate', 'deadLine'));
 
         if (!$validation['success']) {
 
@@ -186,7 +186,7 @@ class AdminCompetitionController extends BaseController
             'inscriptionsLimit' => $_POST['inscriptionsLimit'],
             'startDate' => $_POST['startDate'],
             'endDate' => $_POST['endDate'],
-            'inscriptionsDeadLine' => $_POST['inscriptionsDeadLine'],
+            'deadLine' => $_POST['deadLine'],
             'location' => isset($_POST['location']) ? $_POST['location'] : NULL,
             'description' => isset($_POST['description']) ? $_POST['description'] : NULL
         ];
@@ -200,7 +200,7 @@ class AdminCompetitionController extends BaseController
             ];
         }
 
-        if ($columns['startDate'] <= $columns['inscriptionsDeadLine']) {
+        if ($columns['startDate'] <= $columns['deadLine']) {
 
             return [
                 'success' => false,

@@ -27,7 +27,7 @@ else $competitions = $data['content']['object'];
                     <div class="col-2"><?php echo $competition->getName(); ?></div>
                     <div class="col-2"><?php echo $competition->getPlace(); ?></div>
                     <div class="col-2"><?php echo formatDMYDate($competition->getStartDate()); ?></div>
-                    <div class="col-2"><?php echo formatDMYDate($competition->getInscriptionsDeadLine()); ?></div>
+                    <div class="col-2"><?php echo formatDMYDate($competition->getDeadLine()); ?></div>
                     <div class="col-2">
                         <form id="competition-state-<?php echo $competition->getId() ?>" method="post" action="adminCompetition/updateState/<?php echo $competition->getId() ?>">
                             <select name="state" class="w-100">

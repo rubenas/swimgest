@@ -15,7 +15,7 @@ class Competition extends BaseModel
     private $description;
     private $startDate;
     private $endDate;
-    private $inscriptionsDeadLine;
+    private $deadLine;
     private $inscriptionsLimit;
     private $state;
 
@@ -26,8 +26,8 @@ class Competition extends BaseModel
     public static function add($competition)
     {
 
-        $sql = "INSERT INTO " . self::TABLE . " (name,place,location,picture,description,startDate,endDate,inscriptionsDeadLine,inscriptionsLimit,state) 
-                    VALUES (:name,:place,:location,:picture,:description,:startDate,:endDate,:inscriptionsDeadLine,:inscriptionsLimit,:state)";
+        $sql = "INSERT INTO " . self::TABLE . " (name,place,location,picture,description,startDate,endDate,deadLine,inscriptionsLimit,state) 
+                    VALUES (:name,:place,:location,:picture,:description,:startDate,:endDate,:deadLine,:inscriptionsLimit,:state)";
 
         $conn = self::getConnection();
 
@@ -41,7 +41,7 @@ class Competition extends BaseModel
             ':description' => $competition->getDescription(),
             ':startDate' => $competition->getStartDate(),
             ':endDate' => $competition->getEndDate(),
-            ':inscriptionsDeadLine' => $competition->getInscriptionsDeadLine(),
+            ':deadLine' => $competition->getDeadLine(),
             ':inscriptionsLimit' => $competition->getInscriptionsLimit(),
             ':state' => $competition->getState()
         ];
@@ -165,13 +165,13 @@ class Competition extends BaseModel
         $this->endDate = $endDate;
         return $this;
     }
-    public function getInscriptionsDeadLine()
+    public function getdeadLine()
     {
-        return $this->inscriptionsDeadLine;
+        return $this->deadLine;
     }
-    public function setInscriptionsDeadLine($inscriptionsDeadLine): self
+    public function setdeadLine($deadLine): self
     {
-        $this->inscriptionsDeadLine = $inscriptionsDeadLine;
+        $this->deadLine = $deadLine;
         return $this;
     }
     public function getInscriptionsLimit()

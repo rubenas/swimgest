@@ -26,7 +26,7 @@ $events = $data['content']['object'];
                     <div class="col-2"><?php echo $event->getName(); ?></div>
                     <div class="col-2"><?php echo $event->getPlace(); ?></div>
                     <div class="col-2"><?php echo formatDMYDate($event->getStartDate()); ?></div>
-                    <div class="col-2"><?php echo formatDMYDate($event->getInscriptionsDeadLine()); ?></div>
+                    <div class="col-2"><?php echo formatDMYDate($event->getDeadLine()); ?></div>
                     <div class="col-2">
                         <form id="event-state-<?php echo $event->getId() ?>" method="post" action="adminEvent/updateState/<?php echo $event->getId() ?>">
                             <select name="state" class="w-100">

@@ -35,7 +35,7 @@
                 <main class="p-1">
                     <p><strong><?php echo $competition->getPlace(); ?></strong></p>
                     <p>Del <?php echo formatDMYDate($competition->getStartDate()); ?> al <?php echo formatDMYDate($competition->getEndDate()); ?></p>
-                    <p><strong>Fecha límite de inscripción:</strong> <?php echo formatDMYHMDate($competition->getInscriptionsDeadLine()); ?></p>
+                    <p><strong>Fecha límite de inscripción:</strong> <?php echo formatDMYHMDate($competition->getDeadLine()); ?></p>
                     <p><strong>Límite de pruebas:</strong> <?php echo $competition->getInscriptionsLimit() ?></p>
                 </main>
             </section>

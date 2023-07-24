@@ -255,6 +255,7 @@ class AdminRaceController extends BaseController
 
     public function fillCompetitionFromRace($race)
     {
+        /**@var Session $session */
         $session = Session::getById($race->getSessionId());
         
         /**@var Journey $journey */

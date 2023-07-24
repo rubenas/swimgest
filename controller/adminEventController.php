@@ -37,7 +37,7 @@ class AdminEventController extends BaseController
 
         $event->setEndDate((isset($_POST['endDate']) && $_POST['endDate'] != '') ? $_POST['endDate'] : NULL);
 
-        $event->setInscriptionsDeadLine((isset($_POST['inscriptionsDeadLine']) && $_POST['inscriptionsDeadLine'] != '') ? $_POST['inscriptionsDeadLine'] : NULL);
+        $event->setDeadLine((isset($_POST['deadLine']) && $_POST['deadLine'] != '') ? $_POST['deadLine'] : NULL);
 
         if (isset($_FILES['picture']) && $_FILES['picture']['size'] != 0) {
 
@@ -76,9 +76,9 @@ class AdminEventController extends BaseController
             }
         }
 
-        if ($event->getStartDate() != NULL && $event->getInscriptionsDeadLine() != NULL) {
+        if ($event->getStartDate() != NULL && $event->getDeadLine() != NULL) {
 
-            if ($event->getStartDate() <= $event->getInscriptionsDeadLine()) {
+            if ($event->getStartDate() <= $event->getDeadLine()) {
 
                 return [
                     'success' => false,
@@ -223,7 +223,7 @@ class AdminEventController extends BaseController
             'place' => isset($_POST['place']) ? $_POST['place'] : NULL,
             'startDate' => (isset($_POST['startDate']) && $_POST['startDate'] != '') ? $_POST['startDate'] : NULL,
             'endDate' => (isset($_POST['endDate']) && $_POST['endDate'] != '') ? $_POST['endDate'] : NULL,
-            'inscriptionsDeadLine' => isset($_POST['inscriptionsDeadLine']) ? $_POST['inscriptionsDeadLine'] : NULL,
+            'deadLine' => isset($_POST['deadLine']) ? $_POST['deadLine'] : NULL,
             'location' => isset($_POST['location']) ? $_POST['location'] : NULL,
             'description' => isset($_POST['description']) ? $_POST['description'] : NULL
         ];
@@ -240,9 +240,9 @@ class AdminEventController extends BaseController
             }
         }
 
-        if ($columns['startDate'] != NULL && $columns['inscriptionsDeadLine'] != NULL) {
+        if ($columns['startDate'] != NULL && $columns['deadLine'] != NULL) {
 
-            if ($columns['startDate'] <= $columns['inscriptionsDeadLine']) {
+            if ($columns['startDate'] <= $columns['deadLine']) {
 
                 return [
                     'success' => false,

@@ -15,7 +15,7 @@ class Event extends BaseModel
     private $description;
     private $startDate;
     private $endDate;
-    private $inscriptionsDeadLine;
+    private $deadLine;
     private $state;
     private $subEvents = [];
     private $questions = [];
@@ -25,8 +25,8 @@ class Event extends BaseModel
     public static function add($event)
     {
 
-        $sql = "INSERT INTO " . self::TABLE . " (parentId,name,place,location,picture,description,startDate,endDate,inscriptionsDeadLine,state) 
-                    VALUES (:parentId,:name,:place,:location,:picture,:description,:startDate,:endDate,:inscriptionsDeadLine,:state)";
+        $sql = "INSERT INTO " . self::TABLE . " (parentId,name,place,location,picture,description,startDate,endDate,deadLine,state) 
+                    VALUES (:parentId,:name,:place,:location,:picture,:description,:startDate,:endDate,:deadLine,:state)";
 
         $conn = self::getConnection();
 
@@ -41,7 +41,7 @@ class Event extends BaseModel
             ':description' => $event->getDescription(),
             ':startDate' => $event->getStartDate(),
             ':endDate' => $event->getEndDate(),
-            ':inscriptionsDeadLine' => $event->getInscriptionsDeadLine(),
+            ':deadLine' => $event->getDeadLine(),
             ':state' => $event->getState()
         ];
 
@@ -217,13 +217,13 @@ class Event extends BaseModel
 
         return $this;
     }
-    public function getInscriptionsDeadLine()
+    public function getDeadLine()
     {
-        return $this->inscriptionsDeadLine;
+        return $this->deadLine;
     }
-    public function setInscriptionsDeadLine($inscriptionsDeadLine): self
+    public function setDeadLine($deadLine): self
     {
-        $this->inscriptionsDeadLine = $inscriptionsDeadLine;
+        $this->deadLine = $deadLine;
 
         return $this;
     }

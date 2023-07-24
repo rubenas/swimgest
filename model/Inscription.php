@@ -1,6 +1,6 @@
 <?php
 
-class Inscription extends Model
+class Inscription extends BaseModel
 {
 
     const TABLE = 'inscriptions';

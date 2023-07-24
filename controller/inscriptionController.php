@@ -1,12 +1,12 @@
 <?php
 
-include_once './controller/controller.php';
+include_once './controller/baseController.php';
 
-class InscriptionController extends Controller
+class InscriptionController extends BaseController
 {
     public function showCompetition($id)
     {
-        $this->view = 'inscription/competitionDetails';
+        $this->view = 'inscription/competition/details';
 
         $competition = Competition::fill($id)['object'];
 
@@ -14,7 +14,7 @@ class InscriptionController extends Controller
 
         $defaultMark = new Mark();
 
-        $defaultMark->setFloatTime(0);
+        $defaultMark->setTime(0);
 
         foreach ($competition->getJourneys() as $journey) {
 

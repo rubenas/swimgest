@@ -43,8 +43,8 @@
                         <input type="date" id="event-endDate" name="endDate" required value="<?php echo $event->getEndDate()?>">
                     </div>
                     <div class="mt-1 form-group col-12 col-sm-5">
-                        <label for="event-inscriptionsDeadLine">Inscripciones hasta*</label>
-                        <input type="datetime-local" id="event-inscriptionsDeadLine" name="inscriptionsDeadLine" required value="<?php echo $event->getInscriptionsDeadLine()?>">
+                        <label for="event-deadLine">Inscripciones hasta*</label>
+                        <input type="datetime-local" id="event-deadLine" name="deadLine" required value="<?php echo $event->getDeadLine()?>">
                     </div>
                 <?php } else {?>
                     <div class="mt-1 form-group col-12 col-sm-5">

@@ -48,7 +48,7 @@ if (!isset($event)) $event = $data['content']['object'];
             </p>
             <p>
                 <?php
-                if (!is_null($event->getInscriptionsDeadLine())) echo '<strong>Fecha límite de inscripción:</strong> ' . formatDMYDate($event->getInscriptionsDeadLine());
+                if (!is_null($event->getDeadLine())) echo '<strong>Fecha límite de inscripción:</strong> ' . formatDMYDate($event->getDeadLine());
                 ?>
             </p>
         </main>

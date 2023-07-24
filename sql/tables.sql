@@ -75,7 +75,7 @@ CREATE TABLE competitions (
     picture VARCHAR(256) DEFAULT "./public/img/no-picture.svg",
     startDate DATE NOT NULL,
     endDate DATE NOT NULL,
-    inscriptionsDeadLine DATETIME NOT NULL,
+    deadLine DATETIME NOT NULL,
     inscriptionsLimit INT(2),
     state VARCHAR(20) NOT NULL DEFAULT "closed"
 );
@@ -128,7 +128,7 @@ CREATE TABLE events (
     picture VARCHAR(256) DEFAULT "./public/img/no-picture.svg",
     startDate DATE,
     endDate DATE,
-    inscriptionsDeadLine DATETIME,
+    deadLine DATETIME,
     state VARCHAR(20),
     CONSTRAINT FK_parentId FOREIGN KEY (parentId)
     REFERENCES events(id)

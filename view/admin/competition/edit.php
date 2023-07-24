@@ -41,7 +41,7 @@
                 </div>
                 <div class="mt-1 form-group col-12 col-sm-5">
                     <div>Inscripciones hasta*</div>
-                    <input type="datetime-local" name="inscriptionsDeadLine" required value="<?php echo $competition->getInscriptionsDeadLine() ?>">
+                    <input type="datetime-local" name="deadLine" required value="<?php echo $competition->getDeadLine() ?>">
                 </div>
                 <div class="mt-1 col-12 row">
                     <button type="submit" class="btn mr-1" ajax-request='{"url" : "adminCompetition/update/<?php echo $competition->getId() ?>/v"}'>Aceptar</button>

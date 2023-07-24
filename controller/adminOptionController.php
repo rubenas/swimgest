@@ -79,10 +79,12 @@ class AdminOptionController extends BaseController
 
     public function remove($id)
     {
+        /**@var Option $option */
         $option = Option::getById($id);
 
         if (!$option) return $this->notFoundError;
 
+        /**@var Question $question */
         $question = Question::getById($option->getQuestionId());
 
         Option::remove($id);
@@ -98,10 +100,12 @@ class AdminOptionController extends BaseController
 
     public function ajaxRemove($id)
     {
+        /**@var Option $option */
         $option = Option::getById($id);
 
         if (!$option) return $this->notFoundError;
 
+        /**@var Question $question */
         $question = Question::getById($option->getQuestionId());
 
         Option::remove($id);
@@ -136,6 +140,7 @@ class AdminOptionController extends BaseController
             option::updateNumber($option);
         }
 
+        /**@var Question $question */
         $question = Question::getById($questionId);
 
         $this->view = is_null($question->getEventId()) ? 'admin/questionary/details' : 'admin/event/details';
@@ -166,6 +171,7 @@ class AdminOptionController extends BaseController
             option::updateNumber($option);
         }
 
+        /**@var Question $question */
         $question = Question::getById($questionId);
 
         $this->view = is_null($question->getEventId()) ? 'admin/questionary/details' : 'admin/event/subEventDetails';
