@@ -52,7 +52,7 @@ export function ajaxPostRequest(form, button, resultFormat, actionAfter, dataToA
 
 
 function formatResult(text, format) {
-    console.log(text);
+
     if (format == "html") {
 
         let parser = new DOMParser();

@@ -16,21 +16,33 @@ $events = $data['content']['object'];
                         <h4><?php echo  $event->getName() ?></h4>
                     </header>
                     <main class="p-1">
-                        <p><?php echo  $event->getPlace() ?></p>
-                        <p>Del <?php echo  formatDMYDate($event->getStartDate()) ?> al <?php echo  formatDMYDate($event->getEndDate()) ?></p>
-                        <p>Fecha límite de inscripción: <?php echo  formatDMYHMDate($event->getInscriptionDeadLine()) ?></p>
+                    <?php
+                        if (method_exists($event, 'getPlace')) {
+
+                            echo  '<p>'.$event->getPlace().'</p>';
+                        }
+                        if (method_exists($event, 'getStartDate')) {
+
+                            echo '<p>Del '.formatDMYDate($event->getStartDate()).' al '.formatDMYDate($event->getEndDate()); 
+                        }
+                    ?>
+                        <p>Fecha límite: <?php echo  formatDMYHMDate($event->getDeadLine()) ?></p>
                     </main>
                     <footer class="pb-1 px-1">
                         <?php
-                            if(method_exists($event,'getParentId')){
+                        if (get_class($event) == 'Event') {
                         ?>
-                            <a class="btn" href="inscription/showEvent/<?php echo $event->getId()?>">Inscribirse</a>
+                            <a class="btn" href="inscription/showEvent/<?php echo $event->getId() ?>">Inscribirse</a>
                         <?php
-                            } else {
+                        } else if (get_class($event) == 'Competition') {
                         ?>
-                            <a class="btn" href="inscription/showCompetition/<?php echo $event->getId()?>">Inscribirse</a>
+                            <a class="btn" href="inscription/showEvent/<?php echo $event->getId() ?>">Inscribirse</a>
                         <?php
-                            }
+                        } else {
+                        ?>
+                            <a class="btn" href="inscription/showQuestionary/<?php echo $event->getId() ?>">Responder</a>
+                        <?php
+                        }
                         ?>
                     </footer>
                 </section>
@@ -38,6 +50,5 @@ $events = $data['content']['object'];
         <?php } ?>
     </main>
 </section>
-
 <div class="error"><?php if (isset($data['content']['error'])) echo $data['content']['error']; ?></div>
 </section>

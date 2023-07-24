@@ -4,7 +4,7 @@ require_once './controller/baseController.php';
 class SwimmerController extends BaseController
 {
 
-    /**List open inscriptions */
+    /**List open inscriptions and questionaries ordered by deadLine */
 
     public function listInscriptions()
     {
@@ -13,22 +13,15 @@ class SwimmerController extends BaseController
         $now = new DateTime('now', new DateTimeZone('Europe/Madrid'));
 
         $conditions = [
-            'inscriptionsDeadLine >= "' . $now->format('Y-m-d H:i') . '"',
-            'state = "open"'
-        ];
-
-        $orders = ['inscriptionsDeadLine'];
-
-        $events = Event::getAll($conditions, $orders);
-
-        $competitions = Competition::getAll($conditions, $orders);
-
-        $conditions = [
             'deadLine >= "' . $now->format('Y-m-d H:i') . '"',
             'state = "open"'
         ];
 
         $orders = ['deadLine'];
+
+        $events = Event::getAll($conditions, $orders);
+
+        $competitions = Competition::getAll($conditions, $orders);
 
         $questionaries = Questionary::getAll($conditions, $orders);
 
@@ -37,14 +30,14 @@ class SwimmerController extends BaseController
             $events[] = $competition;
         }
 
-        usort($events, fn ($a, $b) => strcmp($a->getInscriptionsDeadLine(), $b->getInscriptionsDeadLine()));
+        usort($events, fn ($a, $b) => strcmp($a->getDeadLine(), $b->getDeadLine()));
 
         foreach ($questionaries as $questionary) {
 
             $events[] = $questionary;
         }
 
-        usort($events, fn ($a, $b) => strcmp($a->getInscriptionsDeadLine(), $b->getDeadLine()));
+        usort($events, fn ($a, $b) => strcmp($a->getdeadLine(), $b->getDeadLine()));
 
         return [
             'success' => true,
