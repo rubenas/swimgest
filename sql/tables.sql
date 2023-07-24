@@ -172,3 +172,27 @@ CREATE TABLE options (
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );
+
+CREATE TABLE inscriptions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    swimmerId INT NOT NULL,
+    eventId INT,
+    raceId INT,
+    mark TIME(2),
+    CONSTRAINT FK_Inscripcions_SwimmerId FOREIGN KEY (swimmerId)
+    REFERENCES swimmers(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+    CONSTRAINT FK_Inscripcions_EventId FOREIGN KEY (eventId)
+    REFERENCES events(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+    CONSTRAINT FK_Inscriptions_RaceId FOREIGN KEY (raceId)
+    REFERENCES races(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);
+
+ALTER TABLE inscriptions
+  ADD CONSTRAINT uq_inscriptions_raceId UNIQUE(swimmerId, raceId),
+   ADD CONSTRAINT uq_inscriptions_eventId UNIQUE(swimmerId, eventId);
