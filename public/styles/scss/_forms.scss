@@ -1,0 +1,44 @@
+input, select, option {
+    border-radius: $input-border-radius;
+    padding: $input-padding-y $input-padding-x;
+    font-size: $input-font-size;
+    border-color: $input-border-color;
+
+    &:focus-visible {
+        border-color: $input-active-border-color;
+    }
+
+    &[type="file"]{
+        
+        border: solid 1px;
+
+        &::file-selector-button {
+
+            padding: $btn-padding-y $btn-padding-x;
+            border: $btn-border;
+            background-color: $btn-bg-color;
+            color: $btn-color;
+            border-radius: $btn-border-radius;
+            box-shadow: $btn-box-shadow;
+            transition: all 0.4s;
+            font-size: $btn-font-size;
+
+            &:hover {
+                border: $btn-hover-border;
+                background-color: $btn-hover-bg-color;
+                color: $btn-hover-color;
+            }
+
+        }
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+textarea {
+    max-width: 100%;
+    min-height: 10rem;
+}

@@ -1,0 +1,64 @@
+/*LAYOUT*/
+
+/* Contenedor general centrado*/
+.container {
+    max-width: $max-container-width;
+    margin: auto;
+}
+/* Contenedor con ancho al 100% */
+.container-fluid {
+    width: 100%;
+    margin: 0;
+}
+
+/* Contedenor de tabla con scroll horizontal */
+.table-container {
+    overflow-x: auto;
+}
+
+/* Fila flexible*/
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    &.jc-center {
+        justify-content: center;
+    }
+    &.jc-between {
+        justify-content: space-between;
+    }
+    &.jc-end {
+        justify-content: flex-end;
+    }
+    &.ai-start {
+        align-items: flex-start;
+    }
+    &.ai-center {
+        align-items: center;
+    }
+    &.ac-center {
+        align-content: center;
+    }
+}
+
+//Asignamos el ancho de las columnas del layout
+/* Ancho de las columnas */
+@for $i from 1 through $n_cols {
+    .row > .col-#{$i} {
+        width: #{col_width($i)}+"%";
+    }
+}
+
+//Ahora hacemos lo msimo para las columnas responsive en función de los breakpoints
+/* Ancho de las columnas responsive */
+@each $k, $v in $breakpoints {
+    @media (min-width: #{$v}) {
+        @for $i from 1 through $n_cols {
+            .row > .col-#{$k}-#{$i} {
+                width: #{col_width($i)}+"%";
+            }
+        }
+    }
+}
+

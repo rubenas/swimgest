@@ -1,0 +1,240 @@
+:root {
+    --primary-color: #{$primary-color};
+    --secondary-color: #{$secondary-color};
+    --light-color: #{$light-color};
+    --medium-color: #{$medium-color};
+    --dark-color: #{$dark-color};
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-align: justify;
+    font-size: 14px;
+}
+
+body {
+    font-family: $general-font-family;
+    color: $dark-color;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: $h-font-family;
+}
+
+h1 {
+    font-size: $h1-font-size;
+}
+
+h2 {
+    font-size: $h2-font-size;
+}
+
+h3 {
+    font-size: $h3-font-size;
+}
+
+h4 {
+    font-size: $h4-font-size;
+}
+
+h5 {
+    font-size: $h5-font-size;
+}
+
+/*Tamaños de texto*/
+@each $k,
+$v in $font-sizes {
+    .text-#{$k} {
+        font-size: #{$v};
+    }
+}
+
+@each $l,
+$w in $breakpoints {
+
+    @each $k,
+    $v in $font-sizes {
+        @media(min-width: #{$w}) {
+            .text-#{$l}-#{$k} {
+                font-size: #{$v};
+            }
+        }
+    }
+}
+
+//Generamos los márgenes y pádings generales
+/*Clases generales para margins y paddings */
+@each $k,
+$v in $positions {
+    $i: 1;
+
+    @each $margin in $margins {
+        .m#{$k}-#{$i} {
+            margin-#{$v}: $margin !important;
+        }
+
+        $i: calc($i + 1);
+    }
+
+    $i: 1;
+
+    @each $padding in $paddings {
+        .p#{$k}-#{$i} {
+            padding-#{$v}: $padding !important;
+        }
+
+        $i: calc($i + 1);
+    }
+}
+
+$i: 1;
+
+@each $margin in $margins {
+    .m-#{$i} {
+        margin: $margin !important;
+    }
+
+    .mx-#{$i} {
+        margin-left: $margin !important;
+        margin-right: $margin !important;
+    }
+
+    .my-#{$i} {
+        margin-top: $margin !important;
+        margin-bottom: $margin !important;
+    }
+
+    $i: calc($i + 1);
+}
+
+$i: 1;
+
+@each $padding in $paddings {
+    .p-#{$i} {
+        padding: $padding !important;
+    }
+
+    .px-#{$i} {
+        padding-left: $padding !important;
+        padding-right: $padding !important;
+    }
+
+    .py-#{$i} {
+        padding-top: $padding !important;
+        padding-bottom: $padding !important;
+    }
+
+    $i: calc($i + 1);
+}
+
+//Ahora hacemos lo msimo para las columnas responsive en función de los breakpoints
+/* Clases responsive para margins y paddings */
+@each $l,
+$w in $breakpoints {
+    @media (min-width: #{$w}) {
+
+        @each $k,
+        $v in $positions {
+            $i: 1;
+
+            @each $margin in $margins {
+                .m#{$k}-#{$l}-#{$i} {
+                    margin-#{$v}: $margin !important;
+                }
+
+                $i: calc($i + 1);
+            }
+
+            $i: 1;
+
+            @each $padding in $paddings {
+                .p#{$k}-#{$l}-#{$i} {
+                    padding-#{$v}: $padding !important;
+                }
+
+                $i: calc($i + 1);
+            }
+        }
+
+        $i: 1;
+
+        @each $margin in $margins {
+            .m-#{$l}-#{$i} {
+                margin: $margin !important;
+            }
+
+            .mx-#{$l}-#{$i} {
+                margin-left: $margin !important;
+                margin-right: $margin !important;
+            }
+
+            .my-#{$l}-#{$i} {
+                margin-top: $margin !important;
+                margin-bottom: $margin !important;
+            }
+
+            $i: calc($i + 1);
+        }
+
+        $i: 1;
+
+        @each $padding in $paddings {
+            .p-#{$l}-#{$i} {
+                padding: $padding !important;
+            }
+
+            .px-#{$l}-#{$i} {
+                padding-left: $padding !important;
+                padding-right: $padding !important;
+            }
+
+            .py-#{$l}-#{$i} {
+                padding-top: $padding !important;
+                padding-bottom: $padding !important;
+            }
+
+            $i: calc($i + 1);
+        }
+    }
+}
+
+/*Clases generales para width en porcentaje cada 10%*/
+$i: 1;
+
+@for $i from 1 through 10 {
+    .w-#{calc($i * 10)} {
+        width: #{calc($i * 10)}+"%" !important;
+    }
+}
+
+
+/* Fuente de los iconos */
+
+.material-symbols-outlined {
+    font-family: $icons-font-family;
+}
+
+/*Alineaciones*/
+.float-right {
+    float: right;
+}
+
+/*Mensajes*/
+div.error {
+    color: white;
+    border-radius: 0.2rem;
+    background-color: $error-color;
+}
+
+div.success {
+    color: white;
+    background-color: $success-color;
+    border-radius: 0.2rem;
+}
+

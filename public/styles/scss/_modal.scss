@@ -1,0 +1,55 @@
+/*VENTANAS MODALES*/
+.modal {
+    display: none;
+    opacity: 0;
+    width: 100%;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    overflow: auto;
+    background-color: $modal-bg-color;
+    transition: opacity 0.4s;
+}
+.modal-content {
+    background-color: $modal-content-bg-color;
+    width: $modal-content-width;
+    max-width: $modal-content-max-width;
+    border-radius: $modal-content-border-radius;
+    header {
+        background-color: $primary-color;
+        color: $light-color;
+        padding: $modal-header-padding;
+        border-radius: $modal-content-border-radius $modal-content-border-radius 0 0;
+    }
+    main {
+        padding: $modal-main-padding;
+    }
+    footer {
+        padding: $modal-footer-padding;
+        font-size: $modal-footer-font-size;
+    }
+}
+
+//Ancho del content según el breakpoint
+@each $k,
+$v in $breakpoints {
+    @media (min-width: #{$v}) {
+        .modal-content {
+            width: modal_content_width($k);
+        }
+    }
+}
+
+/* Botón cerrar */
+.close {
+    float: right;
+    &:hover {
+        cursor: pointer;
+        color: $medium-color;
+    }
+}

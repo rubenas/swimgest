@@ -1,0 +1,33 @@
+/*Spinner loading en peticiones ajax*/
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 99;
+    background-color: $spinner-bg-color;
+}
+
+.loading::after {
+    content: "";
+    width: $spinner-width;
+    height: $spinner-height;
+    border: 2px solid $spinner-border-color;
+    border-top: 3px solid $spinner-border-top-color;
+    border-radius: 100%;
+    animation: spin 1s infinite linear;
+}
+
+.loading {
+    display: none;
+    &.display {
+        display: flex;
+        animation: fadeIn 1s;
+    }
+}
+

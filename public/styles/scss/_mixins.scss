@@ -1,0 +1,7 @@
+/// Efecto de entrada de forma gradual
+///@group Animaciones
+///@parameter {time} $time -- Tiempo de ejecución de la animación
+@mixin fadeIn($time) {
+    animation: fadeIn $time linear;
+}
+

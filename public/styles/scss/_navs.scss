@@ -1,0 +1,37 @@
+.nav-tabs {
+    border-radius: $nav-tabs-border-radius;
+    border: $nav-tabs-border;
+    border-bottom: $nav-tabs-border-bottom;
+}
+.nav-tabs > ul {
+    list-style: none;
+}
+
+.nav-tabs > ul > li {
+    padding: $nav-tabs-li-padding;
+    border-bottom: $nav-tabs-li-border-bottom;
+    transition: background-color 0.5s;
+}
+
+.nav-tabs > ul > li > a {
+    display: flex;
+    align-items: center;
+}
+
+.nav-tabs li.active{
+    background-color: $nav-tabs-li-active-bg-color;
+    color: $nav-tabs-li-active-color;
+} 
+
+.nav-tabs li:hover {
+    background-color: $nav-tabs-li-hover-bg-color;
+    color: $nav-tabs-li-hover-color;
+}
+
+.nav-tabs li.active a {
+    color: $nav-tabs-li-active-link-color;
+}
+
+.nav-tabs li:hover a {
+    color: $nav-tabs-li-active-link-hover-color;
+}

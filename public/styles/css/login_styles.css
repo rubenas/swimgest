@@ -1,0 +1,23 @@
+body {
+    min-height: 100vh;
+    background-image: url("../../img/login_bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+}
+
+body>main {
+    height: 100%;
+}
+
+#login_form_container {
+    background-color: white;
+    border-radius: 0.3rem;
+}
+
+#login_form_container > header {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    border-radius: 0.3em 0.3em 0 0;
+}

@@ -1,0 +1,126 @@
+@use "sass:map";
+/*BARRA SUPERIOR DE NAVEGACIÓN*/
+.navbar {
+    background-color: $navbar-bg-color;
+    min-height: $navbar-min-height;
+}
+
+.navbar-logo {
+    padding: $navbar-logo-padding;
+}
+
+.navbar-toggler {
+    display: flex;
+    align-items: center;
+    margin: $navbar-logo-padding;
+}
+
+.navbar-toggler-icon {
+    font-size: $navbar-toggler-icon-font-size;
+}
+
+.navbar-nav {
+    display: none;
+    width: 100%;
+}
+
+.navbar-nav ul {
+    width: 100%;
+}
+
+.navbar-nav li {
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
+    width: 100%;
+    padding: $vertical-navbar-nav-li-padding;
+    border-top: $navbar-li-border-top;
+}
+
+.navbar-nav li:hover {
+    background-color: $navbar-hover-bg-color;
+}
+
+.navbar-nav li a {
+    color: $navbar-link-color;
+    display: flex;
+    align-items: center;
+}
+
+@media (min-width: map.get($breakpoints,"md")) {
+    .navbar-nav {
+        display: flex !important;
+        list-style: none;
+    }
+
+    .navbar-toggler {
+        display: none;
+    }
+
+    .navbar-nav li {
+        width: auto;
+        padding: $horizontal-navbar-nav-li-padding;
+        border: 0;
+    }
+}
+
+.navbar-toggler-btn-light {
+    background-color: transparent;
+    color: $btn-outline-light-color;
+    border: none;
+    &:hover {
+        background-color: transparent;
+        color: $btn-outline-light-hover-color;
+        border: $btn-outline-light-hover-border;
+        border-radius: $btn-border-radius;
+    }
+}
+
+/*Dropdowns*/
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: $dropdown-bg-color;
+    width: $vertical-dropdown-width;
+    border-radius: $dropdown-border-radius;
+    z-index: 1;
+    transition: transform 0.5s;
+}
+
+.dropdown a{
+    display: block;
+}
+
+.dropdown > a::after {
+    content: "\e5c5";
+    font-family: "Material Symbols Outlined";
+}
+.dropdown-content a {
+    padding: $dropdown-link-padding;
+    transition: background-color 0.3s;
+    border-bottom: $dropdown-border-bottom;
+}
+.dropdown-content a:hover {
+    background-color: $dropdown-hover-bg-color;
+}
+.dropdown:hover > .dropdown-content {
+    visibility: visible;
+    transform: translateY($vertical-navbar-nav-li-padding-y * 3.5);
+}
+
+@media (min-width: map.get($breakpoints,"md")) {
+    .dropdown:hover > .dropdown-content {
+       transform: translateY($horizontal-navbar-nav-li-padding-y * 3.5);
+    }
+    .dropdown-content {
+        width: $horizontal-dropdown-width;
+    }
+}

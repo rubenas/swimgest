@@ -1,0 +1,23 @@
+
+/*Imagen con ancho al 100%*/
+.img-fluid {
+    width: 100%;
+}
+
+/*Imagen con bordes redondeados*/
+.img-rounded {
+    border-radius: 0.25rem;
+}
+
+/*Imágenes de las tarjetas*/
+.img-card > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50%;
+}
+
+.img-card span {
+    text-align: center;
+    vertical-align: center;
+}

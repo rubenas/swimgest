@@ -1,0 +1,9 @@
+/* TABS */
+
+.tab.inactive {
+    display: none;
+}
+.tab.active {
+    display: inherit;
+    animation: fadeIn 0.5s;
+}

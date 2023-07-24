@@ -1,0 +1,29 @@
+.profile-picture {
+    position: relative;
+}
+.profile-picture img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.edit-picture:hover {
+    opacity: 1;
+}
+.edit-picture {
+    position: absolute;
+    background-color: #ffffff80;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.form-race > div > div{
+    display: flex;
+    flex-direction: column;
+    margin-right: 1em;
+}

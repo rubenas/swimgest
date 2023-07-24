@@ -1,0 +1,186 @@
+//VARIABLES GENERALES
+/* Fuente por defecto en la página */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Quicksand&display=swap');
+$general-font-family: 'Quicksand', 'sans-serif';
+
+/*Fuente de las cabeceras*/
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@800&display=swap');
+$h-font-family: 'Merriweather Sans', sans-serif;
+
+/* Iconos */
+@font-face {
+    font-family: 'Material Symbols Outlined';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v114/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzazHD_dY43zj-jCxv3fzvRNU22ZXGJpEpjC_1n-q_4MrImHCIJIZrDCvHOej.woff2) format('woff2');
+}
+
+$icons-font-family: 'Material Symbols Outlined';
+
+
+//COLORS 
+$primary-color: #002f63;
+$primary-hover-color: #00489a;
+$secondary-color: #94b840;
+$secondary-hover-color: #a2ca46;
+$light-color: #fafafa;
+$light-hover-color: white;
+$medium-color: #DDD;
+$dark-color: #555;
+$dark-transparent-bg-color: #000000be;
+$success-color:  rgb(0, 100, 0);
+$success-hover-color: rgb(0, 150, 0);
+$error-color: rgb(200, 0, 0);
+$error-hover-color: rgb(255, 40, 40);
+$alert-color:rgb(225, 120, 0);
+$alert-hover-color:rgb(255, 120, 0);
+$even-col-bg-color: white;
+$odd-col-bg-color: $light-color;
+
+//LAYOUT
+$n_cols: 12;
+$breakpoints: (
+    "sm": 576px,
+    "md": 768px,
+    "lg": 992px,
+    "xl": 1200px
+);
+$max-container-width: 1200px;
+
+//PADDINGS Y MARGINS GENERALES
+$positions: (
+    "t": "top",
+    "b": "bottom",
+    "l": "left",
+    "r": "right"
+);
+$paddings: 1rem, 2rem, 3rem;
+$margins: 1rem, 2rem, 3rem;
+
+//FONT-SIZE
+$h1-font-size: 1.75rem;
+$h2-font-size: 1.45rem;
+$h3-font-size: 1.25rem;
+$h4-font-size: 1.15rem;
+$h5-font-size: 1.05rem;
+$font-sizes: (
+    "sm": 0.7rem,
+    "md": 0.8rem,
+    "lg": 0.9rem,
+    "xl": 1rem
+);
+
+// BOTONES
+$btn-bg-color: $primary-color;
+$btn-color: $light-color;
+$btn-border: solid 0.1rem transparent;
+$btn-box-shadow: 0.1rem 0.1rem $medium-color;
+$btn-padding-y: 0.4rem;
+$btn-padding-x: 0.8rem;
+$btn-border-radius: 0.25rem;
+$btn-font-size: 1rem;
+$btn-hover-border: solid 0.1rem transparent;
+$btn-hover-bg-color: $primary-hover-color;
+$btn-hover-color: $light-color;
+$btn-secondary-color: $light-color;
+$btn-secondary-bg-color: $secondary-color;
+$btn-secondary-hover-bg-color: $secondary-hover-color;
+$btn-secondary-hover-color: $light-color;
+$btn-outline-light-color: $light-color;
+$btn-outline-light-hover-color: $light-hover-color;
+$btn-outline-light-border: solid 0.1rem $light-color;
+$btn-outline-light-hover-border: solid 0.1rem $light-hover-color;
+$btn-icon-color: $primary-color;
+$btn-icon-hover-color: $primary-hover-color;
+
+//ENLACES
+$link-color: $primary-color;
+$link-hover-color: $secondary-color;
+$link-text-decoration: none;
+$link-cursor: pointer;
+
+//TABLAS
+$table-th-bg-color: $primary-color;
+$table-th-color: $light-color;
+$table-even-row-bg-color: $light-color;
+$table-odd-row-bg-color: $medium-color;
+$table-hover-bg-color: $secondary-color;
+$table-th-font-size: 1.5rem;
+$table-padding: 1rem;
+$table-td-padding: 0.5rem;
+
+//FORMULARIOS
+$input-border-radius: 0.25rem;
+$input-font-size: 0.8rem;
+$input-padding-x: 0.5rem;
+$input-padding-y: 0.5rem;
+$input-border-color: $medium-color;
+$input-active-border-color: $primary-color;
+
+//VENTANAS MODALES
+$modal-bg-color: rgba(0, 0, 0, 0.4);
+$modal-content-bg-color: white;
+$modal-header-padding: 1rem;
+$modal-main-padding: 1rem 1.5rem;
+$modal-footer-padding: 0.8rem;
+$modal-footer-font-size: 0.75rem;
+$modal-content-border-radius: 0.3rem;
+$modal-content-width: 90%;
+$modal-content-sm-width: 90%;
+$modal-content-md-width: 70%;
+$modal-content-lg-width: 50%;
+$modal-content-max-width: 600px;
+
+//TOOLTIPS
+$tooltip-bg-color: $dark-transparent-bg-color;
+$tooltip-border-radius: 0.2rem;
+$tooltip-padding-y: 0.2rem;
+$tooltip-padding-x: 0.3rem;
+$tooltip-font-size: 0.75rem;
+
+//NAVBARS
+$navbar-min-height: 3rem;
+$navbar-toggler-icon-font-size: 3rem;
+$navbar-bg-color: $primary-color;
+$navbar-hover-bg-color: $primary-hover-color;
+$navbar-link-color: $light-color;
+$navbar-li-border-top: 1px solid $medium-color;
+$navbar-logo-padding: 0.5rem;
+$vertical-navbar-nav-li-padding-y: 0.8rem;
+$vertical-navbar-nav-li-padding-x: 0.5rem;
+$vertical-navbar-nav-li-padding: $vertical-navbar-nav-li-padding-y $vertical-navbar-nav-li-padding-x;
+$horizontal-navbar-nav-li-padding-x: 1.5rem;
+$horizontal-navbar-nav-li-padding-y: 1.5rem;
+$horizontal-navbar-nav-li-padding: $horizontal-navbar-nav-li-padding-y $horizontal-navbar-nav-li-padding-x;
+$dropdown-bg-color: $secondary-color;
+$dropdown-hover-bg-color: $secondary-hover-color;
+$dropdown-link-padding: 0.8rem;
+$horizontal-dropdown-width: 100%;
+$vertical-dropdown-width: 80%;
+$dropdown-border-bottom: 1px solid $medium-color;
+$dropdown-border-radius: 0.15rem;
+
+//NAVS
+$nav-tabs-border-radius: 0.2rem;
+$nav-tabs-border: solid 1px $primary-color;
+$nav-tabs-border-bottom: transparent;
+$nav-tabs-li-padding: 1rem;
+$nav-tabs-li-border-bottom: solid 1px $primary-color;
+$nav-tabs-li-active-bg-color: $primary-color;
+$nav-tabs-li-hover-bg-color: $primary-hover-color;
+$nav-tabs-li-active-color: $light-color;
+$nav-tabs-li-hover-color: $light-color;
+$nav-tabs-li-active-link-color: $light-color;
+$nav-tabs-li-active-link-hover-color: $light-color;
+
+//CARDS
+$card-border-color: $primary-color;
+$card-border-radius: 0.2rem;
+$text-card-line-height: 1.8rem;
+
+//SPINNER
+$spinner-border-color: $medium-color;
+$spinner-border-top-color: $secondary-color;
+$spinner-bg-color: $dark-transparent-bg-color;
+$spinner-width: 2rem;
+$spinner-height: 2rem;

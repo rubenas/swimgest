@@ -1,0 +1,74 @@
+/*BOTONES*/
+.btn {
+    padding: $btn-padding-y $btn-padding-x;
+    border: $btn-border;
+    background-color: $btn-bg-color;
+    color: $btn-color;
+    border-radius: $btn-border-radius;
+    box-shadow: $btn-box-shadow;
+    transition: all 0.4s;
+    font-size: $btn-font-size;
+    cursor: pointer;
+    &:hover {
+        border: $btn-hover-border;
+        background-color: $btn-hover-bg-color;
+        color: $btn-hover-color;
+    }
+}
+
+.btn-outline-light {
+    @extend .btn;
+    background-color: transparent;
+    color: $btn-outline-light-color;
+    border: $btn-outline-light-border;
+    &:hover {
+        background-color: transparent;
+        color: $btn-outline-light-hover-color;
+        border: $btn-outline-light-hover-border;
+    }
+}
+
+.btn-secondary {
+    @extend .btn;
+    background-color: $btn-secondary-bg-color;
+    color: $btn-secondary-color;
+    &:hover {
+        background-color: $btn-secondary-hover-bg-color;
+        color: $btn-secondary-hover-color;
+    }
+}
+
+.btn-icon {
+    border: none;
+    background-color: transparent;
+    color: $btn-icon-color;
+    cursor: pointer;
+    transition: all 0.4s;
+    &:hover {
+        color: $btn-icon-hover-color;
+    }
+}
+
+.btn-icon-error {
+    @extend .btn-icon;
+    color: $error-color;
+    &:hover {
+        color: $error-hover-color;
+    }
+}
+
+.btn-icon-success {
+    @extend .btn-icon;
+    color: $success-color;
+    &:hover {
+        color: $success-hover-color;
+    }
+}
+
+.btn-icon-alert {
+    @extend .btn-icon;
+    color: $alert-color;
+    &:hover {
+        color: $alert-hover-color;
+    }
+}

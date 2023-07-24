@@ -1,0 +1,17 @@
+/*CARDS*/
+
+.card {
+    border-radius: $card-border-radius;
+    border: 1px solid $card-border-color;
+}
+
+.text-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    line-height: $text-card-line-height;
+}
+
+.text-card > footer {
+    text-align: right;
+}

@@ -1,0 +1,33 @@
+///Función que devuelve el color de una fila de tabla en función de si esta es par o impar
+/// @parameter {integer} $col-number - Número de la columna
+/// @return {color}
+/// @group Tablas
+@function col-bg-color($col-number){
+    @if($col-number%2 == 0){
+        @return $even-col-bg-color;
+    } @else {
+        @return $odd-col-bg-color;
+    }
+}
+
+///Función que devuelve la anchura de una columna en porcentaje en función del número de columnas
+/// @parameter {integer} $i - Número de casillas del ancho
+/// @return {integer} - Porcentaje del ancho que ocupa
+/// @group Layout
+@function col_width($i){
+    @return(calc(100/$n_cols))*$i;
+}
+
+///Función que devuelve la anchura de una ventana modal en función del breakpoint
+/// @parameter {string} $breakpoint - Ancho de la pantalla
+/// @return {integer} - Porcentaje del ancho que ocupa
+/// @group Ventanas_Modales
+@function modal_content_width($breakpoint){
+    @if ($breakpoint == "sm") {
+        @return $modal-content-sm-width;
+    } @else if ($breakpoint == "md") {
+        @return $modal-content-md-width;
+    } @else {
+        @return $modal-content-lg-width;
+    }
+}
