@@ -68,6 +68,8 @@ export function loadAjaxSettings(element) {
 
     //Questionary actions
     editQuestionarySettings(element);
+    updateQuestionaryPictureSettings(element);
+    removeQuestionaryPictureSettings(element);
 
 }
 
@@ -774,6 +776,46 @@ function editQuestionarySettings(element) {
 
 }
 
+function updateQuestionaryPictureSettings(element) {
+
+    const forms = element.querySelectorAll("*[id^=add-questionary-picture-]");
+
+    for (let form of forms) {
+
+        const button = form.querySelector("button[type='submit']");
+
+        const questionaryId = form.getAttribute("questionaryId");
+
+        const dataToAction = {
+            "idToReplace": "questionary-picture-" + questionaryId,
+            "idToClose": "#modal-add-questionary-picture-" + questionaryId
+        }
+
+        commonSettings(form, button, checkPicture, ["*[name='questionary-picture']"], dataToAction);
+    }
+
+}
+
+function removeQuestionaryPictureSettings(element) {
+
+    const forms = element.querySelectorAll("*[id^=remove-questionary-picture-]");
+
+    for (let form of forms) {
+
+        const button = form.querySelector("button[type='submit']");
+
+        const questionaryId = form.getAttribute("questionaryId");
+
+        const dataToAction = {
+            "idToReplace": "questionary-picture-" + questionaryId,
+            "idToClose": "#modal-remove-questionary-picture-" + questionaryId
+        }
+
+        commonSettings(form, button, isNotDefault, ["#questionaryPicture"], dataToAction);
+
+    }
+}
+
 function commonSettings(form, button, checkFunction, fields, dataToAction) {
 
     if (button != null) {
@@ -789,7 +831,10 @@ function commonSettings(form, button, checkFunction, fields, dataToAction) {
 
                     let element;
 
-                    if (selector.includes("profilePicture") || selector.includes("competitionPicture") || selector.includes("eventPicture")) {
+                    if (selector.includes("profilePicture") || 
+                        selector.includes("competitionPicture") || 
+                        selector.includes("eventPicture") ||
+                        selector.includes("questionaryPicture")) {
 
                         element = document.querySelector(selector);
                     } else {
