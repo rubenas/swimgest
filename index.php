@@ -5,8 +5,8 @@ require_once './utils/functions.php';
 
 session_start();
 
-const DEFAULT_CONTROLLER = 'swimmer';
-const DEFAULT_ACTION = 'listInscriptions';
+const DEFAULT_CONTROLLER = 'inscription';
+const DEFAULT_ACTION = 'list';
 
 /* Defining Controller */
 

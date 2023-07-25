@@ -4,6 +4,51 @@ include_once './controller/baseController.php';
 
 class InscriptionController extends BaseController
 {
+    
+    /**List open inscriptions and questionaries ordered by deadLine */
+
+    public function list()
+    {
+        $this->view = 'inscription/list';
+
+        $now = new DateTime('now', new DateTimeZone('Europe/Madrid'));
+
+        $conditions = [
+            'deadLine >= "' . $now->format('Y-m-d H:i') . '"',
+            'state = "open"'
+        ];
+
+        $orders = ['deadLine'];
+
+        $events = Event::getAll($conditions, $orders);
+
+        $competitions = Competition::getAll($conditions, $orders);
+
+        $questionaries = Questionary::getAll($conditions, $orders);
+
+        foreach ($competitions as $competition) {
+
+            $events[] = $competition;
+        }
+
+        usort($events, fn ($a, $b) => strcmp($a->getDeadLine(), $b->getDeadLine()));
+
+        foreach ($questionaries as $questionary) {
+
+            $events[] = $questionary;
+        }
+
+        usort($events, fn ($a, $b) => strcmp($a->getdeadLine(), $b->getDeadLine()));
+
+        return [
+            'success' => true,
+            'events' => $events,
+            'competitionIds' => $this->getCompetitionIds($this->sessionId())
+        ];
+    }
+    
+    /**Show competition inscription details */
+
     public function showCompetition($id)
     {
         $this->view = 'inscription/competition/details';
@@ -11,10 +56,11 @@ class InscriptionController extends BaseController
         $competition = Competition::fill($id)['object'];
 
         $marks = array();
+        $inscriptionIds = array();
 
         $defaultMark = new Mark();
 
-        $defaultMark->setTime(0);
+        $defaultMark->setTime('00:00:00.00');
 
         foreach ($competition->getJourneys() as $journey) {
 
@@ -22,26 +68,25 @@ class InscriptionController extends BaseController
 
                 foreach ($session->getRaces() as $race) {
 
-                    $mark1 = Mark::getFromUqConstraint($this->sessionId(), $race->getDistance(), $race->getStyle(), '25m');
-                    $mark2 = Mark::getFromUqConstraint($this->sessionId(), $race->getDistance(), $race->getStyle(), '50m');
+                    $inscription = Inscription::getAll(['swimmerId = ' . $this->sessionId(), 'raceId = ' . $race->getId()]);
 
-                    if ($mark1) {
-                        if ($mark2) {
+                    if ($inscription) {
 
-                            $mark1->getFloatTime() < $mark2->getFloatTime() ? $marks[$race->getDistance() . ' ' . $race->getStyle()] = $mark1 : $marks[$race->getDistance() . ' ' . $race->getStyle()] = $mark2;
-                        } else {
+                        $inscriptionIds[] = $inscription[0]->getRaceId();
 
-                            $marks[$race->getDistance() . ' ' . $race->getStyle()] = $mark1;
-                        }
+                        $mark = new Mark();
+                        $mark->setDistance($race->getDistance());
+                        $mark->setStyle($race->getStyle());
+                        $mark->setTime($inscription[0]->getMark());
+                        $marks[$race->getId()] = $mark;
                     } else {
 
-                        if ($mark2) {
+                        $mark1 = Mark::getFromUqConstraint($this->sessionId(), $race->getDistance(), $race->getStyle(), '25m');
+                        $mark2 = Mark::getFromUqConstraint($this->sessionId(), $race->getDistance(), $race->getStyle(), '50m');
 
-                            $marks[$race->getDistance() . ' ' . $race->getStyle()] = $mark2;
-                        } else {
+                        if ($mark1 && $mark2) $marks[$race->getId()] = ($mark1->getFloatTime() < $mark2->getFloatTime()) ? $mark1 : $mark2;
 
-                            $marks[$race->getDistance() . ' ' . $race->getStyle()] = $defaultMark;
-                        }
+                        else $marks[$race->getId()] = $mark1 ? $mark1 : ($mark2 ? $mark2 : $defaultMark);
                     }
                 }
             }
@@ -49,61 +94,81 @@ class InscriptionController extends BaseController
 
         return [
             'competition' => $competition,
-            'marks' => $marks
+            'marks' => $marks,
+            'inscriptionIds' => $inscriptionIds
         ];
     }
 
+    /**Manage competition inscription: create and modify */
+
     public function competitionInscription()
     {
+        $validation = self::checkRequiredFields(['competitionId', 'race']);
+
+        if (!$validation['success']) return $validation;
+
+        /**@var Competition $competition */
+        $competition = Competition::getById($_POST['competitionId']);
+
+        if (!$competition) return $this->notFoundError;
+
         $inscriptions = array();
+        $nSessionInscriptions = array();
+        $nJourneyInscriptions = array();
+        $nCompetitionInscriptions = 0;
 
-        if (isset($_POST['race'])) {
+        foreach ($_POST['race'] as $raceId => $v) {
 
-            $raceIds = $_POST['race'];
+            if (!$v) break;
 
-            $competitonId = $_POST['competitionId'];
+            /**@var Race $race */
+            $race = Race::getById($raceId);
 
-            $mins = $_POST['min'];
-            $secs = $_POST['sec'];
-            $decs = $_POST['dec'];
+            if (!$race) return $this->notFoundError;
 
-            foreach ($raceIds as $raceId => $value) {
+            $inscription = new Inscription();
+            $inscription->setSwimmerId($this->sessionId());
+            $inscription->setRaceId($raceId);
 
-                if ($value == 1) {
+            if ($race->getIsRelay()) $inscriptions[] = $inscription;
 
-                    $inscription = new Inscription();
+            else {
+                /**@var Session $session */
+                $session = Session::getById($race->getSessionId());
+                /**@var Journey $journey */
+                $journey = Journey::getById($session->getJourneyId());
 
-                    $inscription->setSwimmerId($this->sessionId());
-                    $inscription->setRaceId($raceId);
+                isset($nSessionInscriptions[$session->getId()]) ? $nSessionInscriptions[$session->getId()]++ : $nSessionInscriptions[$session->getId()] = 1;
+                isset($nJourneyInscriptions[$journey->getId()]) ? $nJourneyInscriptions[$journey->getId()]++ : $nJourneyInscriptions[$journey->getId()] = 1;
+                $nCompetitionInscriptions++;
 
-                    $mark = '00:' . $mins[$raceId] . ':' . $secs[$raceId] . '.' . $decs[$raceId];
+                if ($nSessionInscriptions[$session->getId()] > $session->getInscriptionsLimit()) {
 
-                    $inscription->setMark($mark);
-
-                    if (!(floatval($mins[$raceId]) + floatval($secs[$raceId]) + floatval($decs[$raceId])) == 0) {
-
-                        $inscriptions[] = $inscription;
-                    } else {
-
-                        $error = 'Debes especificar una marca para todas las pruebas en las que te inscribas';
-                        break;
-                    }
+                    $error = 'Has superado el límite de inscripciones en la sesión ' . $session->getName() . ' de la jornada ' . $journey->getName();
+                    break;
                 }
-            }
-        }
 
-        $eventIds = $_POST['event'];
+                if ($nJourneyInscriptions[$journey->getId()] > $journey->getInscriptionsLimit()) {
 
-        foreach ($eventIds as $eventId => $value) {
+                    $error = 'Has superado el límite de inscripciones en la jornada ' . $journey->getName();
+                    break;
+                }
 
-            if ($value == 1) {
+                if ($nCompetitionInscriptions > $competition->getInscriptionsLimit()) {
 
-                $inscription = new Inscription();
+                    $error = 'Has superado el límite de inscripciones en la competición';
+                    break;
+                }
 
-                $inscription->setSwimmerId($this->sessionId());
-                $inscription->setEventId($eventId);
+                if (!(floatval($_POST['min'][$raceId]) + floatval($_POST['sec'][$raceId]) + floatval($_POST['dec'][$raceId])) == 0) {
 
-                Inscription::add($inscription);
+                    $inscription->setMark('00:' . $_POST['min'][$raceId] . ':' . $_POST['sec'][$raceId] . '.' . $_POST['dec'][$raceId]);
+                    $inscriptions[] = $inscription;
+                } else {
+
+                    $error = 'Debes especificar una marca para todas las pruebas en las que te inscribas';
+                    break;
+                }
             }
         }
 
@@ -111,17 +176,43 @@ class InscriptionController extends BaseController
 
             foreach ($inscriptions as $inscription) {
 
-                Inscription::add($inscription);
+                $oldInscription = Inscription::getAll(['swimmerId = ' . $this->sessionId(), 'raceId = ' . $inscription->getRaceId()], []);
+
+                if ($oldInscription) Inscription::updateFromId(['mark' => $inscription->getMark()], $oldInscription[0]->getId());
+
+                else Inscription::add($inscription);
             }
 
-            $this->view = 'inscription/okMessage';
+            return $this->list();
         } else {
 
-            $data = $this->showCompetition($competitonId);
+            $data = $this->showCompetition($_POST['competitionId']);
 
             $data['error'] = $error;
 
             return $data;
         }
+    }
+
+    /**Gets an array of competitionIDs which SwimmerId has made an inscription */
+
+    public function getCompetitionIds($swimerId)
+    {
+        $inscriptions = Inscription::getAll(['swimmerId = ' . $swimerId]);
+        $competitionIds = array();
+
+        foreach ($inscriptions as $inscription) {
+
+            /**@var Race $race */
+            $race = Race::getById($inscription->getRaceId());
+            /**@var Session $session */
+            $session = Session::getById($race->getSessionId());
+            /**@var Journey $journey */
+            $journey = Journey::getById($session->getJourneyId());
+
+            if (!in_array($journey->getCompetitionId(), $competitionIds)) $competitionIds[] = $journey->getCompetitionId();
+        }
+
+        return $competitionIds;
     }
 }

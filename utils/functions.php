@@ -7,7 +7,7 @@ function formatMark($time)
 
     $date = new DateTimeImmutable($time);
 
-    $cents = floor(floatval($date->format('v'))/10);
+    $cents = rtrim($date->format('v'),'0');//Remove last 0 character
 
     if (intval($date->format('i')) > 0) return $date->format('i:s.').$cents;
 

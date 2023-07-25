@@ -4,47 +4,6 @@ require_once './controller/baseController.php';
 class SwimmerController extends BaseController
 {
 
-    /**List open inscriptions and questionaries ordered by deadLine */
-
-    public function listInscriptions()
-    {
-        $this->view = 'swimmer/listInscriptions';
-
-        $now = new DateTime('now', new DateTimeZone('Europe/Madrid'));
-
-        $conditions = [
-            'deadLine >= "' . $now->format('Y-m-d H:i') . '"',
-            'state = "open"'
-        ];
-
-        $orders = ['deadLine'];
-
-        $events = Event::getAll($conditions, $orders);
-
-        $competitions = Competition::getAll($conditions, $orders);
-
-        $questionaries = Questionary::getAll($conditions, $orders);
-
-        foreach ($competitions as $competition) {
-
-            $events[] = $competition;
-        }
-
-        usort($events, fn ($a, $b) => strcmp($a->getDeadLine(), $b->getDeadLine()));
-
-        foreach ($questionaries as $questionary) {
-
-            $events[] = $questionary;
-        }
-
-        usort($events, fn ($a, $b) => strcmp($a->getdeadLine(), $b->getDeadLine()));
-
-        return [
-            'success' => true,
-            'object' => $events
-        ];
-    }
-
     /**Profile without marks */
 
     public function showProfile()

@@ -1,5 +1,6 @@
 <?php
-$events = $data['content']['object'];
+$events = $data['content']['events'];
+$competitionIds = $data['content']['competitionIds'];
 ?>
 <section class="tab active" id="inscriptions">
     <header>
@@ -35,8 +36,18 @@ $events = $data['content']['object'];
                             <a class="btn" href="inscription/showEvent/<?php echo $event->getId() ?>">Inscribirse</a>
                         <?php
                         } else if (get_class($event) == 'Competition') {
+                            
+                            if(in_array($event->getId(),$competitionIds)) {
                         ?>
-                            <a class="btn" href="inscription/showEvent/<?php echo $event->getId() ?>">Inscribirse</a>
+                            <a class="btn-secondary" href="inscription/showCompetition/<?php echo $event->getId() ?>">Ver inscripción</a>
+                        <?php
+                            } else {
+                        ?>
+                            <a class="btn" href="inscription/showCompetition/<?php echo $event->getId() ?>">Inscribirse</a>
+                        <?php
+                            }
+                        ?>
+                            </a>
                         <?php
                         } else {
                         ?>

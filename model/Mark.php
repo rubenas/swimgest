@@ -127,7 +127,7 @@ class Mark extends BaseModel
 
         $time = new DateTimeImmutable($this->time);
 
-        return $time->format('v');
+        return rtrim($time->format('v'),'0');
     }
 
     /*Return floatTime like mm:ss.xx */

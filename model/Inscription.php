@@ -34,7 +34,7 @@ class Inscription extends BaseModel
             'id' => $conn->lastInsertId()
         ];
     }
-    
+
     /**
      * Getters and setters
      */

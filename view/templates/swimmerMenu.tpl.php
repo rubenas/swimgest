@@ -1,6 +1,6 @@
 <ul>
     <li class="active">
-        <a href="swimmer/listInscriptions" tab-target="inscriptions" ajax-request='{"url": "swimmer/listInscriptions/v" }'>
+        <a href="inscription/list" tab-target="inscriptions" ajax-request='{"url": "inscription/list/v" }'>
             <span class="material-symbols-outlined">
                 event_available
             </span>
