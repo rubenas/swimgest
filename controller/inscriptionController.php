@@ -4,7 +4,7 @@ include_once './controller/baseController.php';
 
 class InscriptionController extends BaseController
 {
-    
+
     /**List open inscriptions and questionaries ordered by deadLine */
 
     public function list()
@@ -46,7 +46,49 @@ class InscriptionController extends BaseController
             'competitionIds' => $this->getCompetitionIds($this->sessionId())
         ];
     }
-    
+
+    /* Show remove confirmation window */
+
+    public function removeConfirm($competitionId)
+    {
+        $this->view = 'inscription/remove';
+
+        $competition = Competition::getById($competitionId);
+
+        if (!$competition) return $this->notFoundError;
+
+        return [
+            'success' => true,
+            'object' => $competition
+        ];
+    }
+
+    /** Remove all inscriptions from competitionID */
+
+    public function remove($competitionId)
+    {
+        $competition = Competition::fill($competitionId);
+
+        if(!$competition['success']) return $competition;
+
+        $raceIds = array();
+
+        foreach ($competition['object']->getJourneys() as $journey) {
+
+            foreach ($journey->getSessions() as $session) {
+
+                foreach ($session->getRaces() as $race) {
+
+                    $raceIds[] = $race->getId();
+                }
+            }
+        }
+        
+        Inscription::removeFromRaceIds($raceIds,$this->sessionId());
+
+        return $this->list();
+    }
+
     /**Show competition inscription details */
 
     public function showCompetition($id)

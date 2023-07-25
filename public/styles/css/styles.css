@@ -1400,7 +1400,7 @@ textarea {
 }
 
 /*BOTONES*/
-.btn, .btn-secondary, .btn-outline-light {
+.btn, .btn-error, .btn-alert, .btn-secondary, .btn-outline-light {
   padding: 0.4rem 0.8rem;
   border: solid 0.1rem transparent;
   background-color: #002f63;
@@ -1411,7 +1411,7 @@ textarea {
   font-size: 1rem;
   cursor: pointer;
 }
-.btn:hover, .btn-secondary:hover, .btn-outline-light:hover {
+.btn:hover, .btn-error:hover, .btn-alert:hover, .btn-secondary:hover, .btn-outline-light:hover {
   border: solid 0.1rem transparent;
   background-color: #00489a;
   color: #fafafa;
@@ -1435,6 +1435,20 @@ textarea {
 .btn-secondary:hover {
   background-color: #a2ca46;
   color: #fafafa;
+}
+
+.btn-alert {
+  background-color: rgb(225, 120, 0);
+}
+.btn-alert:hover {
+  background-color: rgb(255, 120, 0);
+}
+
+.btn-error {
+  background-color: rgb(200, 0, 0);
+}
+.btn-error:hover {
+  background-color: rgb(255, 40, 40);
 }
 
 .btn-icon, .btn-icon-alert, .btn-icon-success, .btn-icon-error {

@@ -11,6 +11,7 @@ class Inscription extends BaseModel
     private $mark;
     private $eventId;
 
+    /** Add inscription to DB */
 
     public static function add($inscription)
     {
@@ -33,6 +34,27 @@ class Inscription extends BaseModel
             'success' => $query->execute($values),
             'id' => $conn->lastInsertId()
         ];
+    }
+
+    /** Remove all inscriptions from raceIds array and swimmer Id */
+    public static function removeFromRaceIds($raceIds,$swimmerId)
+    {
+        $raceIdsList = '(';
+
+        foreach($raceIds as $raceId){
+
+            $raceIdsList .= $raceId.',';
+        }
+
+        $raceIdsList = rtrim($raceIdsList,',');
+
+        $raceIdsList .= ')';
+
+        $sql = "DELETE FROM " . self::TABLE . " WHERE swimmerID = :swimmerId AND raceId IN ".$raceIdsList;
+
+        $query = self::getConnection()->prepare($sql);
+
+        return $query->execute([':swimmerId' => $swimmerId]);
     }
 
     /**

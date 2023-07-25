@@ -38,6 +38,22 @@
     }
 }
 
+.btn-alert {
+    @extend .btn;
+    background-color: $alert-color;
+    &:hover {
+        background-color: $alert-hover-color;
+    }
+}
+
+.btn-error {
+    @extend .btn;
+    background-color: $error-color;
+    &:hover {
+        background-color: $error-hover-color;
+    }
+}
+
 .btn-icon {
     border: none;
     background-color: transparent;

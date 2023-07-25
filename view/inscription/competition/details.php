@@ -104,7 +104,8 @@ $inscriptionIds = $data['content']['inscriptionIds'];
                 ?>
                 <div class="row jc-end">
                     <button class="btn mb-1 mr-1" type="submit">Enviar inscripción</button>
-                    <a class="btn-secondary mb-1 mr-1" href="./inscription/list">Cancelar</a>
+                    <a class="btn-error mb-1 mr-1" href="inscription/removeConfirm/<?php echo $competition->getId()?>" modal-target="modal-remove-inscription-<?php echo $competition->getId()?>" ajax-request='{"url": "inscription/removeConfirm/<?php echo $competition->getId()?>/v"}'>Borrar inscripción</a>
+                    <a class="btn-secondary mb-1 mr-1" href="inscription/list">Cancelar</a>
                 </div>
             </section>
         </form>
