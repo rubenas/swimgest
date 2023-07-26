@@ -9,9 +9,8 @@ $inscriptionIds = $data['content']['inscriptionIds'];
     }
 </style>
 <section id="competitions" class="tab">
-<div class="error"><?php if (isset($data['content']['error'])) echo $data['content']['error'] ?></div>
     <main class="card">
-        <form class="row" method="post" action="inscriptionCompetition/inscription">
+        <form class="row" id="competition-<?php echo $competition->getId(); ?>" method="post" action="inscriptionCompetition/inscription" inscriptionsLimit="<?php echo $competition->getInscriptionsLimit(); ?>" competitionId="<?php echo $competition->getId()?>">
             <input type="hidden" name="competitionId" value="<?php echo $competition->getId()?>">
             <section class="col-12 col-sm-3 profile-picture">
                 <img src="<?php echo $competition->getPicture(); ?>" class="img-card img-rounded">
@@ -40,7 +39,7 @@ $inscriptionIds = $data['content']['inscriptionIds'];
                 <?php
                 foreach ($competition->getJourneys() as $journey) {
                 ?>
-                    <article class="card row p-1 m-1" id="journey-<?php echo $journey->getId(); ?>">
+                    <article class="card row p-1 m-1" id="journey-<?php echo $journey->getId(); ?>" journeyId="<?php echo $journey->getId(); ?>" journeyName="<?php echo $journey->getName(); ?>" inscriptionsLimit="<?php echo $journey->getInscriptionsLimit(); ?>">
                         <section class="row w-100 jc-between ai-center">
                             <header class="row w-100">
                                 <h4><?php echo $journey->getName() ?></h4>
@@ -54,7 +53,7 @@ $inscriptionIds = $data['content']['inscriptionIds'];
                             <?php
                             foreach ($journey->getSessions() as $session) {
                             ?>
-                                <article class="card row p-1 col-12 mt-1" id="session-<?php echo $session->getId() ?>">
+                                <article class="card row p-1 col-12 mt-1" id="session-<?php echo $session->getId() ?>" sessionId="<?php echo $session->getId(); ?>" sessionName="<?php echo $session->getName(); ?>" inscriptionsLimit="<?php echo $session->getInscriptionsLimit(); ?>">
                                     <section class="row w-100 jc-between ai-center">
                                         <div>
                                             <header class="row w-100">
@@ -72,10 +71,10 @@ $inscriptionIds = $data['content']['inscriptionIds'];
                                             if ($race->getGender() == $data['gender'] || $race->getGender() == 'mixed') {
                                         ?>
                                                 <div class="row w-100 ai-center">
-                                                    <input class="m-1" type="checkbox" name="race[<?php echo $race->getId() ?>]" value="1" <?php if(in_array($race->getId(),$inscriptionIds)) echo 'checked'?>>
+                                                    <input class="m-1" type="checkbox" name="race[<?php echo $race->getId() ?>]" value="1" <?php if(in_array($race->getId(),$inscriptionIds)) echo 'checked'?> raceId="<?php echo $race->getId()?>" isRelay="<?php echo $race->getIsRelay()?>">
                                                     <?php echo $race->getDistance() . ' ' . $translateToSpanish[$race->getStyle()] . ' ' . $translateToSpanish[$race->getGender()] ?>
                                                     <?php if(!$race->getIsRelay()) {?>
-                                                        <div class="ml-1">
+                                                        <div class="ml-1" id="mark[<?php echo $race->getId()?>]">
                                                             <input type="number" class="min" name="min[<?php echo $race->getId() ?>]" min="0" max="99" step="1" placeholder="min" value="<?php echo $marks[$race->getId()]->getMinutes() ?>">
                                                             :
                                                             <input type="number" class="sec" name="sec[<?php echo $race->getId() ?>]" min="0" max="59" step="1" placeholder="seg" value="<?php echo $marks[$race->getId()]->getSeconds() ?>">
@@ -108,6 +107,8 @@ $inscriptionIds = $data['content']['inscriptionIds'];
                     <a class="btn-secondary mb-1 mr-1" href="inscription/list">Cancelar</a>
                 </div>
             </section>
+            <div class="error w-100"><?php if (isset($data['content']['error'])) echo $data['content']['error'] ?></div>
         </form>
     </main>
 </section>
+<script type="module" src="./public/js/inscriptionCompetitionChecker.js"></script>

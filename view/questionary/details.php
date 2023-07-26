@@ -5,7 +5,7 @@ $answers = $data['content']['answers'];
 <section id="competitions" class="tab">
     <div class="error"><?php if (isset($data['content']['error'])) echo $data['content']['error'] ?></div>
     <main class="card">
-        <form class="row" method="post" action="questionary/fromPost">
+        <form class="row" id="questionary-<?php echo $questionary->getId()?>" method="post" action="questionary/fromPost">
             <input type="hidden" name="questionaryId" value="<?php echo $questionary->getId() ?>">
             <section class="col-12 col-sm-3 profile-picture">
                 <img src="<?php echo $questionary->getPicture(); ?>" class="img-card img-rounded">
@@ -38,7 +38,7 @@ $answers = $data['content']['answers'];
                                 foreach ($question->getOptions() as $option) { 
                             ?>
                                     <div class="w-100 mb-1">
-                                        <input type="<?php echo $question->getType() ?>" id="option-<?php echo $option->getId()?>" name="answer[<?php echo $question->getId() ?>][]" value="<?php echo $option->getText()?>" required
+                                        <input type="<?php echo $question->getType() ?>" id="option-<?php echo $option->getId()?>" questionId="<?php echo $question->getId()?>" name="answer[<?php echo $question->getId() ?>][]" value="<?php echo $option->getText()?>" required
                                         <?php 
                                             if (isset($answers[$question->getId()])){
                                                 
@@ -66,3 +66,4 @@ $answers = $data['content']['answers'];
         </form>
     </main>
 </section>
+<script type="module" src="./public/js/questionaryChecker.js"></script>
