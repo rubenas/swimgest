@@ -12,7 +12,7 @@
         </header>
         <main class="modal-main">
 
-            <form class="row ai-center jc-between" id="remove-inscription-<?php echo $competition->getId(); ?>" method="post" action="inscription/remove/<?php echo $competition->getId(); ?>">
+            <form class="row ai-center jc-between" id="remove-inscription-<?php echo $competition->getId(); ?>" method="post" action="inscriptionCompetition/remove/<?php echo $competition->getId(); ?>">
                 <div class="mt-1 col-12">
                     Vas a eliminar la tu inscripción a la competición <?php echo $competition->getName() ?>.
                 <div class="mt-1 col-12">

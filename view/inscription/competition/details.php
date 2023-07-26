@@ -11,7 +11,7 @@ $inscriptionIds = $data['content']['inscriptionIds'];
 <section id="competitions" class="tab">
 <div class="error"><?php if (isset($data['content']['error'])) echo $data['content']['error'] ?></div>
     <main class="card">
-        <form class="row" method="post" action="inscription/competitionInscription">
+        <form class="row" method="post" action="inscriptionCompetition/inscription">
             <input type="hidden" name="competitionId" value="<?php echo $competition->getId()?>">
             <section class="col-12 col-sm-3 profile-picture">
                 <img src="<?php echo $competition->getPicture(); ?>" class="img-card img-rounded">
@@ -104,7 +104,7 @@ $inscriptionIds = $data['content']['inscriptionIds'];
                 ?>
                 <div class="row jc-end">
                     <button class="btn mb-1 mr-1" type="submit">Enviar inscripción</button>
-                    <a class="btn-error mb-1 mr-1" href="inscription/removeConfirm/<?php echo $competition->getId()?>" modal-target="modal-remove-inscription-<?php echo $competition->getId()?>" ajax-request='{"url": "inscription/removeConfirm/<?php echo $competition->getId()?>/v"}'>Borrar inscripción</a>
+                    <a class="btn-error mb-1 mr-1" href="inscriptionCompetition/removeConfirm/<?php echo $competition->getId()?>" modal-target="modal-remove-inscription-<?php echo $competition->getId()?>" ajax-request='{"url": "inscriptionCompetition/removeConfirm/<?php echo $competition->getId()?>/v"}'>Borrar inscripción</a>
                     <a class="btn-secondary mb-1 mr-1" href="inscription/list">Cancelar</a>
                 </div>
             </section>

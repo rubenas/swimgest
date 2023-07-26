@@ -1,7 +1,7 @@
 <?php
 $events = $data['content']['events'];
 $competitionIds = $data['content']['competitionIds'];
-var_dump($competitionIds);
+if(!$competitionIds) $competitionIds = [];
 ?>
 <section class="tab active" id="inscriptions">
     <header>
@@ -40,11 +40,11 @@ var_dump($competitionIds);
                             
                             if(in_array($event->getId(),$competitionIds)) {
                         ?>
-                            <a class="btn-secondary" href="inscription/showCompetition/<?php echo $event->getId() ?>">Ver inscripción</a>
+                            <a class="btn-secondary" href="inscriptionCompetition/details/<?php echo $event->getId() ?>">Ver inscripción</a>
                         <?php
                             } else {
                         ?>
-                            <a class="btn" href="inscription/showCompetition/<?php echo $event->getId() ?>">Inscribirse</a>
+                            <a class="btn" href="inscriptionCompetition/details/<?php echo $event->getId() ?>">Inscribirse</a>
                         <?php
                             }
                         ?>
