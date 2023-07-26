@@ -10,14 +10,15 @@ class Inscription extends BaseModel
     private $raceId;
     private $mark;
     private $eventId;
+    private $competitionId;
 
     /** Add inscription to DB */
 
     public static function add($inscription)
     {
 
-        $sql = "INSERT INTO " . self::TABLE . " (swimmerId,raceId,mark,eventId) 
-                    VALUES (:swimmerId,:raceId,:mark,:eventId)";
+        $sql = "INSERT INTO " . self::TABLE . " (swimmerId,raceId,mark,eventId,competitionId) 
+                    VALUES (:swimmerId,:raceId,:mark,:eventId,:competitionId)";
 
         $conn = self::getConnection();
 
@@ -27,7 +28,8 @@ class Inscription extends BaseModel
             ':swimmerId' => $inscription->getSwimmerId(),
             ':raceId' => $inscription->getRaceId(),
             ':mark' => $inscription->getMark(),
-            ':eventId' => $inscription->getEventId()
+            ':eventId' => $inscription->getEventId(),
+            ':competitionId' => $inscription->getCompetitionId()
         ];
 
         return [
@@ -36,25 +38,31 @@ class Inscription extends BaseModel
         ];
     }
 
-    /** Remove all inscriptions from raceIds array and swimmer Id */
-    public static function removeFromRaceIds($raceIds,$swimmerId)
+    /** Remove all inscriptions from competition ID and swimmer Id */
+
+    public static function removeFromCompetitionId($competitionId, $swimmerId)
     {
-        $raceIdsList = '(';
-
-        foreach($raceIds as $raceId){
-
-            $raceIdsList .= $raceId.',';
-        }
-
-        $raceIdsList = rtrim($raceIdsList,',');
-
-        $raceIdsList .= ')';
-
-        $sql = "DELETE FROM " . self::TABLE . " WHERE swimmerID = :swimmerId AND raceId IN ".$raceIdsList;
+        $sql = "DELETE FROM " . self::TABLE . " WHERE swimmerID = :swimmerId AND competitionId = :competitionId";
 
         $query = self::getConnection()->prepare($sql);
 
-        return $query->execute([':swimmerId' => $swimmerId]);
+        return $query->execute([
+            ':swimmerId' => $swimmerId,
+            ':competitionId' => $competitionId
+        ]);
+    }
+
+    /**Gets an array with all competitionIds which a swimmer has made an inscription*/
+
+    public static function getCompetitionIds($swimmerId)
+    {
+        $sql = 'SELECT competitionId FROM '.self::TABLE.' WHERE swimmerId = :swimmerId';
+
+        $query = self::getConnection()->prepare($sql);
+
+        $query->execute([':swimmerId' => $swimmerId]);
+
+        return $query->fetch(PDO::FETCH_NUM);
     }
 
     /**
@@ -107,6 +115,16 @@ class Inscription extends BaseModel
     public function setEventId($eventId): self
     {
         $this->eventId = $eventId;
+
+        return $this;
+    }
+    public function getCompetitionId()
+    {
+        return $this->competitionId;
+    }
+    public function setCompetitionId($competitionId): self
+    {
+        $this->competitionId = $competitionId;
 
         return $this;
     }

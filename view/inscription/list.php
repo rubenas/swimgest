@@ -1,6 +1,7 @@
 <?php
 $events = $data['content']['events'];
 $competitionIds = $data['content']['competitionIds'];
+var_dump($competitionIds);
 ?>
 <section class="tab active" id="inscriptions">
     <header>

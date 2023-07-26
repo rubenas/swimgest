@@ -43,7 +43,7 @@ class InscriptionController extends BaseController
         return [
             'success' => true,
             'events' => $events,
-            'competitionIds' => $this->getCompetitionIds($this->sessionId())
+            'competitionIds' => Inscription::getCompetitionIds($this->sessionId())
         ];
     }
 
@@ -67,24 +67,11 @@ class InscriptionController extends BaseController
 
     public function remove($competitionId)
     {
-        $competition = Competition::fill($competitionId);
+        $competition = Competition::getById($competitionId);
 
-        if(!$competition['success']) return $competition;
-
-        $raceIds = array();
-
-        foreach ($competition['object']->getJourneys() as $journey) {
-
-            foreach ($journey->getSessions() as $session) {
-
-                foreach ($session->getRaces() as $race) {
-
-                    $raceIds[] = $race->getId();
-                }
-            }
-        }
+        if(!$competition) return $competition;
         
-        Inscription::removeFromRaceIds($raceIds,$this->sessionId());
+        Inscription::removeFromCompetitionId($competitionId,$this->sessionId());
 
         return $this->list();
     }
@@ -171,6 +158,7 @@ class InscriptionController extends BaseController
             $inscription = new Inscription();
             $inscription->setSwimmerId($this->sessionId());
             $inscription->setRaceId($raceId);
+            $inscription->setCompetitionId($competition->getId());
 
             if ($race->getIsRelay()) $inscriptions[] = $inscription;
 
@@ -236,25 +224,4 @@ class InscriptionController extends BaseController
         }
     }
 
-    /**Gets an array of competitionIDs which SwimmerId has made an inscription */
-
-    public function getCompetitionIds($swimerId)
-    {
-        $inscriptions = Inscription::getAll(['swimmerId = ' . $swimerId]);
-        $competitionIds = array();
-
-        foreach ($inscriptions as $inscription) {
-
-            /**@var Race $race */
-            $race = Race::getById($inscription->getRaceId());
-            /**@var Session $session */
-            $session = Session::getById($race->getSessionId());
-            /**@var Journey $journey */
-            $journey = Journey::getById($session->getJourneyId());
-
-            if (!in_array($journey->getCompetitionId(), $competitionIds)) $competitionIds[] = $journey->getCompetitionId();
-        }
-
-        return $competitionIds;
-    }
 }
