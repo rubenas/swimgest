@@ -25,10 +25,7 @@ class AdminCompetitionController extends BaseController
 
         $validation = self::checkRequiredFields(array('name', 'place', 'inscriptionsLimit', 'startDate', 'endDate', 'inscriptionDeadLine'));
 
-        if (!$validation['success']) {
-
-            return $validation;
-        }
+        if (!$validation['success']) return $validation;
 
         $competition = new Competition();
 

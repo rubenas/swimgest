@@ -167,6 +167,26 @@ CREATE TABLE options (
     questionId INT NOT NULL,
     text LONGTEXT NOT NULL,
     number INT,
+    CONSTRAINT FK_Options_QuestionId FOREIGN KEY (questionId)
+    REFERENCES questions(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);
+
+CREATE TABLE answers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    questionaryId INT NOT NULL,
+    swimmerId INT NOT NULL,
+    questionId INT NOT NULL,
+    text LONGTEXT NOT NULL,
+    CONSTRAINT FK_Answers_QuestionaryId FOREIGN KEY (questionId)
+    REFERENCES questions(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+    CONSTRAINT FK_Answers_SwimmerId FOREIGN KEY (swimmerId)
+    REFERENCES swimmers(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
     CONSTRAINT FK_Answers_QuestionId FOREIGN KEY (questionId)
     REFERENCES questions(id)
     ON UPDATE CASCADE

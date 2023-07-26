@@ -15,7 +15,7 @@
                     <input type="text" id="questionary-name" name="name" required autocomplete="true" value="<?php echo $questionary->getName() ?>">
                 </div>
                 <div class="mt-1 form-group col-12 col-sm-5">
-                    <label for="questionary-deadLine">Inscripciones hasta*</label>
+                    <label for="questionary-deadLine">Respuestas hasta*</label>
                     <input type="datetime-local" id="questionary-deadLine" name="deadLine" required value="<?php echo $questionary->getDeadLine() ?>">
                 </div>
                 <div class="mt-1 form-group col-12">

@@ -65,6 +65,19 @@ class Inscription extends BaseModel
         return $query->fetch(PDO::FETCH_NUM);
     }
 
+    /**Gets an array with all eventIds which a swimmer has made an inscription*/
+
+    public static function getEventIds($swimmerId)
+    {
+        $sql = 'SELECT eventId FROM '.self::TABLE.' WHERE swimmerId = :swimmerId';
+
+        $query = self::getConnection()->prepare($sql);
+
+        $query->execute([':swimmerId' => $swimmerId]);
+
+        return $query->fetch(PDO::FETCH_NUM);
+    }
+
     /**
      * Getters and setters
      */

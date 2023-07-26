@@ -43,7 +43,9 @@ class InscriptionController extends BaseController
         return [
             'success' => true,
             'events' => $events,
-            'competitionIds' => Inscription::getCompetitionIds($this->sessionId())
+            'competitionIds' => Inscription::getCompetitionIds($this->sessionId()),
+            'questionaryIds' => Answer::getQuestionaryIds($this->sessionId()),
+            'eventIds' => Inscription::getEventIds($this->sessionId())
         ];
     }
 

@@ -10,6 +10,7 @@ require_once './model/Session.php';
 require_once './model/Race.php';
 require_once './model/Questionary.php';
 require_once './model/Question.php';
+require_once './model/Answer.php';
 require_once './model/Option.php';
 require_once './model/Inscription.php';
 

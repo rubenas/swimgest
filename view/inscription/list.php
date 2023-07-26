@@ -1,7 +1,11 @@
 <?php
 $events = $data['content']['events'];
 $competitionIds = $data['content']['competitionIds'];
+$questionaryIds =$data['content']['questionaryIds'];
+$eventIds = $data['content']['eventIds'];
 if(!$competitionIds) $competitionIds = [];
+if(!$questionaryIds) $questionaryIds = [];
+if(!$eventIds) $eventIds = [];
 ?>
 <section class="tab active" id="inscriptions">
     <header>
@@ -33,9 +37,16 @@ if(!$competitionIds) $competitionIds = [];
                     <footer class="pb-1 px-1">
                         <?php
                         if (get_class($event) == 'Event') {
+
+                            if(in_array($event->getId(),$eventIds)) {
                         ?>
-                            <a class="btn" href="inscription/showEvent/<?php echo $event->getId() ?>">Inscribirse</a>
+                            <a class="btn-secondary" href="inscriptionEvent/details/<?php echo $event->getId() ?>">Ver inscripción</a>
                         <?php
+                            } else {
+                        ?>
+                            <a class="btn" href="inscriptionEvent/details/<?php echo $event->getId() ?>">Inscribirse</a>
+                        <?php
+                            }
                         } else if (get_class($event) == 'Competition') {
                             
                             if(in_array($event->getId(),$competitionIds)) {
@@ -51,9 +62,16 @@ if(!$competitionIds) $competitionIds = [];
                             </a>
                         <?php
                         } else {
+
+                            if(in_array($event->getId(),$questionaryIds)) {
                         ?>
-                            <a class="btn" href="inscription/showQuestionary/<?php echo $event->getId() ?>">Responder</a>
+                            <a class="btn-secondary" href="questionary/details/<?php echo $event->getId() ?>">Ver respuestas</a>
                         <?php
+                            } else {
+                        ?>
+                                <a class="btn" href="questionary/details/<?php echo $event->getId() ?>">Responder</a>
+                        <?php
+                            }
                         }
                         ?>
                     </footer>
