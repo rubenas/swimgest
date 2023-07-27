@@ -58,6 +58,7 @@ class BaseController
     }
 
     /**Shows message modal window */
+    
     public function showMessage()
     {
         $this->view = 'templates/modalMessage.tpl';

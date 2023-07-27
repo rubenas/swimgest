@@ -42,6 +42,7 @@ function appendModal(html){
            modal.remove();
         }, false)
     }
+    
     window.addEventListener("click", function (event) {
 
         if (event.target == modal) {

@@ -1,5 +1,6 @@
 
 import {checkRequiredElements} from "./modules/functions.js";
+import { modalMsg } from "./modules/modalMsg.js";
 
 window.addEventListener("load",loadQuestionaryCheckerSettings);
 
@@ -21,7 +22,7 @@ function loadQuestionaryCheckerSettings() {
 
             event.preventDefault();
             if(checkRequiredElements(form)) form.submit();
-            else document.querySelector(".error").textContent = "Existen campos obligatorios por cubrir";
+            else modalMsg("Existen campos obligatorios por cubrir");
         });
     }
 }

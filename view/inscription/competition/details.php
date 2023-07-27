@@ -9,6 +9,7 @@ $inscriptionIds = $data['content']['inscriptionIds'];
     }
 </style>
 <section id="competitions" class="tab">
+    <div class="error w-100"><?php if (isset($data['content']['error'])) echo $data['content']['error'] ?></div>
     <main class="card">
         <form class="row" id="competition-<?php echo $competition->getId(); ?>" method="post" action="inscriptionCompetition/inscription" inscriptionsLimit="<?php echo $competition->getInscriptionsLimit(); ?>" competitionId="<?php echo $competition->getId()?>">
             <input type="hidden" name="competitionId" value="<?php echo $competition->getId()?>">
@@ -107,7 +108,6 @@ $inscriptionIds = $data['content']['inscriptionIds'];
                     <a class="btn-secondary mb-1 mr-1" href="inscription/list">Cancelar</a>
                 </div>
             </section>
-            <div class="error w-100"><?php if (isset($data['content']['error'])) echo $data['content']['error'] ?></div>
         </form>
     </main>
 </section>
