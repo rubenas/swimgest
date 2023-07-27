@@ -9,7 +9,10 @@ function loadQuestionaryCheckerSettings() {
     const inputs = document.querySelectorAll("[name^='answer['][type='checkbox']");
 
     for (let input of inputs){
-        input.addEventListener("change",function(){toggleRequiredinputs(input,inputs)},false);
+
+        if(input.checked) toggleRequiredInputs(input,inputs);
+
+        input.addEventListener("change",function(){toggleRequiredInputs(input,inputs)},false);
     }
 
     const form = document.querySelector["[id^='questionary-']"];
@@ -29,7 +32,7 @@ function loadQuestionaryCheckerSettings() {
 
 //Removes or ad required attribute if some option is checked 
 
-function toggleRequiredinputs(input,inputs){
+function toggleRequiredInputs(input,inputs){
 
     for (let checkbox of inputs) {
         

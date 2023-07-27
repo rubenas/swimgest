@@ -1,10 +1,10 @@
 <?php
-    $competition = $data['content']['object'];
+    $event = $data['content']['object'];
 ?>
-<section class="modal" id="modal-remove-inscription-<?php echo $competition->getId(); ?>">
+<section class="modal" id="modal-remove-event-inscription-<?php echo $event->getId(); ?>">
     <div class="modal-content">
         <header class="modal-header">
-            <h3>Eliminar inscripción a la competición
+            <h3>Eliminar inscripción
                 <span class="material-symbols-outlined close">
                     close
                 </span>
@@ -12,9 +12,9 @@
         </header>
         <main class="modal-main">
 
-            <form class="row ai-center jc-between" id="remove-inscription-<?php echo $competition->getId(); ?>" method="post" action="inscriptionCompetition/remove/<?php echo $competition->getId(); ?>">
+            <form class="row ai-center jc-between" id="remove-event-inscription-<?php echo $event->getId(); ?>" method="post" action="inscriptionEvent/remove/<?php echo $event->getId(); ?>">
                 <div class="mt-1 col-12">
-                    Vas a eliminar la tu inscripción a la competición <?php echo $competition->getName() ?>.
+                    Vas a eliminar la tu inscripción a <?php echo $event->getName() ?>.
                 <div class="mt-1 col-12">
                     Estás seguro/a?
                 </div>

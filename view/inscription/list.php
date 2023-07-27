@@ -6,6 +6,7 @@ $eventIds = $data['content']['eventIds'];
 if(!$competitionIds) $competitionIds = [];
 if(!$questionaryIds) $questionaryIds = [];
 if(!$eventIds) $eventIds = [];
+
 ?>
 <section class="tab active" id="inscriptions">
     <header>

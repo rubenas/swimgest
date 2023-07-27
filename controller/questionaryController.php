@@ -57,6 +57,7 @@ class QuestionaryController extends InscriptionController
                 $answer = new Answer();
 
                 $answer->setQuestionaryId($_POST['questionaryId']);
+                $answer->setTopEventId(NULL);
                 $answer->setSwimmerId($this->sessionId());
                 $answer->setQuestionId($questionId);
                 $answer->setText($text);

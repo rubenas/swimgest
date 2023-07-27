@@ -7,6 +7,7 @@ class Answer extends BaseModel
 
     private $id;
     private $questionaryId;
+    private $topEventId;
     private $swimmerId;
     private $questionId;
     private $text;
@@ -16,8 +17,8 @@ class Answer extends BaseModel
     public static function add($answer)
     {
 
-        $sql = "INSERT INTO " . self::TABLE . " (questionaryId,swimmerId,questionId,text) 
-                    VALUES (:questionaryId,:swimmerId,:questionId,:text)";
+        $sql = "INSERT INTO " . self::TABLE . " (questionaryId,topEventId,swimmerId,questionId,text) 
+                    VALUES (:questionaryId,:topEventId,:swimmerId,:questionId,:text)";
 
         $conn = self::getConnection();
 
@@ -25,6 +26,7 @@ class Answer extends BaseModel
 
         $values = [
             ':questionaryId' => $answer->getQuestionaryId(),
+            ':topEventId' => $answer->getTopEventId(),
             ':swimmerId' => $answer->getSwimmerId(),
             ':questionId' => $answer->getQuestionId(),
             ':text' => $answer->getText()
@@ -40,13 +42,20 @@ class Answer extends BaseModel
 
     public static function getQuestionaryIds($swimmerId)
     {
-        $sql = 'SELECT questionaryId FROM '.self::TABLE.' WHERE swimmerId = :swimmerId';
+        $sql = 'SELECT questionaryId FROM '.self::TABLE.' WHERE swimmerId = :swimmerId AND questionaryId IS NOT NULL';
 
         $query = self::getConnection()->prepare($sql);
 
         $query->execute([':swimmerId' => $swimmerId]);
 
-        return $query->fetch(PDO::FETCH_NUM);
+        $ids = array();
+
+        while ($id = $query->fetch(PDO::FETCH_NUM)) {
+
+            $ids[] = $id[0];
+        }
+
+        return $ids;
     }
 
     /**Remove all answers from questionary Id and swimmer Id */
@@ -113,6 +122,16 @@ class Answer extends BaseModel
     public function setQuestionaryId($questionaryId): self
     {
         $this->questionaryId = $questionaryId;
+
+        return $this;
+    }
+    public function getTopEventId()
+    {
+        return $this->topEventId;
+    }
+    public function setTopEventId($topEventId): self
+    {
+        $this->topEventId = $topEventId;
 
         return $this;
     }

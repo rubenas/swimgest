@@ -52,30 +52,58 @@ class Inscription extends BaseModel
         ]);
     }
 
+    /** Remove all inscriptions from event ID and swimmer Id */
+
+    public static function removeFromEventId($eventId, $swimmerId)
+    {
+        $sql = "DELETE FROM " . self::TABLE . " WHERE swimmerID = :swimmerId AND eventId = :eventId";
+
+        $query = self::getConnection()->prepare($sql);
+
+        return $query->execute([
+            ':swimmerId' => $swimmerId,
+            ':eventId' => $eventId
+        ]);
+    }
+
     /**Gets an array with all competitionIds which a swimmer has made an inscription*/
 
     public static function getCompetitionIds($swimmerId)
     {
-        $sql = 'SELECT competitionId FROM '.self::TABLE.' WHERE swimmerId = :swimmerId';
+        $sql = 'SELECT competitionId FROM '.self::TABLE.' WHERE swimmerId = :swimmerId AND competitionId IS NOT NULL' ;
 
         $query = self::getConnection()->prepare($sql);
 
         $query->execute([':swimmerId' => $swimmerId]);
 
-        return $query->fetch(PDO::FETCH_NUM);
+        $ids = array();
+
+        while ($id = $query->fetch(PDO::FETCH_NUM)) {
+
+            $ids[] = $id[0];
+        }
+
+        return $ids;
     }
 
     /**Gets an array with all eventIds which a swimmer has made an inscription*/
 
     public static function getEventIds($swimmerId)
     {
-        $sql = 'SELECT eventId FROM '.self::TABLE.' WHERE swimmerId = :swimmerId';
+        $sql = 'SELECT eventId FROM '.self::TABLE.' WHERE swimmerId = :swimmerId AND eventId IS NOT NULL';
 
         $query = self::getConnection()->prepare($sql);
 
         $query->execute([':swimmerId' => $swimmerId]);
 
-        return $query->fetch(PDO::FETCH_NUM);
+        $ids = array();
+
+        while ($id = $query->fetch(PDO::FETCH_NUM)) {
+
+            $ids[] = $id[0];
+        }
+
+        return $ids;
     }
 
     /**

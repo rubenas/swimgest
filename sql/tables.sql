@@ -175,12 +175,21 @@ CREATE TABLE options (
 
 CREATE TABLE answers (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    questionaryId INT NOT NULL,
+    questionaryId INT,
+    topEventId INT,
     swimmerId INT NOT NULL,
     questionId INT NOT NULL,
     text LONGTEXT NOT NULL,
     CONSTRAINT FK_Answers_QuestionaryId FOREIGN KEY (questionId)
     REFERENCES questions(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+    CONSTRAINT FK_Inscriptions_EventId FOREIGN KEY (topEventId)
+    REFERENCES inscriptions(eventId)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+    CONSTRAINT FK_Answers_EventId FOREIGN KEY (topEventId)
+    REFERENCES events(id)
     ON UPDATE CASCADE
     ON DELETE CASCADE,
     CONSTRAINT FK_Answers_SwimmerId FOREIGN KEY (swimmerId)

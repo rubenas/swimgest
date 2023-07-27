@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" type="text/css" href="public/styles/css/styles.css">
     <link rel="stylesheet" type="text/css" href="public/styles/css/profile_styles.css">
-    <script type="module" src="public/js/headerScripts.js"></script>
 </head>
 
 <body>
