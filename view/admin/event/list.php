@@ -28,20 +28,7 @@ $events = $data['content']['object'];
                     <div class="col-2"><?php echo formatDMYDate($event->getStartDate()); ?></div>
                     <div class="col-2"><?php echo formatDMYDate($event->getDeadLine()); ?></div>
                     <div class="col-2">
-                        <form id="event-state-<?php echo $event->getId() ?>" method="post" action="adminEvent/updateState/<?php echo $event->getId() ?>">
-                            <select name="state" class="w-100">
-                                <option value="closed" <?php
-                                                        if ($event->getState() == 'closed') echo 'selected'
-                                                        ?>>
-                                    Cerradas
-                                </option>
-                                <option value="open" <?php
-                                                        if ($event->getState() == 'open') echo 'selected'
-                                                        ?>>
-                                    Abiertas
-                                </option>
-                            </select>
-                        </form>
+                       <?php include 'stateForm.php'?>
                     </div>
                     <div class="col-2">
                         <a class="tooltip btn-icon mr-sm-1">

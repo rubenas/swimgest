@@ -25,20 +25,7 @@ else $questionaries = $data['content']['object'];
                     <div class="col-2"><?php echo $questionary->getName(); ?></div>
                     <div class="col-2"><?php echo formatDMYDate($questionary->getDeadLine()); ?></div>
                     <div class="col-2">
-                        <form id="questionary-state-<?php echo $questionary->getId() ?>" method="post" action="adminQuestionary/updateState/<?php echo $questionary->getId() ?>">
-                            <select name="state" class="w-100">
-                                <option value="closed" <?php
-                                                        if ($questionary->getState() == 'closed') echo 'selected'
-                                                        ?>>
-                                    Cerradas
-                                </option>
-                                <option value="open" <?php
-                                                        if ($questionary->getState() == 'open') echo 'selected'
-                                                        ?>>
-                                    Abiertas
-                                </option>
-                            </select>
-                        </form>
+                        <?php include 'stateForm.php' ?>
                     </div>
                     <div class="col-2">
                         <a class="tooltip btn-icon mr-sm-1">

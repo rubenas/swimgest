@@ -436,13 +436,42 @@ class AdminEventController extends BaseController
     {
         $event = Event::getById($id);
 
-        if(!$event) return $this->notFoundError;
+        if (!$event) return $this->notFoundError;
 
         $this->view = 'admin/question/addToEvent';
 
         return [
             'success' => true,
             'object' => $event
+        ];
+    }
+
+    /**Update State */
+
+    public function updateState($id)
+    {
+        $validation = self::checkRequiredFields(['state']);
+
+        if (!$validation) return $validation;
+
+        Event::updateFromId(['state' => $_POST['state']], $id);
+
+        return $this->list();
+    }
+
+    public function ajaxUpdateState($id)
+    {
+        $validation = self::checkRequiredFields(['state']);
+
+        if (!$validation) return $validation;
+
+        Event::updateFromId(['state' => $_POST['state']],$id);
+
+        $this->view = 'admin/event/stateForm';
+
+        return [
+            'success' => true,
+            'object' => Event::getById($id)
         ];
     }
 }

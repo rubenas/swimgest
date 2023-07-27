@@ -2,7 +2,7 @@
 $event = $data['content']['event'];
 $inscriptionIds = $data['content']['inscriptionIds'];
 $answers = $data['content']['answers'];
-var_dump($inscriptionIds);
+
 ?>
 <section id="competitions" class="tab">
     <div class="error w-100"><?php if (isset($data['content']['error'])) echo $data['content']['error'] ?></div>

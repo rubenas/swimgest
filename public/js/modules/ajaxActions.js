@@ -71,6 +71,9 @@ export function loadAjaxSettings(element) {
     updateQuestionaryPictureSettings(element);
     removeQuestionaryPictureSettings(element);
 
+    //Updates state of inscriptions on events, competitions and questionaries
+    loadUpdateStateSettings(element);
+
 }
 
 function updateEmailSettings(element) {
@@ -813,6 +816,27 @@ function removeQuestionaryPictureSettings(element) {
 
         commonSettings(form, button, isNotDefault, ["#questionaryPicture"], dataToAction);
 
+    }
+}
+
+function loadUpdateStateSettings(element){
+
+    const forms = element.querySelectorAll("[id*='-state-']");
+
+    for (let form of forms) {
+        
+        const selectState = form.querySelector("[name='state']");
+
+        const button = form.querySelector("button[type='submit']");
+
+        selectState.addEventListener("change",function(){
+
+            const dataToAction = {
+                "idToReplace": form.id
+            }
+
+            ajaxPostRequest(form, button, "html", replaceElement, dataToAction);
+        })
     }
 }
 

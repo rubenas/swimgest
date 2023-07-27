@@ -385,4 +385,33 @@ class AdminCompetitionController extends BaseController
 
         return $data;
     }
+
+    /**Update State */
+
+    public function updateState($id)
+    {
+        $validation = self::checkRequiredFields(['state']);
+
+        if (!$validation) return $validation;
+
+        Competition::updateFromId(['state' => $_POST['state']],$id);
+
+        return $this->list();
+    }
+
+    public function ajaxUpdateState($id)
+    {
+        $validation = self::checkRequiredFields(['state']);
+
+        if (!$validation) return $validation;
+
+        Competition::updateFromId(['state' => $_POST['state']],$id);
+
+        $this->view = 'admin/competition/stateForm';
+
+        return [
+            'success' => true,
+            'object' => Competition::getById($id)
+        ];
+    }
 }

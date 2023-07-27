@@ -29,20 +29,7 @@ else $competitions = $data['content']['object'];
                     <div class="col-2"><?php echo formatDMYDate($competition->getStartDate()); ?></div>
                     <div class="col-2"><?php echo formatDMYDate($competition->getDeadLine()); ?></div>
                     <div class="col-2">
-                        <form id="competition-state-<?php echo $competition->getId() ?>" method="post" action="adminCompetition/updateState/<?php echo $competition->getId() ?>">
-                            <select name="state" class="w-100">
-                                <option value="closed" <?php
-                                                        if ($competition->getState() == 'closed') echo 'selected'
-                                                        ?>>
-                                    Cerradas
-                                </option>
-                                <option value="open" <?php
-                                                        if ($competition->getState() == 'open') echo 'selected'
-                                                        ?>>
-                                    Abiertas
-                                </option>
-                            </select>
-                        </form>
+                        <?php include 'stateForm.php' ?>
                     </div>
                     <div class="col-2">
                         <a class="tooltip btn-icon mr-sm-1">

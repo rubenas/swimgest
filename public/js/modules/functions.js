@@ -263,7 +263,6 @@ export function checkJourney(array) {
 
 }
 
-
 export function returnTrue(args) {
 
     return {

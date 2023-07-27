@@ -150,7 +150,7 @@ class AdminQuestionaryController extends BaseController
     {
         $this->view = 'admin/questionary/details';
 
-        $validation = self::checkRequiredFields(array('name','deadLine'));
+        $validation = self::checkRequiredFields(array('name', 'deadLine'));
 
         if (!$validation['success']) return $validation;
 
@@ -308,13 +308,42 @@ class AdminQuestionaryController extends BaseController
     {
         $quesionary = Questionary::getById($id);
 
-        if(!$quesionary) return $this->notFoundError;
+        if (!$quesionary) return $this->notFoundError;
 
         $this->view = 'admin/question/addToQuestionary';
 
         return [
             'success' => true,
             'object' => $quesionary
+        ];
+    }
+
+    /**Update State */
+
+    public function updateState($id)
+    {
+        $validation = self::checkRequiredFields(['state']);
+
+        if (!$validation) return $validation;
+
+        Questionary::updateFromId(['state' => $_POST['state']], $id);
+
+        return $this->list();
+    }
+
+    public function ajaxUpdateState($id)
+    {
+        $validation = self::checkRequiredFields(['state']);
+
+        if (!$validation) return $validation;
+
+        Questionary::updateFromId(['state' => $_POST['state']],$id);
+
+        $this->view = 'admin/questionary/stateForm';
+
+        return [
+            'success' => true,
+            'object' => Questionary::getById($id)
         ];
     }
 }
