@@ -9,7 +9,9 @@ function formatMark($time)
 
     $cents = rtrim($date->format('v'),'0');//Remove last 0 character
 
-    if (intval($date->format('i')) > 0) return $date->format('i:s.').$cents;
+    if($cents == '') $cents = 0;
+
+    if (intval($date->format('i')) > 0) return intval($date->format('i')).$date->format(':s.').$cents;
 
     return $date->format('s.').$cents;
 }

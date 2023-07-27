@@ -32,7 +32,7 @@ else $competitions = $data['content']['object'];
                         <?php include 'stateForm.php' ?>
                     </div>
                     <div class="col-2">
-                        <a class="tooltip btn-icon mr-sm-1">
+                        <a class="tooltip btn-icon mr-sm-1" href="adminInscription/competition/<?php echo $competition->getId()?>">
                             <span class="material-symbols-outlined text-lg">
                                 list_alt
                             </span>

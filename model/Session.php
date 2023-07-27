@@ -48,6 +48,7 @@ class Session extends BaseModel
 
     public static function fill($id)
     {
+        /**@var Session $session */
         $session = Session::getById($id);
         
         $races = Race::getAll(['sessionId = ' . $session->getId()], ['number', 'id']);
