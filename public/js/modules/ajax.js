@@ -51,7 +51,7 @@ export function ajaxPostRequest(form, button, resultFormat, actionAfter, dataToA
 }
 
 
-function formatResult(text, format) {
+export function formatResult(text, format) {
 
     if (format == "html") {
 

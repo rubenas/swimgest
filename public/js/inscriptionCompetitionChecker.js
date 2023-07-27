@@ -1,4 +1,4 @@
-import { checkRequiredElements } from "./modules/functions.js";
+import { modalMsg } from "./modules/modalMsg.js";
 
 window.addEventListener("load", loadInscriptionCompetitionCheckerSettings);
 
@@ -12,19 +12,15 @@ function loadInscriptionCompetitionCheckerSettings() {
 
         const competition = fillCompetition(form);
 
-        console.log(competition);
-
         button.addEventListener("click",function(event){
 
             event.preventDefault();
 
             let result = checkInscription(competition);
 
-            if(!result.success) {
-
-                document.querySelector(".error").innerHTML = result.error;
-            }
+            if(!result.success) modalMsg(result.error);
             
+            else form.submit();
         });
     }
 }
@@ -53,17 +49,17 @@ function checkInscription(competition) {
                     nInscriptionsJourney ++;
                     nInscriptionsSession ++;
 
-                    if(!hasMark(race)) error += '<p>Debes proporcionar una marca válida para todas las pruebas en las que te inscribas</p>';
+                    if(!hasMark(race)) error = '<p>Debes proporcionar una marca válida para todas las pruebas en las que te inscribas</p>';
                 }
             }
 
-            if (nInscriptionsSession > session.inscriptionsLimit) error += "<p>Has excedido el número máximo de pruebas en la session " + session.name + " de la jornada " + journey.name + "</p>";
+            if (nInscriptionsSession > session.inscriptionsLimit) error = "<p>Has excedido el número máximo de pruebas en la session " + session.name + " de la jornada " + journey.name + "</p>";
         }
 
-        if (nInscriptionsJourney > journey.inscriptionsLimit) error += "<p>Has excedido el número máximo de pruebas en la jornada " + journey.name + "</p>";
+        if (nInscriptionsJourney > journey.inscriptionsLimit) error = "<p>Has excedido el número máximo de pruebas en la jornada " + journey.name + "</p>";
     }
 
-    if (nInscriptionsCompetition > competition.inscriptionsLimit) error += "<p>Has excedido el número máximo de pruebas en la competición</p>";
+    if (nInscriptionsCompetition > competition.inscriptionsLimit) error = "<p>Has excedido el número máximo de pruebas en la competición</p>";
 
     if (error != '') {
 

@@ -16,7 +16,7 @@ require_once './model/Inscription.php';
 
 /* Base controller with common methods */
 
-abstract class BaseController
+class BaseController
 {
     
     protected $view;
@@ -55,6 +55,14 @@ abstract class BaseController
             "success" => true
         ];
 
+    }
+
+    /**Shows message modal window */
+    public function showMessage()
+    {
+        $this->view = 'templates/modalMessage.tpl';
+
+        return file_get_contents('php://input');
     }
 
     /* Retunrs if an user is logged */
