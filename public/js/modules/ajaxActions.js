@@ -19,6 +19,9 @@ import {
     closeModalWindow,
     loadModalSettings
 } from "./modal.js";
+import { 
+    loadTabSettings 
+} from "./tab.js";
 
 export function loadAjaxSettings(element) {
 
@@ -67,12 +70,16 @@ export function loadAjaxSettings(element) {
     moveOptionSettings(element);
 
     //Questionary actions
+    showQuestionaryDetailsSettins(element);
     editQuestionarySettings(element);
     updateQuestionaryPictureSettings(element);
     removeQuestionaryPictureSettings(element);
 
     //Updates state of inscriptions on events, competitions and questionaries
     loadUpdateStateSettings(element);
+
+    //Incription actions
+    showInscriptedToCompetitionSettings(element);
 
 }
 
@@ -268,7 +275,7 @@ function editCompetitionSettings(element) {
 
 function showCompetititionDetailsSettings(element) {
 
-    const buttons = document.querySelectorAll("*[id^='competition-details-']");
+    const buttons = element.querySelectorAll("*[id^='competition-details-']");
 
     const dataToAction = {
         "idToReplace": "competitions"
@@ -758,6 +765,26 @@ function moveOptionSettings(element) {
     }
 }
 
+function showQuestionaryDetailsSettins(element){
+
+    const buttons = element.querySelectorAll("*[id^='questionary-details-']");
+
+    const dataToAction = {
+        "idToReplace": "questionaries"
+    }
+
+    for (let button of buttons) {
+
+        button.addEventListener("click", function (event) {
+
+            event.preventDefault();
+
+            ajaxGetRequest(button, "html", replaceElement, dataToAction);
+        });
+
+    }
+}
+
 function editQuestionarySettings(element) {
 
     const forms = element.querySelectorAll("[id^=edit-questionary-]");
@@ -837,6 +864,26 @@ function loadUpdateStateSettings(element){
 
             ajaxPostRequest(form, button, "html", replaceElement, dataToAction);
         })
+    }
+}
+
+function showInscriptedToCompetitionSettings(element){
+
+    const buttons = element.querySelectorAll("*[id^='inscripted-to-competition-']");
+
+    const dataToAction = {
+        "idToReplace": "competitions"
+    }
+
+    for (let button of buttons) {
+
+        button.addEventListener("click", function (event) {
+
+            event.preventDefault();
+
+            ajaxGetRequest(button, "html", replaceElement, dataToAction);
+        });
+
     }
 }
 
@@ -928,6 +975,8 @@ function replaceElement(element, data) {
     moveRaceSettings(newElement);
 
     moveOptionSettings(newElement);
+
+    loadTabSettings(newElement);
 
     let modals = document.querySelectorAll(data.idToClose);
 

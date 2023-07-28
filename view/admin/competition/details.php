@@ -47,7 +47,7 @@
                 ?>
             </section>
             <div class="mb-1 mr-1 row jc-end w-100">
-                <a href="adminCompetition/list" class="btn">Finalizar</a>
+                <a href="adminCompetition/list" class="btn" tab-target="competitions" ajax-request='{"url": "adminCompetition/list/v" }'>Finalizar</a>
             </div>
         </article>
     </main>

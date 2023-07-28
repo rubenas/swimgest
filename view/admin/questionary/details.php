@@ -46,7 +46,7 @@
         </article>
     </main>
     <footer class="mb-1 mr-1 row jc-end w-100">
-        <a href="adminQuestionary/list" class="btn">Finalizar</a>
+        <a href="adminQuestionary/list" class="btn" tab-target="questionaries" ajax-request='{"url": "adminQuestionary/list/v" }'>Finalizar</a>
     </footer>
     <div class="error"><?php if (isset($data['content']['error'])) echo $data['content']['error']; ?></div>
 </section>

@@ -68,4 +68,7 @@ $inscribedSwimmers = $data['content']['inscribedSwimmers'];
         }
     }
     ?>
+     <div class="my-1 mr-1 row jc-end w-100">
+        <a href="adminCompetition/list" class="btn" tab-target="competitions" ajax-request='{"url": "adminCompetition/list/v" }'>Volver</a>
+    </div>
 </section>

@@ -21,20 +21,15 @@ export function loadTabSettings(element) {
     }
 }
 
-//Función que crea la tab, si no existe
+//Función que crea la tab, eliminándola previamente si existe.
 function createTab(event, id, tabLink) {
 
     event.preventDefault();
 
-    if (!document.getElementById(id)) {//Si no existe la Tab, la solicitamos al servidor
+    if(document.getElementById(id)) document.getElementById(id).remove();
 
-        ajaxGetRequest(tabLink, "html", createTabFromServerRequest);
-           
-    } else { //Si existe, simplemente la mostramos
-        
-        showTab(id);
-        
-    }
+    ajaxGetRequest(tabLink, "html", createTabFromServerRequest);
+
 }
 
 function createTabFromServerRequest(html) {

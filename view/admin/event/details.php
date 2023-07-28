@@ -7,7 +7,7 @@
         <?php include 'subEventDetails.php'; ?>
     </main>
     <footer class="mb-1 mr-1 row jc-end w-100">
-        <a href="adminEvent/list" class="btn">Finalizar</a>
+        <a href="adminEvent/list" class="btn" tab-target="events" ajax-request='{"url": "adminEvent/list/v" }'>Finalizar</a>
     </footer>
     <div class="error"><?php if (isset($data['content']['error'])) echo $data['content']['error']; ?></div>
 </section>
