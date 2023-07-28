@@ -28,6 +28,66 @@ class AdminQuestionaryController extends BaseController
         return Questionary::fill($id);
     }
 
+    /**Show questionary answers */
+
+    public function showAnswers($id)
+    {
+
+        $questionary = Questionary::fill($id);
+
+        if (!$questionary['success']) return $this->notFoundError;
+
+        $arrayAnswers = array();
+        
+        foreach ($questionary['object']->getQuestions() as $question){
+
+            
+            if($question->getType() == 'text') {
+
+                $answers = Answer::getAll(['questionId = '.$question->getId()],[]);
+
+                foreach ($answers as $answer) {
+
+                    /**@var Swimmer $swimmer */
+                    $swimmer = Swimmer::getById($answer->getSwimmerId());
+                    
+                    $arrayAnswers[$question->getId()][] = [
+                        'swimmer' => $swimmer->getSurname().', '.$swimmer->getName(),
+                        'answer' => $answer->getText()
+                    ];
+                }
+
+                if (isset($arrayAnswers[$question->getId()])) usort($arrayAnswers[$question->getId()], fn($a, $b) => $a['swimmer'] <=> $b['swimmer']);
+
+            } else {
+                
+                foreach ($question->getOptions() as $option) {
+                    
+                    $answers = Answer::getAll(['questionId = '.$question->getId(),'text = "'.$option->getText().'"'],[]);
+                    
+                    foreach ($answers as $answer) {
+
+                        /**@var Swimmer $swimmer */
+                        $swimmer = Swimmer::getById($answer->getSwimmerId());
+                        
+                        $arrayAnswers[$question->getId()][$option->getText()][] = $swimmer->getSurname().', '.$swimmer->getName();
+                    }
+
+                    if (isset($arrayAnswers[$question->getId()][$option->getText()])) sort($arrayAnswers[$question->getId()][$option->getText()]);
+                }
+            }
+           
+        }
+
+        $this->view ='admin/questionary/answers';
+
+        return [
+            'questionary' => $questionary['object'],
+            'answers' => $arrayAnswers
+        ];
+
+    }
+
     /*Create a questionary Object from Post form*/
 
     public static function fromPost()

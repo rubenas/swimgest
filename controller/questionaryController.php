@@ -13,7 +13,7 @@ class QuestionaryController extends InscriptionController
 
         if (!$questionary) return $this->notFoundError;
 
-        $answers = Answer::getAll(['questionaryId = ' . $id], []);
+        $answers = Answer::getAll(['questionaryId = ' . $id,'swimmerId = '.$this->sessionId()], []);
 
         $arrayAnswers = array();
 

@@ -31,13 +31,13 @@ $events = $data['content']['object'];
                        <?php include 'stateForm.php'?>
                     </div>
                     <div class="col-2">
-                        <a class="tooltip btn-icon mr-sm-1">
+                        <a class="tooltip btn-icon mr-sm-1" tab-target="events">
                             <span class="material-symbols-outlined text-lg">
                                 list_alt
                             </span>
                             <span class="tooltip-text">Inscrit@s</span>
                         </a>
-                        <a class="tooltip btn-icon-success" ajax-request='{"url": "adminEvent/details/<?php echo $event->getId(); ?>/v"}' href="adminEvent/details/<?php echo $event->getId(); ?>" id="event-details-<?php echo $event->getId(); ?>">
+                        <a class="tooltip btn-icon-success" tab-target="events" ajax-request='{"url": "adminEvent/details/<?php echo $event->getId(); ?>/v"}' href="adminEvent/details/<?php echo $event->getId(); ?>" id="event-details-<?php echo $event->getId(); ?>">
                             <span class="material-symbols-outlined text-lg">
                                 edit_note
                             </span>

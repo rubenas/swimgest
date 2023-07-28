@@ -39,7 +39,6 @@ export function loadAjaxSettings(element) {
 
     //Competition actions
     addCompetitionSettings(element);
-    showCompetititionDetailsSettings(element);
     addJourneySettings(element);
     addRaceSettings(element);
     addSessionSettings(element);
@@ -57,7 +56,6 @@ export function loadAjaxSettings(element) {
     editEventSettings(element);
     removeEventPictureSettings(element);
     updateEventPictureSettings(element);
-    showEventDetailsSettings(element);
     addSubEventSettings(element);
     removeSubEventSettings(element);
 
@@ -70,16 +68,12 @@ export function loadAjaxSettings(element) {
     moveOptionSettings(element);
 
     //Questionary actions
-    showQuestionaryDetailsSettins(element);
     editQuestionarySettings(element);
     updateQuestionaryPictureSettings(element);
     removeQuestionaryPictureSettings(element);
 
     //Updates state of inscriptions on events, competitions and questionaries
     loadUpdateStateSettings(element);
-
-    //Incription actions
-    showInscriptedToCompetitionSettings(element);
 
 }
 
@@ -269,27 +263,6 @@ function editCompetitionSettings(element) {
         }
 
         commonSettings(form, button, checkCompetition, ["*[name='picture']", "*[name='startDate']", "*[name='endDate']", "*[name='inscriptionDeadLine']"], dataToAction);
-    }
-
-}
-
-function showCompetititionDetailsSettings(element) {
-
-    const buttons = element.querySelectorAll("*[id^='competition-details-']");
-
-    const dataToAction = {
-        "idToReplace": "competitions"
-    }
-
-    for (let button of buttons) {
-
-        button.addEventListener("click", function (event) {
-
-            event.preventDefault();
-
-            ajaxGetRequest(button, "html", replaceElement, dataToAction);
-        });
-
     }
 
 }
@@ -576,27 +549,6 @@ function editEventSettings(element) {
 
 }
 
-function showEventDetailsSettings(element) {
-
-    const buttons = element.querySelectorAll("*[id^='event-details-']");
-
-    const dataToAction = {
-        "idToReplace": "events"
-    }
-
-    for (let button of buttons) {
-
-        button.addEventListener("click", function (event) {
-
-            event.preventDefault();
-
-            ajaxGetRequest(button, "html", replaceElement, dataToAction);
-        });
-
-    }
-
-}
-
 function updateEventPictureSettings(element) {
 
     const forms = element.querySelectorAll("*[id^=add-event-picture-]");
@@ -765,26 +717,6 @@ function moveOptionSettings(element) {
     }
 }
 
-function showQuestionaryDetailsSettins(element){
-
-    const buttons = element.querySelectorAll("*[id^='questionary-details-']");
-
-    const dataToAction = {
-        "idToReplace": "questionaries"
-    }
-
-    for (let button of buttons) {
-
-        button.addEventListener("click", function (event) {
-
-            event.preventDefault();
-
-            ajaxGetRequest(button, "html", replaceElement, dataToAction);
-        });
-
-    }
-}
-
 function editQuestionarySettings(element) {
 
     const forms = element.querySelectorAll("[id^=edit-questionary-]");
@@ -864,26 +796,6 @@ function loadUpdateStateSettings(element){
 
             ajaxPostRequest(form, button, "html", replaceElement, dataToAction);
         })
-    }
-}
-
-function showInscriptedToCompetitionSettings(element){
-
-    const buttons = element.querySelectorAll("*[id^='inscripted-to-competition-']");
-
-    const dataToAction = {
-        "idToReplace": "competitions"
-    }
-
-    for (let button of buttons) {
-
-        button.addEventListener("click", function (event) {
-
-            event.preventDefault();
-
-            ajaxGetRequest(button, "html", replaceElement, dataToAction);
-        });
-
     }
 }
 

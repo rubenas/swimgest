@@ -28,13 +28,13 @@ else $questionaries = $data['content']['object'];
                         <?php include 'stateForm.php' ?>
                     </div>
                     <div class="col-2">
-                        <a class="tooltip btn-icon mr-sm-1">
+                        <a class="tooltip btn-icon mr-sm-1" tab-target="questionaries" href="adminQuestionary/showAnswers/<?php echo $questionary->getId()?>" ajax-request='{"url": "adminQuestionary/showAnswers/<?php echo $questionary->getId(); ?>/v"}' id="questionary-answers-<?php echo $questionary->getId(); ?>">
                             <span class="material-symbols-outlined text-lg">
                                 list_alt
                             </span>
                             <span class="tooltip-text">Respuestas</span>
                         </a>
-                        <a class="tooltip btn-icon-success" ajax-request='{"url": "adminQuestionary/details/<?php echo $questionary->getId(); ?>/v"}' href="adminQuestionary/details/<?php echo $questionary->getId(); ?>" id="questionary-details-<?php echo $questionary->getId(); ?>">
+                        <a class="tooltip btn-icon-success" tab-target="questionaries" ajax-request='{"url": "adminQuestionary/details/<?php echo $questionary->getId(); ?>/v"}' href="adminQuestionary/details/<?php echo $questionary->getId(); ?>" id="questionary-details-<?php echo $questionary->getId(); ?>">
                             <span class="material-symbols-outlined text-lg">
                                 edit_note
                             </span>

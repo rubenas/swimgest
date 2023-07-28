@@ -32,13 +32,13 @@ else $competitions = $data['content']['object'];
                         <?php include 'stateForm.php' ?>
                     </div>
                     <div class="col-2">
-                        <a class="tooltip btn-icon mr-sm-1" href="adminInscription/competition/<?php echo $competition->getId()?>" ajax-request='{"url": "adminInscription/competition/<?php echo $competition->getId(); ?>/v"}' id="inscripted-to-competition-<?php echo $competition->getId(); ?>">
+                        <a class="tooltip btn-icon mr-sm-1" tab-target="competitions" href="adminInscription/competition/<?php echo $competition->getId()?>" ajax-request='{"url": "adminInscription/competition/<?php echo $competition->getId(); ?>/v"}' id="inscripted-to-competition-<?php echo $competition->getId(); ?>">
                             <span class="material-symbols-outlined text-lg">
                                 list_alt
                             </span>
                             <span class="tooltip-text">Inscrit@s</span>
                         </a>
-                        <a class="tooltip btn-icon-success" ajax-request='{"url": "adminCompetition/details/<?php echo $competition->getId(); ?>/v"}' href="adminCompetition/details/<?php echo $competition->getId(); ?>" id="competition-details-<?php echo $competition->getId(); ?>">
+                        <a class="tooltip btn-icon-success" tab-target="competitions" ajax-request='{"url": "adminCompetition/details/<?php echo $competition->getId(); ?>/v"}' href="adminCompetition/details/<?php echo $competition->getId(); ?>" id="competition-details-<?php echo $competition->getId(); ?>">
                             <span class="material-symbols-outlined text-lg">
                                 edit_note
                             </span>
