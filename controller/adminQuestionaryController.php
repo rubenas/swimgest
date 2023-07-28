@@ -40,8 +40,7 @@ class AdminQuestionaryController extends BaseController
         $arrayAnswers = array();
         
         foreach ($questionary['object']->getQuestions() as $question){
-
-            
+ 
             if($question->getType() == 'text') {
 
                 $answers = Answer::getAll(['questionId = '.$question->getId()],[]);

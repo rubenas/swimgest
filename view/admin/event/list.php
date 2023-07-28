@@ -31,7 +31,7 @@ $events = $data['content']['object'];
                        <?php include 'stateForm.php'?>
                     </div>
                     <div class="col-2">
-                        <a class="tooltip btn-icon mr-sm-1" tab-target="events">
+                        <a class="tooltip btn-icon mr-sm-1" tab-target="events" href="adminInscription/event/<?php echo $event->getId()?>" ajax-request='{"url": "adminInscription/event/<?php echo $event->getId(); ?>/v"}' id="inscripted-to-event-<?php echo $event->getId(); ?>">
                             <span class="material-symbols-outlined text-lg">
                                 list_alt
                             </span>

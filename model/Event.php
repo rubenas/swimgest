@@ -17,8 +17,13 @@ class Event extends BaseModel
     private $endDate;
     private $deadLine;
     private $state;
+
     private $subEvents = [];
     private $questions = [];
+
+    //These help to show inscriptions easier
+    private $inscriptions = [];
+    private $answers = [];
 
     /*Add a event to DB */
 
@@ -254,6 +259,26 @@ class Event extends BaseModel
     public function setQuestions($questions): self
     {
         $this->questions = $questions;
+
+        return $this;
+    }
+    public function getInscriptions()
+    {
+        return $this->inscriptions;
+    }
+    public function setInscriptions($inscriptions): self
+    {
+        $this->inscriptions = $inscriptions;
+
+        return $this;
+    }
+    public function getAnswers()
+    {
+        return $this->answers;
+    }
+    public function setAnswers($answers): self
+    {
+        $this->answers = $answers;
 
         return $this;
     }

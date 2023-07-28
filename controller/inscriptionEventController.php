@@ -40,6 +40,7 @@ class InscriptionEventController extends inscriptionController
 
             if (!$v) break;
 
+            /**@var Event $event */
             $event = Event::getById($eventId);
 
             if (!$event) return $this->notFoundError;
@@ -69,6 +70,7 @@ class InscriptionEventController extends inscriptionController
                     Answer::remove($oldAnswer->getId());
                 }
 
+                /**@var Question $question */
                 $question = Question::getById($questionId);
 
                 foreach ($texts as $text) {
@@ -109,6 +111,8 @@ class InscriptionEventController extends inscriptionController
 
     public function remove($eventId)
     {
+
+        /**@var Event $event */
         $event = Event::getById($eventId);
         
         $subEvents = Event::getAll(['parentId = ' . $eventId], []);
