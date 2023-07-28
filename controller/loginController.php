@@ -36,10 +36,21 @@ class LoginController extends BaseController
         $_SESSION['category'] = $result['object']->getCategory();
         $_SESSION['isAdmin'] = $result['object']->getIsAdmin();
         $_SESSION['forceNewPass'] = $result['object']->getForceNewPass();
+        
+        if($result['object']->getForceNewPass()) {
+            
+            $this->view = 'login/updatePassword'; 
 
-        $this->view = $result['object']->getForceNewPass() ? 'login/updatePassword' : 'swimmer/listInscriptions';
+            return $result;
+        }
 
-        return $result;
+        $this->view = 'inscription/list';
+        
+        require_once 'inscriptionController.php';
+
+        $controller = new InscriptionController();
+
+        return $controller->list();
     }
 
     /**Manage logout */
