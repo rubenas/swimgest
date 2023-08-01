@@ -69,7 +69,6 @@ class LoginController extends BaseController
     }
 
     /**Token to reset forgotten password */
-    //TODO Enviar por mail
 
     public function createToken() 
     {
@@ -100,16 +99,28 @@ class LoginController extends BaseController
             return $result;
         }
 
+        require_once './utils/sendEmail.php';
+        require_once './utils/emails/forgottenPass.php';
+
+        $email = forgottenPassEmail($swimmer);
+        
+        $result = sendEmail([$swimmer],$email['subject'],$email['body']);
+
+        if (!$result['success']) return [
+            'success' => false,
+            'msg' => $result['error']
+        ];
+
         return [
             'success' => true,
             'msg' => 'Comprueba tu bandeja de entrada.'
         ];
     }
 
-    public function forgottenPass($data) //Manage forgotten pass link
-    { //TODO Revisar link
-        $token = $data['token'];
-        $id = $data['id'];
+    public function forgottenPass() //Manage forgotten pass link
+    { 
+        $token = $_GET['token'];
+        $id = $_GET['id'];
         
         /**@var Swimmer $swimmer */
         $swimmer = Swimmer::getById($id);

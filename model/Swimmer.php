@@ -102,9 +102,7 @@ class Swimmer extends BaseModel
             $this->getId()
         );
 
-        /*TODO SEND EMAIL*/
-
-        if (!$result['sucess']) $result['error'] = 'El token no ha sido generado';
+        if (!$result['success']) $result['error'] = 'El token no ha sido generado';
 
         return $result;
     }

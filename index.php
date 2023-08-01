@@ -48,7 +48,7 @@ if (!$controller->isLogged() || ($data['isAdminArea'] && !$data['isAdmin'])) {
 
     require_once 'view/login/login.php';
 
-} else if ($controller->hasToUpdatePass()) {
+} else if ($controller->hasToUpdatePass() || $_GET['action'] == 'forgottenPass') {
 
     require_once 'view/login/updatePassword.php';
 

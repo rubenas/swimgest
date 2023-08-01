@@ -303,9 +303,13 @@ class SwimmerController extends BaseController
             return $result;
         }
 
-        $this->view = 'swimmer/listCompetitions';
+        $this->view = 'inscription/list';
+        
+        require_once 'inscriptionController.php';
 
-        return $result;
+        $controller = new InscriptionController();
+
+        return $controller->list();
     }
 
 }
