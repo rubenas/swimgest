@@ -19,8 +19,8 @@ import {
     closeModalWindow,
     loadModalSettings
 } from "./modal.js";
-import { 
-    loadTabSettings 
+import {
+    loadTabSettings
 } from "./tab.js";
 
 export function loadAjaxSettings(element) {
@@ -778,17 +778,17 @@ function removeQuestionaryPictureSettings(element) {
     }
 }
 
-function loadUpdateStateSettings(element){
+function loadUpdateStateSettings(element) {
 
     const forms = element.querySelectorAll("[id*='-state-']");
 
     for (let form of forms) {
-        
+
         const selectState = form.querySelector("[name='state']");
 
         const button = form.querySelector("button[type='submit']");
 
-        selectState.addEventListener("change",function(){
+        selectState.addEventListener("change", function () {
 
             const dataToAction = {
                 "idToReplace": form.id
@@ -814,8 +814,8 @@ function commonSettings(form, button, checkFunction, fields, dataToAction) {
 
                     let element;
 
-                    if (selector.includes("profilePicture") || 
-                        selector.includes("competitionPicture") || 
+                    if (selector.includes("profilePicture") ||
+                        selector.includes("competitionPicture") ||
                         selector.includes("eventPicture") ||
                         selector.includes("questionaryPicture")) {
 

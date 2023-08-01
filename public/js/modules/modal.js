@@ -1,6 +1,7 @@
 import { loadAjaxSettings } from "./ajaxActions.js";
 import { ajaxGetRequest } from "./ajax.js";
 import { loadSelectRacesSettings } from "./selectRaces.js";
+import { loadCKEditorSettings } from "./loadCKEditor.js";
 
 //Función que carga los ajustes básicos para el uso de ventanas modales
 
@@ -56,6 +57,8 @@ function createModalFromServerRequest(html) {
     loadAjaxSettings(modal);
 
     loadSelectRacesSettings(modal);
+
+    loadCKEditorSettings(modal);
 
 }
 

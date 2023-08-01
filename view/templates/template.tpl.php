@@ -9,6 +9,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" type="text/css" href="public/styles/css/styles.css">
     <link rel="stylesheet" type="text/css" href="public/styles/css/profile_styles.css">
+    <style>
+        .ck-content {
+            min-height:10rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -58,6 +63,7 @@
 
     <!--SPINNER FOR AJAX REQUESTS-->
     <section class="loading"></section>
+    <script src="public/js/ckeditor/build/ckeditor.js"></script>
     <script type="module" src="public/js/main.js"></script>
 </body>
 </html>
