@@ -155,7 +155,8 @@ $horizontal-navbar-nav-li-padding: $horizontal-navbar-nav-li-padding-y $horizont
 $dropdown-bg-color: $secondary-color;
 $dropdown-hover-bg-color: $secondary-hover-color;
 $dropdown-link-padding: 0.8rem;
-$horizontal-dropdown-width: 100%;
+$horizontal-dropdown-width: fit-content;
+$horizontal-dropdown-min-width: 100%;
 $vertical-dropdown-width: 80%;
 $dropdown-border-bottom: 1px solid $medium-color;
 $dropdown-border-radius: 0.15rem;

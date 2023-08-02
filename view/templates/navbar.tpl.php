@@ -22,19 +22,67 @@
                         &nbsp;Inicio
                     </a>
                     <div class="dropdown-content">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
+                        <a href="inscription/list" tab-target="inscriptions" ajax-request='{"url": "inscription/list/v" }'>
+                            <span class="material-symbols-outlined">
+                                event_available
+                            </span>
+                            &nbsp;Inscripciones
+                        </a>
+                        <a href="swimmer/showFullProfile" tab-target="my-profile" ajax-request='{"url": "swimmer/showFullProfile/v" }'>
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+                            &nbsp;
+                            Mi perfil
+                        </a>
+                        <a href="mark/showFinaCalculator" tab-target="fina-calculator" ajax-request='{"url": "mark/showFinaCalculator/v" }'>
+                            <span class="material-symbols-outlined">
+                                calculate
+                            </span>
+                            &nbsp;Calculadora
+                        </a>
                     </div>
                 </li>
                 <?php if ($data['isAdmin']) { ?>
-                    <li class="nav-item">
+                    <li class="nav-item dropdown">
                         <a href="adminSwimmer/list">
                             <span class="material-symbols-outlined">
                                 admin_panel_settings
                             </span>
                             &nbsp;Administración
                         </a>
+                        <div class="dropdown-content">
+                            <a href="adminSwimmer/list" tab-target="swimmers" ajax-request='{"url": "adminSwimmer/list/v" }'>
+                                <span class="material-symbols-outlined">
+                                    person
+                                </span>
+                                &nbsp;Nadadores
+                            </a>
+                            <a href="adminEmail/list" tab-target="emails">
+                                <span class="material-symbols-outlined">
+                                    mail
+                                </span>
+                                &nbsp;Emails
+                            </a>
+                            <a href="adminCompetition/list" tab-target="competitions" ajax-request='{"url": "adminCompetition/list/v" }'>
+                                <span class="material-symbols-outlined">
+                                    pool
+                                </span>
+                                &nbsp;Competiciones
+                            </a>
+                            <a href="adminEvent/list" tab-target="events" ajax-request='{"url": "adminEvent/list/v" }'>
+                                <span class="material-symbols-outlined">
+                                    event
+                                </span>
+                                &nbsp;Eventos
+                            </a>
+                            <a href="adminQuestionary/list" tab-target="questionaries" ajax-request='{"url": "adminQuestionary/list/v" }'>
+                                <span class="material-symbols-outlined">
+                                    psychology_alt
+                                </span>
+                                &nbsp;Cuestionarios
+                            </a>
+                        </div>
                     </li>
                 <?php } ?>
                 <li class="nav-item">

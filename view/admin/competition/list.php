@@ -14,25 +14,25 @@ else $competitions = $data['content']['object'];
         </section>
         <section class="text-sm text-sm-md mt-1">
             <div class="row th">
-                <div class="col-2">Nombre</div>
-                <div class="col-2">Lugar</div>
-                <div class="col-2">F. Inicio</div>
-                <div class="col-2">Lím. Inscrip.</div>
-                <div class="col-2">Inscrip.</div>
-                <div class="col-2"></div>
+                <div class="col-4 col-sm-2">Nombre</div>
+                <div class="d-none d-sm-block col-sm-2">Lugar</div>
+                <div class="d-none d-sm-block col-sm-2">F. Inicio</div>
+                <div class="d-none d-sm-block col-sm-2">Lím. Inscrip.</div>
+                <div class="col-4 col-sm-2">Inscrip.</div>
+                <div class="col-4 col-sm-2"></div>
             </div>
             <?php
             foreach ($competitions as $competition) { ?>
                 <div class="row tr">
-                    <div class="col-2"><?php echo $competition->getName(); ?></div>
-                    <div class="col-2"><?php echo $competition->getPlace(); ?></div>
-                    <div class="col-2"><?php echo formatDMYDate($competition->getStartDate()); ?></div>
-                    <div class="col-2"><?php echo formatDMYDate($competition->getDeadLine()); ?></div>
-                    <div class="col-2">
+                    <div class="col-4 col-sm-2"><?php echo $competition->getName(); ?></div>
+                    <div class="d-none d-sm-block col-sm-2"><?php echo $competition->getPlace(); ?></div>
+                    <div class="d-none d-sm-block col-sm-2"><?php echo formatDMYDate($competition->getStartDate()); ?></div>
+                    <div class="d-none d-sm-block col-sm-2"><?php echo formatDMYDate($competition->getDeadLine()); ?></div>
+                    <div class="col-4 col-sm-2">
                         <?php include 'stateForm.php' ?>
                     </div>
-                    <div class="col-2">
-                        <a class="tooltip btn-icon mr-sm-1" tab-target="competitions" href="adminInscription/competition/<?php echo $competition->getId()?>" ajax-request='{"url": "adminInscription/competition/<?php echo $competition->getId(); ?>/v"}' id="inscripted-to-competition-<?php echo $competition->getId(); ?>">
+                    <div class="col-4 col-sm-2">
+                        <a class="tooltip btn-icon mr-1" tab-target="competitions" href="adminInscription/competition/<?php echo $competition->getId()?>" ajax-request='{"url": "adminInscription/competition/<?php echo $competition->getId(); ?>/v"}' id="inscripted-to-competition-<?php echo $competition->getId(); ?>">
                             <span class="material-symbols-outlined text-lg">
                                 list_alt
                             </span>
@@ -44,7 +44,7 @@ else $competitions = $data['content']['object'];
                             </span>
                             <span class="tooltip-text">Editar</span>
                         </a>
-                        <a class="tooltip btn-icon-error ml-sm-1" modal-target="modal-remove-competition-<?php echo $competition->getId(); ?>" ajax-request='{"url": "adminCompetition/removeConfirm/<?php echo $competition->getId(); ?>/v"}' href="adminCompetition/removeConfirm/<?php echo $competition->getId(); ?>">
+                        <a class="tooltip btn-icon-error ml-1" modal-target="modal-remove-competition-<?php echo $competition->getId(); ?>" ajax-request='{"url": "adminCompetition/removeConfirm/<?php echo $competition->getId(); ?>/v"}' href="adminCompetition/removeConfirm/<?php echo $competition->getId(); ?>">
                             <span class="material-symbols-outlined text-lg">
                                 disabled_by_default
                             </span>

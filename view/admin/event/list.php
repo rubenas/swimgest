@@ -13,25 +13,25 @@ $events = $data['content']['object'];
         </section>
         <section class="text-sm text-sm-md mt-1">
             <div class="row th">
-                <div class="col-2">Nombre</div>
-                <div class="col-2">Lugar</div>
-                <div class="col-2">F. Inicio</div>
-                <div class="col-2">Lím. Inscrip.</div>
-                <div class="col-2">Inscrip.</div>
-                <div class="col-2"></div>
+                <div class="col-4 col-sm-2">Nombre</div>
+                <div class="d-none d-sm-block col-sm-2">Lugar</div>
+                <div class="d-none d-sm-block col-sm-2">F. Inicio</div>
+                <div class="d-none d-sm-block col-sm-2">Lím. Inscrip.</div>
+                <div class="col-4 col-sm-2">Inscrip.</div>
+                <div class="col-4 col-sm-2"></div>
             </div>
             <?php
             foreach ($events as $event) { ?>
                 <div class="row tr">
-                    <div class="col-2"><?php echo $event->getName(); ?></div>
-                    <div class="col-2"><?php echo $event->getPlace(); ?></div>
-                    <div class="col-2"><?php echo formatDMYDate($event->getStartDate()); ?></div>
-                    <div class="col-2"><?php echo formatDMYDate($event->getDeadLine()); ?></div>
-                    <div class="col-2">
+                    <div class="col-4 col-sm-2"><?php echo $event->getName(); ?></div>
+                    <div class="d-none d-sm-block col-sm-2"><?php echo $event->getPlace(); ?></div>
+                    <div class="d-none d-sm-block col-sm-2"><?php echo formatDMYDate($event->getStartDate()); ?></div>
+                    <div class="d-none d-sm-block col-sm-2"><?php echo formatDMYDate($event->getDeadLine()); ?></div>
+                    <div class="col-4 col-sm-2">
                        <?php include 'stateForm.php'?>
                     </div>
-                    <div class="col-2">
-                        <a class="tooltip btn-icon mr-sm-1" tab-target="events" href="adminInscription/event/<?php echo $event->getId()?>" ajax-request='{"url": "adminInscription/event/<?php echo $event->getId(); ?>/v"}' id="inscripted-to-event-<?php echo $event->getId(); ?>">
+                    <div class="col-4 col-sm-2">
+                        <a class="tooltip btn-icon mr-1" tab-target="events" href="adminInscription/event/<?php echo $event->getId()?>" ajax-request='{"url": "adminInscription/event/<?php echo $event->getId(); ?>/v"}' id="inscripted-to-event-<?php echo $event->getId(); ?>">
                             <span class="material-symbols-outlined text-lg">
                                 list_alt
                             </span>
@@ -43,7 +43,7 @@ $events = $data['content']['object'];
                             </span>
                             <span class="tooltip-text">Editar</span>
                         </a>
-                        <a class="tooltip btn-icon-error ml-sm-1" modal-target="modal-remove-event-<?php echo $event->getId(); ?>" ajax-request='{"url": "adminEvent/removeConfirm/<?php echo $event->getId(); ?>/v"}' href="adminEvent/removeConfirm/<?php echo $event->getId(); ?>">
+                        <a class="tooltip btn-icon-error ml-1" modal-target="modal-remove-event-<?php echo $event->getId(); ?>" ajax-request='{"url": "adminEvent/removeConfirm/<?php echo $event->getId(); ?>/v"}' href="adminEvent/removeConfirm/<?php echo $event->getId(); ?>">
                             <span class="material-symbols-outlined text-lg">
                                 disabled_by_default
                             </span>

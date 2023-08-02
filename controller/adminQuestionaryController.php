@@ -184,7 +184,7 @@ class AdminQuestionaryController extends BaseController
 
         Questionary::remove($id);
 
-        $this->list();
+        return $this->list();
     }
 
     /**Show edit questionary window */

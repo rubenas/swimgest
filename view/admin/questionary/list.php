@@ -14,21 +14,21 @@ else $questionaries = $data['content']['object'];
         </section>
         <section class="text-sm text-sm-md mt-1">
             <div class="row th">
-                <div class="col-2">Nombre</div>
-                <div class="col-2">Lím. Resp.</div>
-                <div class="col-2">Resp.</div>
-                <div class="col-2"></div>
+                <div class="col-4">Nombre</div>
+                <div class="d-none d-sm-block col-sm-3">Lím. Resp.</div>
+                <div class="col-4 col-sm-2">Resp.</div>
+                <div class="col-4 col-sm-3"></div>
             </div>
             <?php
             foreach ($questionaries as $questionary) { ?>
                 <div class="row tr">
-                    <div class="col-2"><?php echo $questionary->getName(); ?></div>
-                    <div class="col-2"><?php echo formatDMYDate($questionary->getDeadLine()); ?></div>
-                    <div class="col-2">
+                    <div class="col-4"><?php echo $questionary->getName(); ?></div>
+                    <div class="d-none d-sm-block col-sm-3"><?php echo formatDMYDate($questionary->getDeadLine()); ?></div>
+                    <div class="col-4 col-sm-2">
                         <?php include 'stateForm.php' ?>
                     </div>
-                    <div class="col-2">
-                        <a class="tooltip btn-icon mr-sm-1" tab-target="questionaries" href="adminQuestionary/showAnswers/<?php echo $questionary->getId()?>" ajax-request='{"url": "adminQuestionary/showAnswers/<?php echo $questionary->getId(); ?>/v"}' id="questionary-answers-<?php echo $questionary->getId(); ?>">
+                    <div class="col-4 col-sm-3">
+                        <a class="tooltip btn-icon mr-1" tab-target="questionaries" href="adminQuestionary/showAnswers/<?php echo $questionary->getId()?>" ajax-request='{"url": "adminQuestionary/showAnswers/<?php echo $questionary->getId(); ?>/v"}' id="questionary-answers-<?php echo $questionary->getId(); ?>">
                             <span class="material-symbols-outlined text-lg">
                                 list_alt
                             </span>
@@ -40,7 +40,7 @@ else $questionaries = $data['content']['object'];
                             </span>
                             <span class="tooltip-text">Editar</span>
                         </a>
-                        <a class="tooltip btn-icon-error ml-sm-1" modal-target="modal-remove-questionary-<?php echo $questionary->getId(); ?>" ajax-request='{"url": "adminQuestionary/removeConfirm/<?php echo $questionary->getId(); ?>/v"}' href="adminQuestionary/removeConfirm/<?php echo $questionary->getId(); ?>">
+                        <a class="tooltip btn-icon-error ml-1" modal-target="modal-remove-questionary-<?php echo $questionary->getId(); ?>" ajax-request='{"url": "adminQuestionary/removeConfirm/<?php echo $questionary->getId(); ?>/v"}' href="adminQuestionary/removeConfirm/<?php echo $questionary->getId(); ?>">
                             <span class="material-symbols-outlined text-lg">
                                 disabled_by_default
                             </span>

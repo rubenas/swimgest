@@ -10,19 +10,19 @@
         </section>
         <section class="text-sm text-sm-md mt-1">
             <div class="row th">
-                <div class="col-3">Nombre</div>
-                <div class="col-4">Apellidos</div>
-                <div class="col-2">Año</div>
+                <div class="col-4 col-sm-3">Nombre</div>
+                <div class="col-5 col-sm-4">Apellidos</div>
+                <div class="d-none d-sm-block col-sm-2">Año</div>
                 <div class="col-3"></div>
             </div>
             <?php
             foreach ($swimmers as $swimmer) { ?>
                 <div class="row tr">
-                    <div class="col-3"><?php echo $swimmer->getName(); ?></div>
-                    <div class="col-4"><?php echo $swimmer->getSurname(); ?></div>
-                    <div class="col-2"><?php echo $swimmer->getBirthYear(); ?></div>
+                    <div class="col-4 col-sm-3"><?php echo $swimmer->getName(); ?></div>
+                    <div class="col-5 col-sm-4"><?php echo $swimmer->getSurname(); ?></div>
+                    <div class="d-none d-sm-block col-sm-2"><?php echo $swimmer->getBirthYear(); ?></div>
                     <div class="col-3">
-                        <a class="tooltip btn-icon-success pr-1" modal-target="modal-edit-swimmer-<?php echo $swimmer->getId(); ?>" ajax-request='{"url": "adminSwimmer/edit/<?php echo $swimmer->getId(); ?>/v"}' href="adminSwimmer/edit/<?php echo $swimmer->getId(); ?>">
+                        <a class="tooltip btn-icon-success mr-1" modal-target="modal-edit-swimmer-<?php echo $swimmer->getId(); ?>" ajax-request='{"url": "adminSwimmer/edit/<?php echo $swimmer->getId(); ?>/v"}' href="adminSwimmer/edit/<?php echo $swimmer->getId(); ?>">
                             <span class="material-symbols-outlined text-lg">
                                 edit_note
                             </span>

@@ -68,6 +68,28 @@ $w in $breakpoints {
     }
 }
 
+/*Clases para mostrar y ocultar elementos en función del tamaño de pantalla*/
+
+.d-none {
+    display: none;
+}
+
+.d-block {
+    display: block;
+}
+
+@each $l,
+$w in $breakpoints {
+    @media(min-width: #{$w}) {
+        .d-#{$l}-none {
+            display: none;
+        }
+        .d-#{$l}-block {
+            display: block;
+        }
+    }
+}
+
 //Generamos los márgenes y pádings generales
 /*Clases generales para margins y paddings */
 @each $k,
@@ -237,4 +259,3 @@ div.success {
     background-color: $success-color;
     border-radius: 0.2rem;
 }
-

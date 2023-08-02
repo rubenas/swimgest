@@ -157,6 +157,47 @@ h5 {
     font-size: 1rem;
   }
 }
+/*Clases para mostrar y ocultar elementos en función del tamaño de pantalla*/
+.d-none {
+  display: none;
+}
+
+.d-block {
+  display: block;
+}
+
+@media (min-width: 576px) {
+  .d-sm-none {
+    display: none;
+  }
+  .d-sm-block {
+    display: block;
+  }
+}
+@media (min-width: 768px) {
+  .d-md-none {
+    display: none;
+  }
+  .d-md-block {
+    display: block;
+  }
+}
+@media (min-width: 992px) {
+  .d-lg-none {
+    display: none;
+  }
+  .d-lg-block {
+    display: block;
+  }
+}
+@media (min-width: 1200px) {
+  .d-xl-none {
+    display: none;
+  }
+  .d-xl-block {
+    display: block;
+  }
+}
 /*Clases generales para margins y paddings */
 .mt-1 {
   margin-top: 1rem !important;
@@ -1611,10 +1652,12 @@ a:hover {
 
 @media (min-width: 768px) {
   .dropdown:hover > .dropdown-content {
-    transform: translateY(5.25rem);
+    transform: translateY(4.995rem);
   }
   .dropdown-content {
-    width: 100%;
+    width: -moz-fit-content;
+    width: fit-content;
+    min-width: 100%;
   }
 }
 .nav-tabs {

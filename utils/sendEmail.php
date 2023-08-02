@@ -22,8 +22,6 @@ function sendEmail($recipients,$subject,$body)
         $mail->Password = "OteOteElQueN0B0t3";
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
 
-        $mail->setFrom('admin@cnescualos.es', 'CN Escualos');
-
         foreach ($recipients as $recipient) {
 
             $mail->addBCC($recipient->getEmail(), $recipient->getName() . ' ' . $recipient->getSurname());
