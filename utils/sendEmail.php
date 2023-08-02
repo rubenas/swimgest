@@ -34,6 +34,8 @@ function sendEmail($recipients,$subject,$body)
         $mail->Subject = $subject;
         $mail->Body = $body;
 
+        $mail->From = 'admin@cnescualos.com';
+
         $mail->send();
 
         return ['success' => true];

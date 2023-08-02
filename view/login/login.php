@@ -45,7 +45,7 @@
                             </div>
                         </form>
                         <div class="error mt-1"><?php if (isset($data['content']['error'])) echo $data['content']['error']; ?></div>
-                        <div class="success"><?php if (isset($data['content']['msg'])) echo $data['content']['msg']; ?></div>
+                        <div id="msg-div" class="success"><?php if (isset($data['content']['msg'])) echo $data['content']['msg']; ?></div>
                     </main>
                     <hr class="mx-1">
                     <footer class="p-1">
@@ -68,13 +68,13 @@
                         </h3>
                     </header>
                     <main class="modal-main">
-                        <form id="restet-password-form" method="post" action="login/createToken">
+                        <form id="reset-password-form" method="post" action="login/createToken">
                             <div class="row mb-1">
                                 <label for="email">Correo electrónico</label>
                                 <input id="email" name="email" class="w-100" type="email" placeholder="Correo electrónico" required>
                             </div>
                             <div class="row">
-                                <button type="submit" class="btn">Enviar</button>
+                                <button type="submit" class="btn" ajax-request='{"url": "login/createToken/v"}'>Enviar</button>
                                 <button class="btn-secondary close ml-1">Cancelar</button>
                             </div>
                         </form>

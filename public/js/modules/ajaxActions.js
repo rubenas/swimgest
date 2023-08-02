@@ -36,6 +36,7 @@ export function loadAjaxSettings(element) {
     updatePictureSettings(element);
     removePictureSettings(element);
     finaPointsSettings(element);
+    forgottenPassSettings(element);
 
     //Competition actions
     addCompetitionSettings(element);
@@ -224,6 +225,24 @@ function finaPointsSettings(element) {
                 "*[name='finaPoints']"
             ], null);
 
+    }
+
+}
+
+function forgottenPassSettings(element) {
+
+    const form = element.querySelector("#reset-password-form");
+
+    if (form != null) {
+
+        const button = form.querySelector("button[type='submit']");
+
+        const dataToAction = {
+            "idToReplace": "msg-div",
+            "idToClose": "#modal-reset-password"
+        }
+
+        commonSettings(form, button, returnTrue, [], dataToAction);
     }
 
 }
