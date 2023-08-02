@@ -47,3 +47,14 @@ function formatHMDate($time)
 
     return $date->format('H:i');
 }
+
+/**Remove Special characters in order to compare Strings*/
+
+function removeSpecials($string)
+{
+    $specials = ['á','é','í','ó','ú','ü','ñ','Á','É','Í','Ó','Ú','Ü','Ñ'];
+
+    $saxons = ['a','e','i','o','u','u','n','A','E','I','O','U','U','N'];
+
+    return str_replace($specials,$saxons,$string);
+}

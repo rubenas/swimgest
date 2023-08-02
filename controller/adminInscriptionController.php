@@ -37,12 +37,12 @@ class AdminInscriptionController extends BaseController
                         if (!in_array($swimmer->getSurname() . ', ' . $swimmer->getName(), $inscribedSwimmers)) $inscribedSwimmers[] = $swimmer->getSurname() . ', ' . $swimmer->getName();
                     }
 
-                    if (isset($arrayInscriptions[$race->getId()])) usort($arrayInscriptions[$race->getId()], fn ($a, $b) => $a['swimmer'] <=> $b['swimmer']);
+                    if (isset($arrayInscriptions[$race->getId()])) usort($arrayInscriptions[$race->getId()], fn ($a, $b) => removeSpecials($a['swimmer']) <=> removeSpecials($b['swimmer']));
                 }
             }
         }
 
-        sort($inscribedSwimmers);
+        usort($inscribedSwimmers,fn($a,$b)=> removeSpecials($a) <=> removeSpecials($b));
 
         $this->view = 'admin/inscription/competition';
 
@@ -120,7 +120,7 @@ class AdminInscriptionController extends BaseController
             
         }
 
-        sort($arrayInscriptions);
+        usort($arrayInscriptions,fn($a,$b)=> removeSpecials($a) <=> removeSpecials($b));
 
         return $arrayInscriptions;
     }
@@ -146,7 +146,7 @@ class AdminInscriptionController extends BaseController
                     ];
                 }
 
-                if (isset($arrayAnswers[$question->getId()])) usort($arrayAnswers[$question->getId()], fn($a, $b) => $a['swimmer'] <=> $b['swimmer']);
+                if (isset($arrayAnswers[$question->getId()])) usort($arrayAnswers[$question->getId()], fn($a, $b) => removeSpecials($a['swimmer']) <=> removeSpecials($b['swimmer']));
 
             } else {
                 
@@ -162,7 +162,7 @@ class AdminInscriptionController extends BaseController
                         $arrayAnswers[$question->getId()][$option->getText()][] = $swimmer->getSurname().', '.$swimmer->getName();
                     }
 
-                    if (isset($arrayAnswers[$question->getId()][$option->getText()])) sort($arrayAnswers[$question->getId()][$option->getText()]);
+                    if (isset($arrayAnswers[$question->getId()][$option->getText()])) usort($arrayAnswers[$question->getId()][$option->getText()],fn($a,$b)=> removeSpecials($a) <=> removeSpecials($b));
                 }
             }
         }

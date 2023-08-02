@@ -56,7 +56,7 @@ class AdminQuestionaryController extends BaseController
                     ];
                 }
 
-                if (isset($arrayAnswers[$question->getId()])) usort($arrayAnswers[$question->getId()], fn($a, $b) => $a['swimmer'] <=> $b['swimmer']);
+                if (isset($arrayAnswers[$question->getId()])) usort($arrayAnswers[$question->getId()], fn($a, $b) => removeSpecials($a['swimmer']) <=> removeSpecials($b['swimmer']));
 
             } else {
                 
@@ -72,7 +72,7 @@ class AdminQuestionaryController extends BaseController
                         $arrayAnswers[$question->getId()][$option->getText()][] = $swimmer->getSurname().', '.$swimmer->getName();
                     }
 
-                    if (isset($arrayAnswers[$question->getId()][$option->getText()])) sort($arrayAnswers[$question->getId()][$option->getText()]);
+                    if (isset($arrayAnswers[$question->getId()][$option->getText()])) usort($arrayAnswers[$question->getId()][$option->getText()],fn($a,$b)=> removeSpecials($a) <=> removeSpecials($b));
                 }
             }
            
