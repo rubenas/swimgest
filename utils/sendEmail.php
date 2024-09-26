@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\Exception;
 
 /** Sends an email to an array of recipients (Object swimmer) using phpmailer */
 
-function sendEmail($recipients,$subject,$body)
+function sendEmail($recipients, $subject, $body)
 {
     try {
 
@@ -39,7 +39,6 @@ function sendEmail($recipients,$subject,$body)
         $mail->send();
 
         return ['success' => true];
-
     } catch (Exception $e) {
 
         return [

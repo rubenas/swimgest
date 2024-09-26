@@ -38,53 +38,50 @@ class AdminQuestionaryController extends BaseController
         if (!$questionary['success']) return $this->notFoundError;
 
         $arrayAnswers = array();
-        
-        foreach ($questionary['object']->getQuestions() as $question){
- 
-            if($question->getType() == 'text') {
 
-                $answers = Answer::getAll(['questionId = '.$question->getId()],[]);
+        foreach ($questionary['object']->getQuestions() as $question) {
+
+            if ($question->getType() == 'text') {
+
+                $answers = Answer::getAll(['questionId = ' . $question->getId()], []);
 
                 foreach ($answers as $answer) {
 
                     /**@var Swimmer $swimmer */
                     $swimmer = Swimmer::getById($answer->getSwimmerId());
-                    
+
                     $arrayAnswers[$question->getId()][] = [
-                        'swimmer' => $swimmer->getSurname().', '.$swimmer->getName(),
+                        'swimmer' => $swimmer->getSurname() . ', ' . $swimmer->getName(),
                         'answer' => $answer->getText()
                     ];
                 }
 
                 if (isset($arrayAnswers[$question->getId()])) usort($arrayAnswers[$question->getId()], fn($a, $b) => removeSpecials($a['swimmer']) <=> removeSpecials($b['swimmer']));
-
             } else {
-                
+
                 foreach ($question->getOptions() as $option) {
-                    
-                    $answers = Answer::getAll(['questionId = '.$question->getId(),'text = "'.$option->getText().'"'],[]);
-                    
+
+                    $answers = Answer::getAll(['questionId = ' . $question->getId(), 'text = "' . $option->getText() . '"'], []);
+
                     foreach ($answers as $answer) {
 
                         /**@var Swimmer $swimmer */
                         $swimmer = Swimmer::getById($answer->getSwimmerId());
-                        
-                        $arrayAnswers[$question->getId()][$option->getText()][] = $swimmer->getSurname().', '.$swimmer->getName();
+
+                        $arrayAnswers[$question->getId()][$option->getText()][] = $swimmer->getSurname() . ', ' . $swimmer->getName();
                     }
 
-                    if (isset($arrayAnswers[$question->getId()][$option->getText()])) usort($arrayAnswers[$question->getId()][$option->getText()],fn($a,$b)=> removeSpecials($a) <=> removeSpecials($b));
+                    if (isset($arrayAnswers[$question->getId()][$option->getText()])) usort($arrayAnswers[$question->getId()][$option->getText()], fn($a, $b) => removeSpecials($a) <=> removeSpecials($b));
                 }
             }
-           
         }
 
-        $this->view ='admin/questionary/answers';
+        $this->view = 'admin/questionary/answers';
 
         return [
             'questionary' => $questionary['object'],
             'answers' => $arrayAnswers
         ];
-
     }
 
     /*Create a questionary Object from Post form*/
@@ -396,7 +393,7 @@ class AdminQuestionaryController extends BaseController
 
         if (!$validation) return $validation;
 
-        Questionary::updateFromId(['state' => $_POST['state']],$id);
+        Questionary::updateFromId(['state' => $_POST['state']], $id);
 
         $this->view = 'admin/questionary/stateForm';
 

@@ -1,23 +1,23 @@
-<?php 
-    $translateToSpanish = [
-        'backstroke' => 'espalda',
+<?php
+$translateToSpanish = [
+    'backstroke' => 'espalda',
 
-        'breaststroke' => 'braza',
+    'breaststroke' => 'braza',
 
-        'butterfly' => 'mariposa',
+    'butterfly' => 'mariposa',
 
-        'closed' => 'cerrada',
-        
-        'female' => 'femenino',
+    'closed' => 'cerrada',
 
-        'freestyle' => 'libres',
+    'female' => 'femenino',
 
-        'medley' => 'estilos',
+    'freestyle' => 'libres',
 
-        'mixed' => 'mixto',
-        
-        'male' => 'masculino',
+    'medley' => 'estilos',
 
-        'open' => 'abierta'
+    'mixed' => 'mixto',
 
-    ]; 
+    'male' => 'masculino',
+
+    'open' => 'abierta'
+
+];

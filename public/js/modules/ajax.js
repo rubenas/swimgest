@@ -6,18 +6,18 @@ import { hideLoading, showLoading } from "./spinner.js";
     actionAfter is a function called after receiving response
 */
 
-export function ajaxGetRequest(button, resultFormat, actionAfter, dataToAction=null) {
+export function ajaxGetRequest(button, resultFormat, actionAfter, dataToAction = null) {
 
     showLoading(document);
 
     const data = JSON.parse(button.getAttribute("ajax-request"));
-    
+
     fetch(data.url)
         .then(response => response.text())
         .then(text => formatResult(text, resultFormat))
         .then(result => {
             hideLoading(document);
-            actionAfter(result,dataToAction);
+            actionAfter(result, dataToAction);
         })
         .catch(error => {
             hideLoading(document);
@@ -31,7 +31,7 @@ export function ajaxPostRequest(form, button, resultFormat, actionAfter, dataToA
 
     const data = JSON.parse(button.getAttribute("ajax-request"));
     const content = new FormData(form);
-    
+
     fetch(data.url, {
         method: 'POST',
         body: content
@@ -51,7 +51,7 @@ export function ajaxPostRequest(form, button, resultFormat, actionAfter, dataToA
 }
 
 export function formatResult(text, format) {
-    
+
     if (format == "html") {
 
         let parser = new DOMParser();

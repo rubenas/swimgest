@@ -257,7 +257,7 @@ class AdminRaceController extends BaseController
     {
         /**@var Session $session */
         $session = Session::getById($race->getSessionId());
-        
+
         /**@var Journey $journey */
         $journey = Journey::getById($session->getJourneyId());
 

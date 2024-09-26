@@ -36,14 +36,14 @@ class Race extends BaseModel
 
     /**Updates Race Number from object */
 
-    public static function updateNumber($race) {
+    public static function updateNumber($race)
+    {
 
-        $sql = "UPDATE ".Self::TABLE." SET number = ".$race->getNumber()." WHERE id = ".$race->getId();
+        $sql = "UPDATE " . Self::TABLE . " SET number = " . $race->getNumber() . " WHERE id = " . $race->getId();
 
         $query = self::getConnection()->prepare($sql);
 
         return $query->execute();
-
     }
 
     /**

@@ -77,7 +77,7 @@ class Competition extends BaseModel
         /**@var Competition $competition */
         $competition = self::getById($id);
 
-        $conditions = ['competitionId = '.$competition->getId()];
+        $conditions = ['competitionId = ' . $competition->getId()];
         $orders = ['date'];
 
         $journeys = Journey::getAll($conditions, $orders);

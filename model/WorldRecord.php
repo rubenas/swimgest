@@ -15,7 +15,7 @@ class WorldRecord extends BaseModel
 
     public static function getFromMark(Mark $mark)
     {
-        $sql =  "SELECT * FROM ".self::TABLE." 
+        $sql =  "SELECT * FROM " . self::TABLE . " 
                  WHERE style = :style 
                  AND distance = :distance
                  AND pool = :pool
@@ -44,21 +44,24 @@ class WorldRecord extends BaseModel
         return $query->fetchObject('WorldRecord');
     }
 
-    public function getMinutes() {
+    public function getMinutes()
+    {
 
         $time = new DateTimeImmutable($this->time);
 
         return $time->format('i');
     }
 
-    public function getSeconds() {
+    public function getSeconds()
+    {
 
         $time = new DateTimeImmutable($this->time);
 
         return $time->format('s');
     }
 
-    public function getMiliseconds() {
+    public function getMiliseconds()
+    {
 
         $time = new DateTimeImmutable($this->time);
 
@@ -70,14 +73,13 @@ class WorldRecord extends BaseModel
     {
         $floatTime = 0;
 
-        $floatTime += floatval($this->getMinutes())*60;
+        $floatTime += floatval($this->getMinutes()) * 60;
         $floatTime += floatval($this->getSeconds());
-        $floatTime += floatval($this->getMiliseconds())/1000;
+        $floatTime += floatval($this->getMiliseconds()) / 1000;
 
         return $floatTime;
-        
     }
-    
+
     /*GETTERS AND SETTERS*/
     public function getStyle()
     {

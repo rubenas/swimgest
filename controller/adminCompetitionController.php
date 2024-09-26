@@ -302,7 +302,7 @@ class AdminCompetitionController extends BaseController
     {
 
         $data =  $this->updatePicture($id);
-        
+
         $this->view  = 'admin/competition/picture';
 
         return $data;
@@ -380,7 +380,7 @@ class AdminCompetitionController extends BaseController
     public function ajaxRemovePicture($id)
     {
         $data = $this->removePicture($id);
-        
+
         $this->view  = 'admin/competition/picture';
 
         return $data;
@@ -394,7 +394,7 @@ class AdminCompetitionController extends BaseController
 
         if (!$validation) return $validation;
 
-        Competition::updateFromId(['state' => $_POST['state']],$id);
+        Competition::updateFromId(['state' => $_POST['state']], $id);
 
         return $this->list();
     }
@@ -405,7 +405,7 @@ class AdminCompetitionController extends BaseController
 
         if (!$validation) return $validation;
 
-        Competition::updateFromId(['state' => $_POST['state']],$id);
+        Competition::updateFromId(['state' => $_POST['state']], $id);
 
         $this->view = 'admin/competition/stateForm';
 

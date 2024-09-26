@@ -22,7 +22,7 @@ export function modalMsg(msg) {
 }
 
 
-function appendModal(html){
+function appendModal(html) {
 
     const modal = html.querySelector(".modal");
 
@@ -39,10 +39,10 @@ function appendModal(html){
     for (let i = 0; i < closeButtons.length; i++) {
 
         closeButtons[i].addEventListener("click", function () {
-           modal.remove();
+            modal.remove();
         }, false)
     }
-    
+
     window.addEventListener("click", function (event) {
 
         if (event.target == modal) {

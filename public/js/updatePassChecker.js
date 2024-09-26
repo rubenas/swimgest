@@ -1,7 +1,7 @@
 
-import {checkPassword} from "./modules/functions.js";
+import { checkPassword } from "./modules/functions.js";
 
-window.addEventListener("load",loadUpdatePassCheckerSettings);
+window.addEventListener("load", loadUpdatePassCheckerSettings);
 
 function loadUpdatePassCheckerSettings() {
 
@@ -10,10 +10,10 @@ function loadUpdatePassCheckerSettings() {
     const form = document.querySelector("*[name='update-pass']");
     const button = form.querySelector("*[type='submit']");
 
-    button.addEventListener("click",function(event){
-        
+    button.addEventListener("click", function (event) {
+
         event.preventDefault();
-        const result = checkPassword([pass1,pass2]);
+        const result = checkPassword([pass1, pass2]);
 
         if (!result.success) {
 
@@ -26,5 +26,5 @@ function loadUpdatePassCheckerSettings() {
         }
 
     });
-    
+
 }

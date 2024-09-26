@@ -18,7 +18,7 @@ require_once './model/Inscription.php';
 
 class BaseController
 {
-    
+
     protected $view;
 
     /* Common error messages */
@@ -41,24 +41,21 @@ class BaseController
         foreach ($fields as $field) {
 
             if (!isset($_POST[$field])) {
-                
+
                 return [
                     "success" => false,
                     "error" => "$field no está definido"
                 ];
-
             }
-
         }
 
         return [
             "success" => true
         ];
-
     }
 
     /**Shows message modal window */
-    
+
     public function showMessage()
     {
         $this->view = 'templates/modalMessage.tpl';
@@ -104,10 +101,11 @@ class BaseController
     /** Getters and setters */
     public function setView($view)
     {
-        $this-> view = $view;
+        $this->view = $view;
     }
 
-    public function getView() {
+    public function getView()
+    {
 
         return $this->view;
     }

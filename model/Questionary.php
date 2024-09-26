@@ -64,7 +64,7 @@ class Questionary extends BaseModel
         /**@var questionary $questionary */
         $questionary = self::getById($id);
 
-        $conditions = ['questionaryId = '.$questionary->getId()];
+        $conditions = ['questionaryId = ' . $questionary->getId()];
         $orders = ['number'];
 
         $questions = Question::getAll($conditions, $orders);

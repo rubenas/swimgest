@@ -465,7 +465,7 @@ class AdminEventController extends BaseController
 
         if (!$validation) return $validation;
 
-        Event::updateFromId(['state' => $_POST['state']],$id);
+        Event::updateFromId(['state' => $_POST['state']], $id);
 
         $this->view = 'admin/event/stateForm';
 

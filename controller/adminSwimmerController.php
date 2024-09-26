@@ -98,7 +98,7 @@ class AdminSwimmerController extends BaseController
         /**@var Swimmer $swimmer */
         $swimmer = Swimmer::getById($id);
 
-        if(!$swimmer) return $this->notFoundError;
+        if (!$swimmer) return $this->notFoundError;
 
         if ($id != $this->sessionId() && $swimmer->getEmail() != 'admin@admin.com') Swimmer::remove($id); //Prevent user removes itself or super-admin user
 

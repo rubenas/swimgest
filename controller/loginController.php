@@ -9,7 +9,7 @@ class LoginController extends BaseController
 
     /**Manage user login */
 
-    public function login() 
+    public function login()
     {
 
         $validation = self::checkRequiredFields(['username', 'password']);
@@ -36,16 +36,16 @@ class LoginController extends BaseController
         $_SESSION['category'] = $result['object']->getCategory();
         $_SESSION['isAdmin'] = $result['object']->getIsAdmin();
         $_SESSION['forceNewPass'] = $result['object']->getForceNewPass();
-        
-        if($result['object']->getForceNewPass()) {
-            
-            $this->view = 'login/updatePassword'; 
+
+        if ($result['object']->getForceNewPass()) {
+
+            $this->view = 'login/updatePassword';
 
             return $result;
         }
 
         $this->view = 'inscription/list';
-        
+
         require_once 'inscriptionController.php';
 
         $controller = new InscriptionController();
@@ -55,7 +55,7 @@ class LoginController extends BaseController
 
     /**Manage logout */
 
-    public function logout() 
+    public function logout()
     {
 
         $result = Swimmer::logout();
@@ -70,7 +70,7 @@ class LoginController extends BaseController
 
     /**Token to reset forgotten password */
 
-    public function createToken() 
+    public function createToken()
     {
 
         $validation = self::checkRequiredFields(['email']);
@@ -103,8 +103,8 @@ class LoginController extends BaseController
         require_once './utils/emails/forgottenPass.php';
 
         $email = forgottenPassEmail($swimmer);
-        
-        $result = sendEmail([$swimmer],$email['subject'],$email['body']);
+
+        $result = sendEmail([$swimmer], $email['subject'], $email['body']);
 
         if (!$result['success']) return [
             'success' => false,
@@ -118,10 +118,10 @@ class LoginController extends BaseController
     }
 
     public function forgottenPass() //Manage forgotten pass link
-    { 
+    {
         $token = $_GET['token'];
         $id = $_GET['id'];
-        
+
         /**@var Swimmer $swimmer */
         $swimmer = Swimmer::getById($id);
 
@@ -171,5 +171,4 @@ class LoginController extends BaseController
             "object" => $swimmer
         ];
     }
-    
 }

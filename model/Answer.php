@@ -42,7 +42,7 @@ class Answer extends BaseModel
 
     public static function getQuestionaryIds($swimmerId)
     {
-        $sql = 'SELECT questionaryId FROM '.self::TABLE.' WHERE swimmerId = :swimmerId AND questionaryId IS NOT NULL';
+        $sql = 'SELECT questionaryId FROM ' . self::TABLE . ' WHERE swimmerId = :swimmerId AND questionaryId IS NOT NULL';
 
         $query = self::getConnection()->prepare($sql);
 
@@ -60,7 +60,7 @@ class Answer extends BaseModel
 
     /**Remove all answers from questionary Id and swimmer Id */
 
-    public static function removeFromQuestionaryId($questionaryId,$swimmerId)
+    public static function removeFromQuestionaryId($questionaryId, $swimmerId)
     {
         $sql = "DELETE FROM " . self::TABLE . " WHERE swimmerID = :swimmerId AND questionaryId = :questionaryId";
 

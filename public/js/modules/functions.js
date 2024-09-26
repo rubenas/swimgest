@@ -142,7 +142,7 @@ export function checkPicture(array) {
 /*Returns is picture given is or not the default one */
 
 export function isNotDefault(args) {
-    
+
     const picture = args[0];
 
     const defaultPicture = "no-picture";

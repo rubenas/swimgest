@@ -37,12 +37,12 @@ class AdminInscriptionController extends BaseController
                         if (!in_array($swimmer->getSurname() . ', ' . $swimmer->getName(), $inscribedSwimmers)) $inscribedSwimmers[] = $swimmer->getSurname() . ', ' . $swimmer->getName();
                     }
 
-                    if (isset($arrayInscriptions[$race->getId()])) usort($arrayInscriptions[$race->getId()], fn ($a, $b) => removeSpecials($a['swimmer']) <=> removeSpecials($b['swimmer']));
+                    if (isset($arrayInscriptions[$race->getId()])) usort($arrayInscriptions[$race->getId()], fn($a, $b) => removeSpecials($a['swimmer']) <=> removeSpecials($b['swimmer']));
                 }
             }
         }
 
-        usort($inscribedSwimmers,fn($a,$b)=> removeSpecials($a) <=> removeSpecials($b));
+        usort($inscribedSwimmers, fn($a, $b) => removeSpecials($a) <=> removeSpecials($b));
 
         $this->view = 'admin/inscription/competition';
 
@@ -69,8 +69,8 @@ class AdminInscriptionController extends BaseController
     }
 
     public function fillEvent($event)
-    {   
-        
+    {
+
         $inscriptions = $this->fillInscription($event->getId());
 
         $event->setInscriptions($inscriptions);
@@ -86,11 +86,11 @@ class AdminInscriptionController extends BaseController
         $subEvents = $this->getAllSubEvents($event);
 
         $event->setSubEvents($subEvents);
-        
+
         return $event;
     }
 
-    public function getAllSubEvents($event) 
+    public function getAllSubEvents($event)
     {
         $subEvents = Event::getAll(['parentId = ' . $event->getId()], ['startDate']);
 
@@ -117,10 +117,9 @@ class AdminInscriptionController extends BaseController
             $swimmer = Swimmer::getById($inscription->getSwimmerId());
 
             $arrayInscriptions[] = $swimmer->getSurname() . ', ' . $swimmer->getName();
-            
         }
 
-        usort($arrayInscriptions,fn($a,$b)=> removeSpecials($a) <=> removeSpecials($b));
+        usort($arrayInscriptions, fn($a, $b) => removeSpecials($a) <=> removeSpecials($b));
 
         return $arrayInscriptions;
     }
@@ -129,40 +128,39 @@ class AdminInscriptionController extends BaseController
     {
         $arrayAnswers = array();
 
-        foreach ($questions as $question){
- 
-            if($question->getType() == 'text') {
+        foreach ($questions as $question) {
 
-                $answers = Answer::getAll(['questionId = '.$question->getId()],[]);
+            if ($question->getType() == 'text') {
+
+                $answers = Answer::getAll(['questionId = ' . $question->getId()], []);
 
                 foreach ($answers as $answer) {
 
                     /**@var Swimmer $swimmer */
                     $swimmer = Swimmer::getById($answer->getSwimmerId());
-                    
+
                     $arrayAnswers[$question->getId()][] = [
-                        'swimmer' => $swimmer->getSurname().', '.$swimmer->getName(),
+                        'swimmer' => $swimmer->getSurname() . ', ' . $swimmer->getName(),
                         'answer' => $answer->getText()
                     ];
                 }
 
                 if (isset($arrayAnswers[$question->getId()])) usort($arrayAnswers[$question->getId()], fn($a, $b) => removeSpecials($a['swimmer']) <=> removeSpecials($b['swimmer']));
-
             } else {
-                
+
                 foreach ($question->getOptions() as $option) {
-                    
-                    $answers = Answer::getAll(['questionId = '.$question->getId(),'text = "'.$option->getText().'"'],[]);
-                    
+
+                    $answers = Answer::getAll(['questionId = ' . $question->getId(), 'text = "' . $option->getText() . '"'], []);
+
                     foreach ($answers as $answer) {
 
                         /**@var Swimmer $swimmer */
                         $swimmer = Swimmer::getById($answer->getSwimmerId());
-                        
-                        $arrayAnswers[$question->getId()][$option->getText()][] = $swimmer->getSurname().', '.$swimmer->getName();
+
+                        $arrayAnswers[$question->getId()][$option->getText()][] = $swimmer->getSurname() . ', ' . $swimmer->getName();
                     }
 
-                    if (isset($arrayAnswers[$question->getId()][$option->getText()])) usort($arrayAnswers[$question->getId()][$option->getText()],fn($a,$b)=> removeSpecials($a) <=> removeSpecials($b));
+                    if (isset($arrayAnswers[$question->getId()][$option->getText()])) usort($arrayAnswers[$question->getId()][$option->getText()], fn($a, $b) => removeSpecials($a) <=> removeSpecials($b));
                 }
             }
         }

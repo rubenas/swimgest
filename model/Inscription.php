@@ -70,7 +70,7 @@ class Inscription extends BaseModel
 
     public static function getCompetitionIds($swimmerId)
     {
-        $sql = 'SELECT competitionId FROM '.self::TABLE.' WHERE swimmerId = :swimmerId AND competitionId IS NOT NULL' ;
+        $sql = 'SELECT competitionId FROM ' . self::TABLE . ' WHERE swimmerId = :swimmerId AND competitionId IS NOT NULL';
 
         $query = self::getConnection()->prepare($sql);
 
@@ -90,7 +90,7 @@ class Inscription extends BaseModel
 
     public static function getEventIds($swimmerId)
     {
-        $sql = 'SELECT eventId FROM '.self::TABLE.' WHERE swimmerId = :swimmerId AND eventId IS NOT NULL';
+        $sql = 'SELECT eventId FROM ' . self::TABLE . ' WHERE swimmerId = :swimmerId AND eventId IS NOT NULL';
 
         $query = self::getConnection()->prepare($sql);
 

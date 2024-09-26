@@ -48,7 +48,6 @@ class Mark extends BaseModel
         $query->execute([':id' => intval($id)]);
 
         return $query->fetchAll(PDO::FETCH_CLASS, 'Mark');
-
     }
 
     /*Get all marks from DB with some unique conditions*/
@@ -74,18 +73,18 @@ class Mark extends BaseModel
 
         return $query->fetchObject('Mark');
     }
-    
+
     /*Edit mark time from DB*/
 
-    public static function update($id,$time)
+    public static function update($id, $time)
     {
-        
+
         $sql = "UPDATE " . self::TABLE . " SET time = :time WHERE id = :id";
 
 
         $query = self::getConnection()->prepare($sql);
 
-        if($query->execute([
+        if ($query->execute([
             ':id' => $id,
             ':time' => $time
         ])) {
@@ -109,25 +108,28 @@ class Mark extends BaseModel
         return round(1000 * pow($worldRecord->getFloatTime() / $this->getFloatTime(), 3));
     }
 
-    public function getMinutes() {
+    public function getMinutes()
+    {
 
         $time = new DateTimeImmutable($this->time);
 
         return $time->format('i');
     }
 
-    public function getSeconds() {
+    public function getSeconds()
+    {
 
         $time = new DateTimeImmutable($this->time);
 
         return $time->format('s');
     }
 
-    public function getMiliseconds() {
+    public function getMiliseconds()
+    {
 
         $time = new DateTimeImmutable($this->time);
 
-        return rtrim($time->format('v'),'0');
+        return rtrim($time->format('v'), '0');
     }
 
     /*Return floatTime like mm:ss.xx */
@@ -135,12 +137,11 @@ class Mark extends BaseModel
     {
         $floatTime = 0;
 
-        $floatTime += floatval($this->getMinutes())*60;
+        $floatTime += floatval($this->getMinutes()) * 60;
         $floatTime += floatval($this->getSeconds());
-        $floatTime += floatval($this->getMiliseconds())/1000;
+        $floatTime += floatval($this->getMiliseconds()) / 1000;
 
         return $floatTime;
-        
     }
 
     /** Set mark time from float in seconds */

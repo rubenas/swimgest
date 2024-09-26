@@ -50,7 +50,7 @@ class Session extends BaseModel
     {
         /**@var Session $session */
         $session = Session::getById($id);
-        
+
         $races = Race::getAll(['sessionId = ' . $session->getId()], ['number', 'id']);
 
         $session->setRaces($races);

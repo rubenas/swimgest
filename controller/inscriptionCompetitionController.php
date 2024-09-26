@@ -175,9 +175,9 @@ class InscriptionCompetitionController extends inscriptionController
     {
         $competition = Competition::getById($competitionId);
 
-        if(!$competition) return $this->notFoundError;
-        
-        Inscription::removeFromCompetitionId($competitionId,$this->sessionId());
+        if (!$competition) return $this->notFoundError;
+
+        Inscription::removeFromCompetitionId($competitionId, $this->sessionId());
 
         return $this->list();
     }

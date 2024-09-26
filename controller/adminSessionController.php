@@ -155,8 +155,8 @@ class AdminSessionController extends BaseController
     {
         $result = $this->update($id);
 
-        if(!$result['success']) return $result;
-        
+        if (!$result['success']) return $result;
+
         $this->view = 'admin/session/details';
 
         return [

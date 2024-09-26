@@ -4,7 +4,7 @@ import { loadTabSettings } from "./modules/tab.js";
 import { loadTooltipSettings } from "./modules/tooltips.js";
 import { loadAjaxSettings } from "./modules/ajaxActions.js";
 import { loadSelectRacesSettings } from "./modules/selectRaces.js";
-import {loadCKEditorSettings} from "./modules/loadCKEditor.js";
+import { loadCKEditorSettings } from "./modules/loadCKEditor.js";
 
 window.addEventListener("load", onLoadPage, false);
 

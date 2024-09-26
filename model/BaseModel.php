@@ -58,15 +58,15 @@ abstract class BaseModel
     {
         $sql = "SELECT * FROM " . static::TABLE;
 
-        if (count($conditions) > 0) $sql.= ' WHERE ';
-        
-        foreach ($conditions as $condition) $sql.= $condition.' AND ';
+        if (count($conditions) > 0) $sql .= ' WHERE ';
 
-        $sql = rtrim($sql,' AND ');
+        foreach ($conditions as $condition) $sql .= $condition . ' AND ';
 
-        if (count($orders) > 0) $sql.= ' ORDER BY ';
+        $sql = rtrim($sql, ' AND ');
 
-        foreach ($orders as $order) $sql.= $order.', ';
+        if (count($orders) > 0) $sql .= ' ORDER BY ';
+
+        foreach ($orders as $order) $sql .= $order . ', ';
 
         $sql = rtrim($sql, ', ');
 
@@ -98,7 +98,7 @@ abstract class BaseModel
 
         foreach ($columns as $nameColumn => $value) {
 
-            $sql.= ($value == null) ? "$nameColumn = NULL," : "$nameColumn = '$value',";
+            $sql .= ($value == null) ? "$nameColumn = NULL," : "$nameColumn = '$value',";
         }
 
         $sql = rtrim($sql, ',');

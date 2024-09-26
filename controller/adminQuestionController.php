@@ -51,7 +51,7 @@ class AdminQuestionController extends BaseController
         $result = Question::add($question['object']);
 
         $question['object']->setId($result['id']);
-        
+
         $this->view = is_null($question['object']->getEventId()) ? 'admin/questionary/details' : 'admin/event/subEventDetails';
 
         return is_null($question['object']->getEventId()) ? Questionary::fill($question['object']->getQuestionaryId()) : Event::fill($question['object']->getEventId());
@@ -201,5 +201,4 @@ class AdminQuestionController extends BaseController
 
         return Event::fill($topParentEvent->getId());
     }
-    
 }

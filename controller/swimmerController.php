@@ -304,12 +304,11 @@ class SwimmerController extends BaseController
         }
 
         $this->view = 'inscription/list';
-        
+
         require_once 'inscriptionController.php';
 
         $controller = new InscriptionController();
 
         return $controller->list();
     }
-
 }

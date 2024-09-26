@@ -26,8 +26,8 @@ class MarkController extends BaseController
 
         $time = '00:';
         $time .=  $_POST['min'] != '' ? $_POST['min'] : '00';
-        $time .= ':'. ($_POST['sec'] != '' ? $_POST['sec'] : '00'); 
-        $time .= '.'. ($_POST['dec'] != '' ? $_POST['dec'] : '00');
+        $time .= ':' . ($_POST['sec'] != '' ? $_POST['sec'] : '00');
+        $time .= '.' . ($_POST['dec'] != '' ? $_POST['dec'] : '00');
 
         $newMark->setTime($time);
 
@@ -284,7 +284,7 @@ class MarkController extends BaseController
                 'mark' => [
                     'min' => $mark->getMinutes(),
                     'sec' => $mark->getSeconds(),
-                    'dec' => floor ($mark->getMiliseconds() / 10)
+                    'dec' => floor($mark->getMiliseconds() / 10)
                 ]
             ];
         }
@@ -292,7 +292,7 @@ class MarkController extends BaseController
         $mark = self::fromPost();
 
         if (!$mark['success']) return $mark;
-        
+
         return [
             'success' => true,
             'points' => $mark['object']->getFinaPoints()

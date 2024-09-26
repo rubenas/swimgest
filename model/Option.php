@@ -34,7 +34,7 @@ class Option extends BaseModel
     }
 
     /**Updates Number from object */
-    
+
     public static function updateNumber($option)
     {
 

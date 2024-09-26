@@ -31,14 +31,14 @@ class InscriptionController extends BaseController
             $events[] = $competition;
         }
 
-        usort($events, fn ($a, $b) => strcmp($a->getDeadLine(), $b->getDeadLine()));
+        usort($events, fn($a, $b) => strcmp($a->getDeadLine(), $b->getDeadLine()));
 
         foreach ($questionaries as $questionary) {
 
             $events[] = $questionary;
         }
 
-        usort($events, fn ($a, $b) => strcmp($a->getdeadLine(), $b->getDeadLine()));
+        usort($events, fn($a, $b) => strcmp($a->getdeadLine(), $b->getDeadLine()));
 
         return [
             'success' => true,
@@ -48,5 +48,4 @@ class InscriptionController extends BaseController
             'eventIds' => Inscription::getEventIds($this->sessionId())
         ];
     }
-
 }

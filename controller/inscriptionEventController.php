@@ -114,7 +114,7 @@ class InscriptionEventController extends inscriptionController
 
         /**@var Event $event */
         $event = Event::getById($eventId);
-        
+
         $subEvents = Event::getAll(['parentId = ' . $eventId], []);
 
         foreach ($subEvents as $subEvent) {

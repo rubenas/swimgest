@@ -1,6 +1,7 @@
 <?php
 
-function uploadPicture($postName,$route){
+function uploadPicture($postName, $route)
+{
 
     if (!is_uploaded_file($_FILES[$postName]['tmp_name'])) {
         return [
@@ -41,10 +42,9 @@ function uploadPicture($postName,$route){
             $extension = ".png";
             $im = imagecreatefrompng($_FILES[$postName]['tmp_name']);
             break;
-
     }
 
-    if(!$im) {
+    if (!$im) {
 
         unlink($_FILES[$postName]['tmp_name']);
 
@@ -52,36 +52,33 @@ function uploadPicture($postName,$route){
             'success' => false,
             'error' => 'Archivo no válido'
         ];
-
     }
 
     //Cropping square
 
     $size = min(imagesx($im), imagesy($im));
-    
-    $im = imagecrop($im, ['x' => (imagesx($im)-$size)/2, 'y' => (imagesy($im)-$size)/2, 'width' => $size, 'height' => $size]);
 
-    
+    $im = imagecrop($im, ['x' => (imagesx($im) - $size) / 2, 'y' => (imagesy($im) - $size) / 2, 'width' => $size, 'height' => $size]);
+
+
     //Resizing max 1080px
 
-    $newSize = min($size,1080);
+    $newSize = min($size, 1080);
 
-    $im2 = imagecreatetruecolor($newSize,$newSize);
+    $im2 = imagecreatetruecolor($newSize, $newSize);
 
     imagecopyresized($im2, $im, 0, 0, 0, 0, $newSize, $newSize, $size, $size);
 
     //Saving result
 
-    $imageRoute = $route.$extension;
+    $imageRoute = $route . $extension;
 
     if ($extension == '.jpg') {
 
-        imagejpeg($im2, $imageRoute,60);
+        imagejpeg($im2, $imageRoute, 60);
+    } else if ($extension == '.png') {
 
-    } else if($extension == '.png') {
-
-        imagepng($im2, $imageRoute,60);
-
+        imagepng($im2, $imageRoute, 60);
     }
 
     //Clearing 
