@@ -47,15 +47,12 @@ $data['gender'] = $controller->sessionGender();
 if (!$controller->isLogged() || ($data['isAdminArea'] && !$data['isAdmin'])) {
 
     require_once 'view/login/login.php';
-
 } else if ($controller->hasToUpdatePass() || $_GET['action'] == 'forgottenPass') {
 
     require_once 'view/login/updatePassword.php';
+} else if (isset($_GET['just_view'])) { //Ajax requests 
 
-} else if (isset($_GET['just_view'])) {//Ajax requests 
-
-    require_once 'view/'.$controller->getView().'.php';
-
+    require_once 'view/' . $controller->getView() . '.php';
 } else {
 
     require_once 'view/templates/template.tpl.php';

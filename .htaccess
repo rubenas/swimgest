@@ -1,7 +1,7 @@
 ErrorDocument 404 /escualos/404.html
 ErrorDocument 500 /escualos/404.html
 
-RewriteEngine On
+RewriteEngine On 
 
 #Quitar cuando se mueva a un servidor
 RewriteBase /escualos/

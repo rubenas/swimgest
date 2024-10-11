@@ -1,5 +1,5 @@
-<?php $competition = $data['content']['object']?>
-<section class="modal" id="modal-add-competition-picture-<?php echo $competition->getId()?>">
+<?php $competition = $data['content']['object'] ?>
+<section class="modal" id="modal-add-competition-picture-<?php echo $competition->getId() ?>">
     <div class="modal-content">
         <header class="modal-header">
             <h3>Añadir imagen de la competición
@@ -9,7 +9,7 @@
             </h3>
         </header>
         <main class="modal-main">
-            <form class="row" id="add-competition-picture-<?php echo $competition->getPicture()?>" enctype="multipart/form-data" method="post" action="adminCompetition/updatePicture/<?php echo $competition->getId()?>" competitionId="<?php echo $competition->getId()?>">
+            <form class="row" id="add-competition-picture-<?php echo $competition->getPicture() ?>" enctype="multipart/form-data" method="post" action="adminCompetition/updatePicture/<?php echo $competition->getId() ?>" competitionId="<?php echo $competition->getId() ?>">
                 <div class="mt-1 mr-1 w-100">
                     <h4 class="mb-1">Seleccionar archivo</h4>
                     <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
@@ -19,7 +19,7 @@
                     <button class="close btn-secondary float-right">
                         Cancelar
                     </button>
-                    <button type="submit" class="btn float-right mr-1" ajax-request='{"url": "adminCompetition/ajaxUpdatePicture/<?php echo $competition->getId()?>/v"}'>
+                    <button type="submit" class="btn float-right mr-1" ajax-request='{"url": "adminCompetition/ajaxUpdatePicture/<?php echo $competition->getId() ?>/v"}'>
                         Aceptar
                     </button>
                 </div>
