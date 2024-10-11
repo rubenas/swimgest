@@ -173,35 +173,6 @@ CREATE TABLE options (
     ON DELETE CASCADE
 );
 
-CREATE TABLE answers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    questionaryId INT,
-    topEventId INT,
-    swimmerId INT NOT NULL,
-    questionId INT NOT NULL,
-    text LONGTEXT NOT NULL,
-    CONSTRAINT FK_Answers_QuestionaryId FOREIGN KEY (questionId)
-    REFERENCES questions(id)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
-    CONSTRAINT FK_Inscriptions_EventId FOREIGN KEY (topEventId)
-    REFERENCES inscriptions(eventId)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
-    CONSTRAINT FK_Answers_EventId FOREIGN KEY (topEventId)
-    REFERENCES events(id)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
-    CONSTRAINT FK_Answers_SwimmerId FOREIGN KEY (swimmerId)
-    REFERENCES swimmers(id)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
-    CONSTRAINT FK_Answers_QuestionId FOREIGN KEY (questionId)
-    REFERENCES questions(id)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE
-);
-
 CREATE TABLE inscriptions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     swimmerId INT NOT NULL,
@@ -230,3 +201,32 @@ CREATE TABLE inscriptions (
 ALTER TABLE inscriptions
   ADD CONSTRAINT uq_inscriptions_raceId UNIQUE(swimmerId, raceId),
    ADD CONSTRAINT uq_inscriptions_eventId UNIQUE(swimmerId, eventId);
+
+   CREATE TABLE answers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    questionaryId INT,
+    topEventId INT,
+    swimmerId INT NOT NULL,
+    questionId INT NOT NULL,
+    text LONGTEXT NOT NULL,
+    CONSTRAINT FK_Answers_QuestionaryId FOREIGN KEY (questionId)
+    REFERENCES questions(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+    CONSTRAINT FK_Inscriptions_EventId FOREIGN KEY (topEventId)
+    REFERENCES inscriptions(eventId)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+    CONSTRAINT FK_Answers_EventId FOREIGN KEY (topEventId)
+    REFERENCES events(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+    CONSTRAINT FK_Answers_SwimmerId FOREIGN KEY (swimmerId)
+    REFERENCES swimmers(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+    CONSTRAINT FK_Answers_QuestionId FOREIGN KEY (questionId)
+    REFERENCES questions(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);
