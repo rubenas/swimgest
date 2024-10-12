@@ -161,7 +161,7 @@
                 </div>
                 <div class="mt-1 form-group col-12 col-sm-5">
                     <label for="event-inscriptionDeadLine">Inscripciones hasta*</label>
-                    <input type="datetime-local" id="event-inscriptionsDeadLine" name="inscriptionsDeadLine" required>
+                    <input type="datetime-local" id="event-inscriptionsDeadLine" name="eventDeadLine" required>
                 </div>
                 <div class="mt-1 col-12 row">
                     <button type="submit" id="add-event-btn" class="btn mr-1" ajax-request='{"url" : "adminEvent/add/v"}'>Aceptar</button>

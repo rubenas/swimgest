@@ -37,7 +37,7 @@ class AdminEventController extends BaseController
 
         $event->setEndDate((isset($_POST['endDate']) && $_POST['endDate'] != '') ? $_POST['endDate'] : NULL);
 
-        $event->setDeadLine((isset($_POST['deadLine']) && $_POST['deadLine'] != '') ? $_POST['deadLine'] : NULL);
+        $event->setDeadLine((isset($_POST['eventDeadLine']) && $_POST['eventDeadLine'] != '') ? $_POST['eventDeadLine'] : NULL);
 
         if (isset($_FILES['picture']) && $_FILES['picture']['size'] != 0) {
 

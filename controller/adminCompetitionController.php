@@ -23,7 +23,7 @@ class AdminCompetitionController extends BaseController
     public static function fromPost()
     {
 
-        $validation = self::checkRequiredFields(array('name', 'place', 'inscriptionsLimit', 'startDate', 'endDate', 'inscriptionDeadLine'));
+        $validation = self::checkRequiredFields(array('name', 'place', 'inscriptionsLimit', 'startDate', 'endDate', 'inscriptionsDeadLine'));
 
         if (!$validation['success']) return $validation;
 
@@ -34,7 +34,7 @@ class AdminCompetitionController extends BaseController
         $competition->setInscriptionsLimit($_POST['inscriptionsLimit']);
         $competition->setStartDate($_POST['startDate']);
         $competition->setEndDate($_POST['endDate']);
-        $competition->setDeadLine($_POST['deadLine']);
+        $competition->setDeadLine($_POST['inscriptionsDeadLine']);
 
         if ($_FILES['picture']['size'] != 0) {
 
