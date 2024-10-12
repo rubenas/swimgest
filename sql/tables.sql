@@ -202,7 +202,7 @@ ALTER TABLE inscriptions
   ADD CONSTRAINT uq_inscriptions_raceId UNIQUE(swimmerId, raceId),
    ADD CONSTRAINT uq_inscriptions_eventId UNIQUE(swimmerId, eventId);
 
-   CREATE TABLE answers (
+CREATE TABLE answers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     questionaryId INT,
     topEventId INT,

@@ -22,20 +22,20 @@
                         &nbsp;Inicio
                     </a>
                     <div class="dropdown-content">
-                        <a href="inscription/list" tab-target="inscriptions" ajax-request='{"url": "inscription/list/v" }'>
+                        <a href="inscription/list">
                             <span class="material-symbols-outlined">
                                 event_available
                             </span>
                             &nbsp;Inscripciones
                         </a>
-                        <a href="swimmer/showFullProfile" tab-target="my-profile" ajax-request='{"url": "swimmer/showFullProfile/v" }'>
+                        <a href="swimmer/showFullProfile">
                             <span class="material-symbols-outlined">
                                 person
                             </span>
                             &nbsp;
                             Mi perfil
                         </a>
-                        <a href="mark/showFinaCalculator" tab-target="fina-calculator" ajax-request='{"url": "mark/showFinaCalculator/v" }'>
+                        <a href="mark/showFinaCalculator">
                             <span class="material-symbols-outlined">
                                 calculate
                             </span>
@@ -52,31 +52,31 @@
                             &nbsp;Administración
                         </a>
                         <div class="dropdown-content">
-                            <a href="adminSwimmer/list" tab-target="swimmers" ajax-request='{"url": "adminSwimmer/list/v" }'>
+                            <a href="adminSwimmer/list"'>
                                 <span class="material-symbols-outlined">
                                     person
                                 </span>
                                 &nbsp;Nadadores
                             </a>
-                            <a href="adminEmail/list" tab-target="emails">
+                            <a href="adminEmail/list">
                                 <span class="material-symbols-outlined">
                                     mail
                                 </span>
                                 &nbsp;Emails
                             </a>
-                            <a href="adminCompetition/list" tab-target="competitions" ajax-request='{"url": "adminCompetition/list/v" }'>
+                            <a href="adminCompetition/list"'>
                                 <span class="material-symbols-outlined">
                                     pool
                                 </span>
                                 &nbsp;Competiciones
                             </a>
-                            <a href="adminEvent/list" tab-target="events" ajax-request='{"url": "adminEvent/list/v" }'>
+                            <a href="adminEvent/list">
                                 <span class="material-symbols-outlined">
                                     event
                                 </span>
                                 &nbsp;Eventos
                             </a>
-                            <a href="adminQuestionary/list" tab-target="questionaries" ajax-request='{"url": "adminQuestionary/list/v" }'>
+                            <a href="adminQuestionary/list">
                                 <span class="material-symbols-outlined">
                                     psychology_alt
                                 </span>
