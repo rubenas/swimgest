@@ -4,18 +4,18 @@
 
 abstract class BaseModel
 {
-    protected static $connection;
+    public static $connection;
 
     const TABLE = '';
 
     /*Stablish a DB connection*/
 
-    protected static function getConnection()
+    public static function getConnection()
     {
 
         if (!isset(self::$connection) || is_null(self::$connection)) {
 
-            require_once 'config.php';
+            require_once './utils/config.php';
 
             try {
                 self::$connection = new PDO(

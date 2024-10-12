@@ -1,0 +1,1 @@
+<?php $dbConfig = ["dbName" =>"escualos" , "host" => "localhost", "user" => "escualos","password" => "f*-Arf3[_d1jzWgb"];

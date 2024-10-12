@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>Login</title>
         <!--CAMBIAR AL MOVER A SERVIDOR REAL-->
-        <base href="http://localhost/escualos/">
+        <base href="http://localhost/swimgest/">
 
         <link rel="stylesheet" type="text/css" href="./public/styles/css/styles.css">
         <link rel="stylesheet" type="text/css" href="./public/styles/css/login_styles.css">

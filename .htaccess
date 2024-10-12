@@ -4,7 +4,7 @@ ErrorDocument 500 /escualos/404.html
 RewriteEngine On 
 
 #Quitar cuando se mueva a un servidor
-RewriteBase /escualos/
+RewriteBase /swimgest/
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

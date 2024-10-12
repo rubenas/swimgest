@@ -1,12 +1,11 @@
 <?php
+const DEFAULT_CONTROLLER = 'install';
+const DEFAULT_ACTION = 'install';
 
 require_once './utils/translateToSpanish.php';
 require_once './utils/functions.php';
 
 session_start();
-
-const DEFAULT_CONTROLLER = 'inscription';
-const DEFAULT_ACTION = 'list';
 
 /* Defining Controller */
 
@@ -44,7 +43,10 @@ $data['gender'] = $controller->sessionGender();
 
 /* Loading views */
 
-if (!$controller->isLogged() || ($data['isAdminArea'] && !$data['isAdmin'])) {
+if (!file_exists('utils/config.php')) {
+
+    require_once 'view/install/install.php';
+} else if (!$controller->isLogged() || ($data['isAdminArea'] && !$data['isAdmin'])) {
 
     require_once 'view/login/login.php';
 } else if ($controller->hasToUpdatePass() || $_GET['action'] == 'forgottenPass') {

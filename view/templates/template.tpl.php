@@ -3,7 +3,7 @@
 
 <head>
     <!--CAMBIAR AL MOVER A SERVIDOR REAL-->
-    <base href="http://localhost/escualos/">
+    <base href="http://localhost/swimgest/">
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">

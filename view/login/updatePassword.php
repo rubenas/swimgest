@@ -7,7 +7,7 @@
     <title>Actualizar contraseña</title>
 
     <!--CAMBIAR AL MOVER A SERVIDOR REAL-->
-    <base href="http://localhost/escualos/">
+    <base href="http://localhost/swimgest/">
 
     <link rel="stylesheet" type="text/css" href="public/styles/css/styles.css">
     <link rel="stylesheet" type="text/css" href="public/styles/css/updatePassword_styles.css">
