@@ -1,4 +1,8 @@
-<?php if (!isset($_SESSION['isLogged'])) { ?>
+<?php 
+if (!isset($_SESSION['isLogged'])) { 
+
+include './utils/config.php'; 
+?>
 
     <!DOCTYPE html>
     <html>
@@ -18,7 +22,7 @@
         <main class="container-fluid">
             <div class="row jc-center pt-2">
                 <div class="row jc-center col-5 col-md-3 col-lg-2">
-                    <img class="img-fluid w-80" src="public/img/logo_escualos.svg">
+                    <img class="img-fluid w-80" src="<?php echo $logoRoute; ?>">
                 </div>
             </div>
             <div class="row jc-center py-2">

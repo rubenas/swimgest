@@ -1,21 +1,31 @@
 <?php
-const DEFAULT_CONTROLLER = 'install';
-const DEFAULT_ACTION = 'install';
 
 require_once './utils/translateToSpanish.php';
 require_once './utils/functions.php';
+
+/* Default controller */
+
+if (!file_exists('utils/config.php')) {
+
+    $controller = 'install';
+    $action = 'showInstall';
+} else {
+
+    $controller = 'inscription';
+    $action = 'list';
+}
 
 session_start();
 
 /* Defining Controller */
 
-if (!isset($_GET['controller'])) $_GET['controller'] = DEFAULT_CONTROLLER;
+if (!isset($_GET['controller'])) $_GET['controller'] = $controller;
 
 $controller_path = './controller/' . $_GET['controller'] . 'Controller.php';
 
 /* Checking if controller exists */
 
-if (!file_exists($controller_path)) $controller_path = './controller/' . DEFAULT_CONTROLLER . 'Controller.php';
+if (!file_exists($controller_path)) $controller_path = './controller/' . $controller . 'Controller.php';
 
 /* Loading controller */
 
@@ -25,7 +35,7 @@ $controller = new $controllerName();
 
 /* Defining Action */
 
-if (!isset($_GET['action'])) $_GET['action'] = DEFAULT_ACTION;
+if (!isset($_GET['action'])) $_GET['action'] = $action;
 
 /* Checking if method is defined */
 
@@ -43,13 +53,16 @@ $data['gender'] = $controller->sessionGender();
 
 /* Loading views */
 
-if (!file_exists('utils/config.php')) {
+if (!file_exists('utils/config.php')) { //If config file doesn't extist, go to install process
 
     require_once 'view/install/install.php';
-} else if (!$controller->isLogged() || ($data['isAdminArea'] && !$data['isAdmin'])) {
+} else if ($controller->isInstallingProcess()) { //If installation didn't finish
+
+    require_once 'view/install/installing.php';
+} else if (!$controller->isLogged() || ($data['isAdminArea'] && !$data['isAdmin'])) { //If user is logged in
 
     require_once 'view/login/login.php';
-} else if ($controller->hasToUpdatePass() || $_GET['action'] == 'forgottenPass') {
+} else if ($controller->hasToUpdatePass() || $_GET['action'] == 'forgottenPass') { //If user has to change password
 
     require_once 'view/login/updatePassword.php';
 } else if (isset($_GET['just_view'])) { //Ajax requests 

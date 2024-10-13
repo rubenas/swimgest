@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS world_records;
 
 DROP TABLE IF EXISTS marks;
 
+DROP TABLE IF EXISTS answers;
+
 DROP TABLE IF EXISTS inscriptions;
 
 DROP TABLE IF EXISTS swimmers;
@@ -11,6 +13,8 @@ DROP TABLE IF EXISTS races;
 DROP TABLE IF EXISTS options;
 
 DROP TABLE IF EXISTS questions;
+
+DROP TABLE IF EXISTS questionaries;
 
 DROP TABLE IF EXISTS events;
 

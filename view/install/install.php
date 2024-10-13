@@ -25,7 +25,7 @@
                     <h3>Panel de instalación de SwimGest</h3>
                 </header>
                 <main class="p-1">
-                    <form id="login_form" method="post" enctype="multipart/form-data" action="install/install">
+                    <form id="login_form" method="post" action="install/install">
                         <div class="row mb-1">
                             <label for="username">Nombre de la base de datos*</label>
                             <input class="w-100" type="text" id="database" name="database" placeholder="Nombre de la base de datos" required>
@@ -38,12 +38,6 @@
                             <label for="username">Contraseña de la base de datos*</label>
                             <input class="w-100" type="password" id="password" name="password" placeholder="Contraseña" autocomplete="true" >
                         </div>
-                        <div class="row mb-1">
-                            <label for="logo">Logo de tu club</label>
-                            <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-                            <input class="w-100" type="file" id="logo" name="logo" accept=".png, .jpeg, .jpg" placeholder="Logo de tu club">
-                        </div>
-                        <input type="hidden" name="installing" value="1" />
                         <div class="row">
                             <button type="submit" class="btn">Instalar</button>
                         </div>

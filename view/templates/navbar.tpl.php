@@ -1,7 +1,9 @@
+<?php include './utils/config.php'; ?>
+
 <nav class="navbar">
     <div class="container row jc-between">
         <div class="navbar-logo col-3 col-sm-2 col-md-1">
-            <img class="img-fluid" src="public/img/logo_escualos.svg">
+            <img class="img-fluid" src="<?php echo $logoRoute; ?>">
         </div>
 
         <div class="navbar-toggler">

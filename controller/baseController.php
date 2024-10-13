@@ -54,6 +54,14 @@ class BaseController
         ];
     }
 
+    /* Retunrs if install is in progress */
+
+    public function isInstallingProcess()
+    {
+
+        return isset($_SESSION['installing']) && $_SESSION['installing'];
+    }
+
     /**Shows message modal window */
 
     public function showMessage()

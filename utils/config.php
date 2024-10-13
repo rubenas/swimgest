@@ -1,1 +1,1 @@
-<?php $dbConfig = ["dbName" =>"escualos" , "host" => "localhost", "user" => "escualos","password" => "f*-Arf3[_d1jzWgb"];
+<?php $dbConfig = ["dbName" =>"escualos", "host" => "localhost", "user" => "escualos","password" => "abc123."];$logoRoute = "./public/img/logo.png";

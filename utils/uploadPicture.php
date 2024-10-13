@@ -10,7 +10,7 @@ function uploadPicture($postName, $route)
         ];
     }
 
-    if ($_FILES[$postName]['type'] != "image/jpeg" && $_FILES[$postName]['type'] != "img/png") {
+    if ($_FILES[$postName]['type'] != "image/jpeg" && $_FILES[$postName]['type'] != "image/png") {
 
         unlink($_FILES[$postName]['tmp_name']);
 
@@ -78,7 +78,11 @@ function uploadPicture($postName, $route)
         imagejpeg($im2, $imageRoute, 60);
     } else if ($extension == '.png') {
 
-        imagepng($im2, $imageRoute, 60);
+        $black = imagecolorallocate($im2, 0, 0, 0);
+        // Make the background transparent
+        imagecolortransparent($im2, $black);
+
+        imagepng($im2, $imageRoute, 6);
     }
 
     //Clearing 
