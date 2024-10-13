@@ -66,6 +66,8 @@ function uploadPicture($postName, $route)
     $newSize = min($size, 1080);
 
     $im2 = imagecreatetruecolor($newSize, $newSize);
+    imagealphablending($im2, FALSE);
+    imagesavealpha($im2, TRUE);
 
     imagecopyresized($im2, $im, 0, 0, 0, 0, $newSize, $newSize, $size, $size);
 
@@ -77,10 +79,6 @@ function uploadPicture($postName, $route)
 
         imagejpeg($im2, $imageRoute, 60);
     } else if ($extension == '.png') {
-
-        $black = imagecolorallocate($im2, 0, 0, 0);
-        // Make the background transparent
-        imagecolortransparent($im2, $black);
 
         imagepng($im2, $imageRoute, 6);
     }
