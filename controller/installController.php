@@ -2,13 +2,12 @@
 
 require_once './controller/baseController.php';
 
-/* LOGIN AND USER ACESSS */
+/* INSTALL PROCESS: CREATE TABLES AND BASIC DATA */
 
 class InstallController extends BaseController
 {
 
-
-    /**Show instaññ view */
+    /**Show install view */
 
     public function showInstall()
     {
@@ -120,11 +119,10 @@ class InstallController extends BaseController
             'success' => 'true',
             'msg' => 'Se han creado correctamente la base de datos y el fichero de configuración.'
         ];
-
-        
     }
 
-    public function uploadLogo() {
+    public function uploadLogo()
+    {
 
         $this->view = 'install/installing';
 
@@ -157,8 +155,8 @@ class InstallController extends BaseController
         }
 
         $txt = '$logoRoute = "' . $imageRoute . '";';
-        
-        if(!fwrite($configFile, $txt)) {
+
+        if (!fwrite($configFile, $txt)) {
 
             return [
                 'success' => false,
@@ -166,7 +164,7 @@ class InstallController extends BaseController
             ];
         }
 
-        if(!fclose($configFile)) {
+        if (!fclose($configFile)) {
 
             return [
                 'success' => false,
@@ -175,6 +173,5 @@ class InstallController extends BaseController
         }
 
         $_SESSION['installing'] = false;
-
     }
 }
