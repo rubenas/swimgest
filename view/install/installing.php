@@ -27,10 +27,33 @@
                 <main class="p-1">
                     <div id="msg-div" class="success"><?php if (isset($data['content']['msg'])) echo $data['content']['msg']; ?></div>
                     <div class="error mb-1"><?php if (isset($data['content']['error'])) echo $data['content']['error']; ?></div>
-                    <form id="login_form" method="post" enctype="multipart/form-data" action="install/uploadLogo">
+                    <form id="login_form" method="post" enctype="multipart/form-data" action="install/setPreferences">
+                        <div class="row mb-1">
+                            <label for="host">Host*</label>
+                            <input class="w-100" type="text" id="host" name="host" placeholder="Dirección del servidor smtp" autocomplete="true" required>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="port">Puerto*</label>
+                            <input class="w-100" type="number" id="port" name="port" placeholder="Puerto" autocomplete="true" required>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="username">Usuario*</label>
+                            <input class="w-100" type="text" id="username" name="username" placeholder="Usuario" autocomplete="true" required>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="password">Contraseña*</label>
+                            <input class="w-100" type="password" id="password" name="password" placeholder="Contraseña" autocomplete="true" required>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="clubName">Nombre del club*</label>
+                            <input class="w-100" type="text" id="clubName" name="clubName" placeholder="Nombre del club" autocomplete="true" required>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="email">Dirección de correo electrónico*</label>
+                            <input class="w-100" type="email" id="email" name="email" placeholder="Email" autocomplete="true" required>
+                        </div>
                         <div class="row mb-1">
                             <label for="logo">Logo de tu club</label>
-                            
                             <input class="w-100" type="file" id="logo" name="logo" accept=".png, .jpeg, .jpg" placeholder="Logo de tu club">
                         </div>
                         <input type="hidden" name="installing" value="1" />
@@ -42,6 +65,7 @@
                 <hr class="mx-1">
                 <footer class="p-1">
                     Puedes personalizar el aspecto de SwimGest con el logo de tu club. Sólo están permitidos archivos jpg y png de hasta 1MB de tamaño. Procura que las proporciones sean lo más cuadradas posible.
+                    Además, debes proporcional las credenciales de acceso al servidor smtp para el envío de correos electrónicos.
                 </footer>
             </div>
         </div>

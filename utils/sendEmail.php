@@ -7,8 +7,9 @@ use PHPMailer\PHPMailer\Exception;
 
 /** Sends an email to an array of recipients (Object swimmer) using phpmailer */
 
-function sendEmail($recipients, $subject, $body)
+function sendEmail($recipients, $subject, $body, $smtpConfig)
 {
+
     try {
 
         $mail = new PHPMailer(true);
@@ -16,15 +17,15 @@ function sendEmail($recipients, $subject, $body)
         $mail->isSMTP();
         $mail->SMTPAuth = true;
 
-        $mail->Host = "ssl0.ovh.net";
-        $mail->Port = "465";
-        $mail->Username = "admin@cnescualos.es";
-        $mail->Password = "OteOteElQueN0B0t3";
+        $mail->Host = $smtpConfig['host'];
+        $mail->Port = $smtpConfig['port'];
+        $mail->Username = $smtpConfig['username'];
+        $mail->Password = $smtpConfig['password'];
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
 
         foreach ($recipients as $recipient) {
 
-            $mail->addBCC($recipient->getEmail(), $recipient->getName() . ' ' . $recipient->getSurname());
+            $mail->addBCC($recipient);
         }
 
         $mail->isHTML(true);
@@ -34,16 +35,20 @@ function sendEmail($recipients, $subject, $body)
         $mail->Subject = $subject;
         $mail->Body = $body;
 
-        $mail->From = 'admin@cnescualos.com';
+        $mail->FromName = $smtpConfig['from'];
 
-        $mail->send();
+        if ($mail->send()) return ['success' => true];
 
-        return ['success' => true];
+        else return [
+            'success' => false,
+            'error' => $mail->ErrorInfo
+        ];
+        
     } catch (Exception $e) {
 
         return [
             'success' => false,
-            'error' =>  $mail->ErrorInfo
+            'error' =>  $e->getMessage()
         ];
     }
 }

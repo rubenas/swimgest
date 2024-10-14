@@ -121,10 +121,17 @@ class InstallController extends BaseController
         ];
     }
 
-    public function uploadLogo()
+    public function setPreferences()
     {
 
         $this->view = 'install/installing';
+
+        $validation = self::checkRequiredFields(['host', 'port','username', 'password', 'clubName']);
+
+        if (!$validation['success']) {
+
+            return $validation;
+        }
 
         //Managing logo
 
@@ -155,6 +162,38 @@ class InstallController extends BaseController
         }
 
         $txt = '$logoRoute = "' . $imageRoute . '";';
+
+        if (!fwrite($configFile, $txt)) {
+
+            return [
+                'success' => false,
+                'error' => 'No se ha podido escribir el fichero de configuración.'
+            ];
+        }
+
+        //Checking SMTP Credentials
+
+        require_once './utils/sendEmail.php';
+
+        $smtpConfig = [
+            'host' => $_POST['host'],
+            'port' => $_POST['port'],
+            'username' => $_POST['username'],
+            'password' => $_POST['password'],
+            'from' => $_POST['clubName']
+        ];
+
+        $result = sendEmail([$_POST['email']], 'Mensaje de prueba', 'Todo ok. Disfruta de SwimGest', $smtpConfig);
+
+        if (!$result['success']) return $result;
+
+        //Saving SMTP credentials
+
+        $txt = '$smtpConfig = ["host" => "'.$smtpConfig["host"].'", ';
+        $txt .= '"port" => "'.$smtpConfig["port"].'", ';
+        $txt .= '"username" => "'.$smtpConfig["username"].'", ';
+        $txt .= '"password" => "'.$smtpConfig["password"].'", ';
+        $txt .= '"from" => "'.$smtpConfig["from"].'"];';
 
         if (!fwrite($configFile, $txt)) {
 

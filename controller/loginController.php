@@ -101,14 +101,15 @@ class LoginController extends BaseController
 
         require_once './utils/sendEmail.php';
         require_once './utils/emails/forgottenPass.php';
+        require './utils/config.php';
 
         $email = forgottenPassEmail($swimmer);
 
-        $result = sendEmail([$swimmer], $email['subject'], $email['body']);
+        $result = sendEmail([$swimmer->getEmail()], $email['subject'], $email['body'], $smtpConfig);
 
         if (!$result['success']) return [
             'success' => false,
-            'msg' => $result['error']
+            'error' => $result['error']
         ];
 
         return [

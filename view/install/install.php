@@ -35,8 +35,8 @@
                             <input class="w-100" type="text" id="username" name="username" placeholder="Usuario de la base de datos" autocomplete="true" required>
                         </div>
                         <div class="row mb-1">
-                            <label for="username">Contraseña de la base de datos*</label>
-                            <input class="w-100" type="password" id="password" name="password" placeholder="Contraseña" autocomplete="true" >
+                            <label for="password">Contraseña de la base de datos*</label>
+                            <input class="w-100" type="password" id="password" name="password" placeholder="Contraseña" autocomplete="true" required>
                         </div>
                         <div class="row">
                             <button type="submit" class="btn">Instalar</button>
