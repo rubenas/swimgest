@@ -1,11 +1,11 @@
 <?php
 
 /**
- * BaseModel
+ * Class BaseModel
  * 
  * Abstract class that provides common methods for all models. 
- * This class handles database connection and basic operations
- * interaction with the database for models that extend it.
+ * This class handles database connections and basic operations 
+ * for interacting with the database for models that extend it.
  */
 
 abstract class BaseModel

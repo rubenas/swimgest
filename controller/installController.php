@@ -6,7 +6,7 @@ require_once './controller/baseController.php';
  * Class InstallController
  * 
  * Controller responsible for managing the installation process of the web application.
- * It handles database creation, initial setup, and system preferences configuration.
+ * It handles tables creation, initial setup, and system preferences configuration.
  */
 
 class InstallController extends BaseController
