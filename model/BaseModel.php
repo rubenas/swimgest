@@ -1,18 +1,30 @@
 <?php
 
-/**Base class to define some common methods for all models */
+/**
+ * BaseModel
+ * 
+ * Abstract class that provides common methods for all models. 
+ * This class handles database connection and basic operations
+ * interaction with the database for models that extend it.
+ */
 
 abstract class BaseModel
 {
+    /** @var PDO|null Holds the PDO database connection */
     public static $connection;
 
+    /** @var string The table name constant for models */
     const TABLE = '';
 
-    /*Stablish a DB connection*/
+    /**
+     * Establish a connection to the database using the credentials provided 
+     * in the config file.
+     *
+     * @return PDO|false The database connection object or false if the connection fails.
+     */
 
     public static function getConnection()
     {
-
         if (!isset(self::$connection) || is_null(self::$connection)) {
 
             require_once './utils/config.php';
@@ -28,9 +40,7 @@ abstract class BaseModel
 
                 return self::$connection;
             } catch (PDOException $e) {
-
-                echo 'La conexión a la BD ha fallado: ' . $e->getMessage();
-
+                echo 'Database connection failed: ' . $e->getMessage();
                 return false;
             }
         }
@@ -38,21 +48,30 @@ abstract class BaseModel
         return self::$connection;
     }
 
-    /**Get an element by ID as an object */
+    /**
+     * Fetch a record by its ID.
+     *
+     * @param int $id The ID of the record to retrieve.
+     * @return object|false The object representing the record, or false if not found.
+     */
 
     public static function getById($id)
     {
-
         $sql = "SELECT * FROM " . static::TABLE . " WHERE id = :id";
 
         $query = self::getConnection()->prepare($sql);
-
         $query->execute([':id' => intval($id)]);
 
         return $query->fetchObject(static::class);
     }
 
-    /*Get all elements from DB based on array of conditions and order by orders array*/
+    /**
+     * Retrieve all records from the table, optionally filtering by conditions and ordering by specified fields.
+     *
+     * @param array $conditions Optional conditions for the query.
+     * @param array $orders Optional order by clauses.
+     * @return array The list of records as objects.
+     */
 
     public static function getAll($conditions = [], $orders = [])
     {
@@ -71,17 +90,20 @@ abstract class BaseModel
         $sql = rtrim($sql, ', ');
 
         $query = self::getConnection()->prepare($sql);
-
         $query->execute();
 
         return $query->fetchAll(PDO::FETCH_CLASS, static::class);
     }
 
-    /*Delete an element from DB located by its id */
+    /**
+     * Delete a record from the database based on its ID.
+     *
+     * @param int $id The ID of the record to delete.
+     * @return bool Returns true on success or false on failure.
+     */
 
     public static function remove($id)
     {
-
         $sql = "DELETE FROM " . static::TABLE . " WHERE id = :id";
 
         $query = self::getConnection()->prepare($sql);
@@ -89,15 +111,19 @@ abstract class BaseModel
         return $query->execute([':id' => $id]);
     }
 
-    /*Edit an element from DB located by its ID*/
+    /**
+     * Update a record in the database based on its ID.
+     *
+     * @param array $columns Associative array of column names and values to update.
+     * @param int $id The ID of the record to update.
+     * @return bool Returns true on success or false on failure.
+     */
 
     public static function updateFromId($columns, $id)
     {
-
         $sql = "UPDATE " . static::TABLE . " SET ";
 
         foreach ($columns as $nameColumn => $value) {
-
             $sql .= ($value == null) ? "$nameColumn = NULL," : "$nameColumn = '$value',";
         }
 
