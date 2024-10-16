@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Class WorldRecord
+ *
+ * Represents a world record in swimming, including its style, distance, pool type, gender, time, and category.
+ * This class provides methods to retrieve world records based on marks and to manipulate record time formats.
+ */
+
 class WorldRecord extends BaseModel
 {
     const TABLE = 'world_records';
@@ -12,6 +19,12 @@ class WorldRecord extends BaseModel
     private $time;
     private $category;
 
+    /**
+     * Retrieves a world record based on a provided Mark object.
+     *
+     * @param Mark $mark The Mark object containing details for the search.
+     * @return WorldRecord|null The found WorldRecord object or null if no record is found.
+     */
 
     public static function getFromMark(Mark $mark)
     {
@@ -34,41 +47,56 @@ class WorldRecord extends BaseModel
 
         $query->execute($values);
 
-        if ($query->rowCount() == 0) { //If not data found we use absolute world_records
-
+        if ($query->rowCount() == 0) { // If no data found, use absolute world records
             $values[':category'] = '+0';
-
             $query->execute($values);
         }
 
         return $query->fetchObject('WorldRecord');
     }
 
+    /**
+     * Retrieves the minutes part of the record time.
+     *
+     * @return string The minutes component of the time.
+     */
+
     public function getMinutes()
     {
-
         $time = new DateTimeImmutable($this->time);
-
         return $time->format('i');
     }
 
+    /**
+     * Retrieves the seconds part of the record time.
+     *
+     * @return string The seconds component of the time.
+     */
+
     public function getSeconds()
     {
-
         $time = new DateTimeImmutable($this->time);
-
         return $time->format('s');
     }
 
+    /**
+     * Retrieves the milliseconds part of the record time.
+     *
+     * @return string The milliseconds component of the time.
+     */
+
     public function getMiliseconds()
     {
-
         $time = new DateTimeImmutable($this->time);
-
         return $time->format('v');
     }
 
-    /*Return floatTime like mm:ss.xx */
+    /**
+     * Returns the record time in a float format (mm:ss.xx).
+     *
+     * @return float The time in float format.
+     */
+
     public function getFloatTime()
     {
         $floatTime = 0;
@@ -81,60 +109,72 @@ class WorldRecord extends BaseModel
     }
 
     /*GETTERS AND SETTERS*/
+
     public function getStyle()
     {
         return $this->style;
     }
+
     public function setStyle($style): self
     {
         $this->style = $style;
 
         return $this;
     }
+
     public function getDistance()
     {
         return $this->distance;
     }
+
     public function setDistance($distance): self
     {
         $this->distance = $distance;
 
         return $this;
     }
+
     public function getPool()
     {
         return $this->pool;
     }
+
     public function setPool($pool): self
     {
         $this->pool = $pool;
 
         return $this;
     }
+
     public function getGender()
     {
         return $this->gender;
     }
+
     public function setGender($gender): self
     {
         $this->gender = $gender;
 
         return $this;
     }
+
     public function getTime()
     {
         return $this->time;
     }
+
     public function setTime($time): self
     {
         $this->time = $time;
 
         return $this;
     }
+
     public function getCategory()
     {
         return $this->category;
     }
+
     public function setCategory($category): self
     {
         $this->category = $category;

@@ -123,12 +123,12 @@ class LoginController extends BaseController
         $token = $_GET['token'];
         $id = $_GET['id'];
 
+        $this->view = 'login/login';
+
         /**@var Swimmer $swimmer */
         $swimmer = Swimmer::getById($id);
 
         if (!$swimmer) {
-
-            $this->view = 'login/login';
 
             return [
                 'success' => false,
@@ -136,8 +136,7 @@ class LoginController extends BaseController
             ];
         }
 
-        if ($swimmer->getResetPassToken() != $token) {
-            $this->view = 'login/login';
+        if ($swimmer->getResetPassToken() != $token) {  
 
             return [
                 'success' => false,
@@ -148,8 +147,6 @@ class LoginController extends BaseController
         $now = date("Y-m-d H:i:s");
 
         if (new DateTime($now) > new DateTime($swimmer->getTokenExpDate())) {
-
-            $this->view = 'login/login';
 
             return [
                 'success' => false,

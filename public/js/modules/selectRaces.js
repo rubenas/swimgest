@@ -1,38 +1,43 @@
-/*Este script actualiza las opciones del select que lista las distancias en pruebas de piscina
-En función del estilo seleccionado en selectStyle, se cargan las distancias disponibles*/
-
 import { addOption, clearOptions } from "./functions.js";
 
-export function loadSelectRacesSettings(element) {
+/**
+ * Initializes the settings for the race selection forms.
+ * Adds event listeners to update available distances based on the selected style and pool length.
+ *
+ * @param {HTMLElement} [element=document] - The parent element from which to search for forms. Defaults to the entire document.
+ */
 
+export function loadSelectRacesSettings(element) {
     if (element == null) element = document;
 
     let formsRace = document.getElementsByClassName("form-race");
 
     for (let form of formsRace) {
-
         const selectStyle = form.querySelector(".style");
         const selectDistance = form.querySelector(".distance");
         const selectPool = form.querySelector(".pool");
 
         if (selectStyle != null) {
-
             selectStyle.addEventListener("change", function () {
                 selectDistanceUpdate(selectStyle, selectDistance, selectPool);
             }, false);
-
         }
 
         if (selectPool != null) {
-
             selectPool.addEventListener("change", function () {
                 selectDistanceUpdate(selectStyle, selectDistance, selectPool);
             }, false);
         }
-
     }
-
 }
+
+/**
+ * Updates the available distances in the distance select element based on the selected style and pool length.
+ *
+ * @param {HTMLSelectElement} selectStyle - The select element for the style of swimming.
+ * @param {HTMLSelectElement} selectDistance - The select element for the distances available.
+ * @param {HTMLSelectElement} selectPool - The select element for the pool length.
+ */
 
 function selectDistanceUpdate(selectStyle, selectDistance, selectPool) {
     switch (selectStyle.options[selectStyle.selectedIndex].value) {
@@ -67,6 +72,5 @@ function selectDistanceUpdate(selectStyle, selectDistance, selectPool) {
             addOption(selectDistance, "4x50m", "4x50m", "4x50m", "4x50m", false);
             addOption(selectDistance, "4x100m", "4x100m", "4x100m", "4x100m", false);
             break;
-
     }
 }
