@@ -2,14 +2,23 @@
 
 require_once './controller/baseController.php';
 
+/**
+ * Controller for managing competitions in the admin panel.
+ * This controller handles competition-related actions such as 
+ * listing, creating, editing, and deleting competitions.
+ */
+
 class AdminCompetitionController extends BaseController
 {
 
-    /**List competitions */
+    /**
+     * List competitions.
+     *
+     * @return array Returns an array with success status and a list of competitions sorted by startDate.
+     */
 
     public function list()
     {
-
         $this->view = 'admin/competition/list';
 
         return [
@@ -18,11 +27,14 @@ class AdminCompetitionController extends BaseController
         ];
     }
 
-    /*Create a Competition Object from Post form*/
+    /**
+     * Create a Competition Object from POST form.
+     *
+     * @return array Returns an array with success status and the competition object created from the form.
+     */
 
     public static function fromPost()
     {
-
         $validation = self::checkRequiredFields(array('name', 'place', 'inscriptionsLimit', 'startDate', 'endDate', 'inscriptionsDeadLine'));
 
         if (!$validation['success']) return $validation;
@@ -37,34 +49,26 @@ class AdminCompetitionController extends BaseController
         $competition->setDeadLine($_POST['inscriptionsDeadLine']);
 
         if ($_FILES['picture']['size'] != 0) {
-
             require_once './utils/uploadPicture.php';
 
             $route = './public/img/competitions/' . uniqid("comp");
-
             $imageRoute = uploadPicture('picture', $route);
 
-            if (isset($imageRoute['sucess']) && !$imageRoute['success']) {
-
+            if (isset($imageRoute['success']) && !$imageRoute['success']) {
                 $competition->setPicture(Competition::DEFAULT_PICTURE);
-
                 return $imageRoute;
             }
 
             $competition->setPicture($imageRoute);
         } else {
-
             $competition->setPicture(Competition::DEFAULT_PICTURE);
         }
 
         $competition->setLocation(isset($_POST['location']) ? $_POST['location'] : null);
-
         $competition->setDescription(isset($_POST['description']) ? $_POST['description'] : null);
-
         $competition->setState(Competition::DEFAULT_STATE);
 
         if ($competition->getEndDate() < $competition->getStartDate()) {
-
             return [
                 'success' => false,
                 'error' => 'La fecha de inicio debe ser anterior a la de fin'
@@ -72,7 +76,6 @@ class AdminCompetitionController extends BaseController
         }
 
         if ($competition->getStartDate() <= $competition->getDeadLine()) {
-
             return [
                 'success' => false,
                 'error' => 'La fecha de cierre de inscripciones debe ser anterior a la de inicio'
@@ -85,30 +88,35 @@ class AdminCompetitionController extends BaseController
         ];
     }
 
-    /*Add competition to DB*/
+    /**
+     * Add competition to the database.
+     *
+     * @return array Returns an array with success status and the added competition object.
+     */
 
     public function add()
     {
         $competition = self::fromPost();
 
         if ($competition['success']) {
-
             $result = Competition::add($competition['object']);
         } else {
-
             $competition['object'] = Competition::getAll('', 'startDate');
-
             return $competition;
         }
 
         $this->view = 'admin/competition/details';
-
         $competition['object']->setId($result['id']);
 
         return $competition;
     }
 
-    /* Show remove confirmation window */
+    /**
+     * Show remove confirmation window.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns an array with success status and the competition object.
+     */
 
     public function removeConfirm($id)
     {
@@ -124,11 +132,16 @@ class AdminCompetitionController extends BaseController
         ];
     }
 
-    /*Remove competition from DB */
+    /**
+     * Remove competition from the database.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns the result of the list method.
+     */
 
     public function remove($id)
     {
-        /**@var Competition $competition */
+        /** @var Competition $competition */
         $competition = Competition::getById($id);
 
         if (!$competition) return $this->notFoundError;
@@ -140,11 +153,15 @@ class AdminCompetitionController extends BaseController
         return $this->list();
     }
 
-    /**Show edit competition window */
+    /**
+     * Show edit competition window.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns an array with success status and the competition object.
+     */
 
     public function edit($id)
     {
-
         $competition = Competition::getById($id);
 
         if (!$competition) return $this->notFoundError;
@@ -157,25 +174,27 @@ class AdminCompetitionController extends BaseController
         ];
     }
 
-    /*Update competition from POST*/
+    /**
+     * Update competition from POST.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns an array with success status and the updated competition object.
+     */
 
     public function update($id)
     {
-
         $this->view = 'admin/competition/details';
 
         $validation = self::checkRequiredFields(array('name', 'place', 'inscriptionsLimit', 'startDate', 'endDate', 'deadLine'));
 
         if (!$validation['success']) {
-
             return $validation;
         }
 
-        /**@var Competition $competition */
+        /** @var Competition $competition */
         $competition = Competition::getById($id);
 
         if (!$competition) return $this->notFoundError;
-
 
         $columns = [
             'name' => $_POST['name'],
@@ -184,12 +203,11 @@ class AdminCompetitionController extends BaseController
             'startDate' => $_POST['startDate'],
             'endDate' => $_POST['endDate'],
             'deadLine' => $_POST['deadLine'],
-            'location' => isset($_POST['location']) ? $_POST['location'] : NULL,
-            'description' => isset($_POST['description']) ? $_POST['description'] : NULL
+            'location' => isset($_POST['location']) ? $_POST['location'] : null,
+            'description' => isset($_POST['description']) ? $_POST['description'] : null
         ];
 
         if ($columns['endDate'] < $columns['startDate']) {
-
             return [
                 'success' => false,
                 'error' => 'La fecha de inicio debe ser anterior a la de fin',
@@ -198,7 +216,6 @@ class AdminCompetitionController extends BaseController
         }
 
         if ($columns['startDate'] <= $columns['deadLine']) {
-
             return [
                 'success' => false,
                 'error' => 'La fecha de cierre de inscripciones debe ser anterior a la de inicio',
@@ -211,17 +228,20 @@ class AdminCompetitionController extends BaseController
         return Competition::fill($id);
     }
 
-    /**Load view Add journey to competition */
+
+    /**
+     * Load view to add a journey to a competition.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns an array with success status and the competition object.
+     */
 
     public function addJourney($id)
     {
-
         $competition = Competition::getById($id);
-
         $this->view = 'admin/journey/add';
 
         if (!$competition) {
-
             return $this->notFoundError;
         }
 
@@ -231,21 +251,28 @@ class AdminCompetitionController extends BaseController
         ];
     }
 
-    /**Load view competition details*/
+    /**
+     * Load view for competition details.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns the competition details.
+     */
 
     public function details($id)
     {
-
         $this->view = 'admin/competition/details';
-
         return Competition::fill($id);
     }
 
-    /**Show add picture window */
+    /**
+     * Show the window to add a picture to a competition.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns an array with success status and the competition object.
+     */
 
     public function showAddPicture($id)
     {
-
         $competition = Competition::getById($id);
 
         if (!$competition) return $this->notFoundError;
@@ -253,32 +280,37 @@ class AdminCompetitionController extends BaseController
         $this->view = "admin/competition/addPicture";
 
         return [
-            'sucess' => true,
+            'success' => true,
             'object' => $competition
         ];
     }
 
-    /**Update competition picture */
+    /**
+     * Update the competition picture.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns the result of the update operation, including success status and the competition object.
+     */
 
     public function updatePicture($id)
     {
         require_once './utils/uploadPicture.php';
 
-        $this->view  = 'admin/competition/details';
+        $this->view = 'admin/competition/details';
 
-        /**@var Competition $competition */
+        /** @var Competition $competition */
         $competition = Competition::getById($id);
 
-        if ($competition->getPicture() != Competition::DEFAULT_PICTURE) unlink($competition->getPicture());
+        if ($competition->getPicture() != Competition::DEFAULT_PICTURE) {
+            unlink($competition->getPicture());
+        }
 
         $route = './public/img/competitions/' . uniqid("comp");
 
         $imageRoute = uploadPicture('competition-picture', $route);
 
         if (isset($imageRoute['success']) && !$imageRoute['success']) {
-
             $imageRoute['object'] = Competition::fill($id)['object'];
-
             return $imageRoute;
         }
 
@@ -296,23 +328,29 @@ class AdminCompetitionController extends BaseController
         ];
     }
 
-    /**Update competition picture on ajax request*/
+    /**
+     * Update the competition picture via AJAX request.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns the result of the update operation.
+     */
 
     public function ajaxUpdatePicture($id)
     {
-
-        $data =  $this->updatePicture($id);
-
-        $this->view  = 'admin/competition/picture';
-
+        $data = $this->updatePicture($id);
+        $this->view = 'admin/competition/picture';
         return $data;
     }
 
-    /**Show remove picture window */
+    /**
+     * Show the window to remove a picture from a competition.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns an array with success status and the competition object.
+     */
 
     public function showRemovePicture($id)
     {
-
         $competition = Competition::getById($id);
 
         if (!$competition) return $this->notFoundError;
@@ -320,28 +358,30 @@ class AdminCompetitionController extends BaseController
         $this->view = "admin/competition/removePicture";
 
         return [
-            'sucess' => true,
+            'success' => true,
             'object' => $competition
         ];
     }
 
-    /**Remove picture from folder and DB */
+    /**
+     * Remove a picture from the folder and database.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns the result of the removal operation.
+     */
 
     public function removePicture($id)
     {
-
         $this->view = 'admin/competition/details';
 
-        /**@var Competition $competition */
+        /** @var Competition $competition */
         $competition = Competition::getById($id);
 
         if (!$competition) {
-
             return $this->notFoundError;
         }
 
         if ($competition->getPicture() == Competition::DEFAULT_PICTURE) {
-
             return [
                 'success' => false,
                 'error' => 'No puedes borrar la imagen por defecto',
@@ -350,16 +390,14 @@ class AdminCompetitionController extends BaseController
         }
 
         if (!unlink($competition->getPicture())) {
-
             return [
                 'success' => false,
                 'error' => 'No se ha podido borrar la imagen de perfil',
-                'object' =>  Competition::fill($id)['object']
+                'object' => Competition::fill($id)['object']
             ];
         }
 
         if (!Competition::updateFromId(['picture' => Competition::DEFAULT_PICTURE], $id)) {
-
             return [
                 'success' => false,
                 'error' => 'No se ha podido borrar la ruta de la imagen de la base de datos',
@@ -375,18 +413,26 @@ class AdminCompetitionController extends BaseController
         ];
     }
 
-    /**Remove picture on ajax request */
+    /**
+     * Remove a picture via AJAX request.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns the result of the removal operation.
+     */
 
     public function ajaxRemovePicture($id)
     {
         $data = $this->removePicture($id);
-
-        $this->view  = 'admin/competition/picture';
-
+        $this->view = 'admin/competition/picture';
         return $data;
     }
 
-    /**Update State */
+    /**
+     * Update the state of a competition.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns the result of the update operation.
+     */
 
     public function updateState($id)
     {
@@ -398,6 +444,13 @@ class AdminCompetitionController extends BaseController
 
         return $this->list();
     }
+
+    /**
+     * Update the state of a competition via AJAX request.
+     *
+     * @param int $id The competition ID.
+     * @return array Returns the result of the update operation.
+     */
 
     public function ajaxUpdateState($id)
     {

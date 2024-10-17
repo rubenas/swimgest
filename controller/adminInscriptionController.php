@@ -2,10 +2,19 @@
 
 require_once './controller/baseController.php';
 
+/**
+ * Controller for managing inscriptions in the admin panel.
+ * This controller handles inscription-related actions.
+ */
+
 class AdminInscriptionController extends BaseController
 {
-
-    /**Show competition inscriptions */
+    /**
+     * Show competition inscriptions
+     *
+     * @param int $id The ID of the competition to display inscriptions for.
+     * @return array An array containing the competition object, inscriptions, and inscribed swimmers or a not found error.
+     */
 
     public function competition($id)
     {
@@ -17,16 +26,12 @@ class AdminInscriptionController extends BaseController
         $inscribedSwimmers = array();
 
         foreach ($competition['object']->getJourneys() as $journey) {
-
             foreach ($journey->getSessions() as $session) {
-
                 foreach ($session->getRaces() as $race) {
-
                     $inscriptions = Inscription::getAll(['raceId = ' . $race->getId()], []);
 
                     foreach ($inscriptions as $inscription) {
-
-                        /**@var Swimmer $swimmer */
+                        /** @var Swimmer $swimmer */
                         $swimmer = Swimmer::getById($inscription->getSwimmerId());
 
                         $arrayInscriptions[$race->getId()][] = [
@@ -34,10 +39,14 @@ class AdminInscriptionController extends BaseController
                             'mark' => $inscription->getMark()
                         ];
 
-                        if (!in_array($swimmer->getSurname() . ', ' . $swimmer->getName(), $inscribedSwimmers)) $inscribedSwimmers[] = $swimmer->getSurname() . ', ' . $swimmer->getName();
+                        if (!in_array($swimmer->getSurname() . ', ' . $swimmer->getName(), $inscribedSwimmers)) {
+                            $inscribedSwimmers[] = $swimmer->getSurname() . ', ' . $swimmer->getName();
+                        }
                     }
 
-                    if (isset($arrayInscriptions[$race->getId()])) usort($arrayInscriptions[$race->getId()], fn($a, $b) => removeSpecials($a['swimmer']) <=> removeSpecials($b['swimmer']));
+                    if (isset($arrayInscriptions[$race->getId()])) {
+                        usort($arrayInscriptions[$race->getId()], fn($a, $b) => removeSpecials($a['swimmer']) <=> removeSpecials($b['swimmer']));
+                    }
                 }
             }
         }
@@ -53,7 +62,12 @@ class AdminInscriptionController extends BaseController
         ];
     }
 
-    /**Show event inscriptions */
+    /**
+     * Show event inscriptions
+     *
+     * @param int $id The ID of the event to display inscriptions for.
+     * @return array An array containing the event object or a not found error.
+     */
 
     public function event($id)
     {
@@ -68,9 +82,15 @@ class AdminInscriptionController extends BaseController
         ];
     }
 
+    /**
+     * Fill event details including inscriptions, questions, answers, and sub-events.
+     *
+     * @param Event $event The event object to be filled.
+     * @return Event The filled event object.
+     */
+
     public function fillEvent($event)
     {
-
         $inscriptions = $this->fillInscription($event->getId());
 
         $event->setInscriptions($inscriptions);
@@ -90,6 +110,13 @@ class AdminInscriptionController extends BaseController
         return $event;
     }
 
+    /**
+     * Get all sub-events for a given event.
+     *
+     * @param Event $event The parent event object.
+     * @return array An array of sub-event objects.
+     */
+
     public function getAllSubEvents($event)
     {
         $subEvents = Event::getAll(['parentId = ' . $event->getId()], ['startDate']);
@@ -97,13 +124,19 @@ class AdminInscriptionController extends BaseController
         $events = [];
 
         foreach ($subEvents as $subEvent) {
-
             $event = $this->fillEvent($subEvent);
             $events[] = $event;
         }
 
         return $events;
     }
+
+    /**
+     * Fill the inscriptions for a given event ID.
+     *
+     * @param int $eventId The ID of the event to fill inscriptions for.
+     * @return array An array of swimmer names inscribed to the event.
+     */
 
     public function fillInscription($eventId)
     {
@@ -112,8 +145,7 @@ class AdminInscriptionController extends BaseController
         $arrayInscriptions = array();
 
         foreach ($inscriptions as $inscription) {
-
-            /**@var Swimmer $swimmer */
+            /** @var Swimmer $swimmer */
             $swimmer = Swimmer::getById($inscription->getSwimmerId());
 
             $arrayInscriptions[] = $swimmer->getSurname() . ', ' . $swimmer->getName();
@@ -124,19 +156,23 @@ class AdminInscriptionController extends BaseController
         return $arrayInscriptions;
     }
 
+    /**
+     * Fill the answers for given questions.
+     *
+     * @param array $questions An array of question objects.
+     * @return array An associative array of answers for each question.
+     */
+
     public function fillAnswers($questions)
     {
         $arrayAnswers = array();
 
         foreach ($questions as $question) {
-
             if ($question->getType() == 'text') {
-
                 $answers = Answer::getAll(['questionId = ' . $question->getId()], []);
 
                 foreach ($answers as $answer) {
-
-                    /**@var Swimmer $swimmer */
+                    /** @var Swimmer $swimmer */
                     $swimmer = Swimmer::getById($answer->getSwimmerId());
 
                     $arrayAnswers[$question->getId()][] = [
@@ -145,22 +181,23 @@ class AdminInscriptionController extends BaseController
                     ];
                 }
 
-                if (isset($arrayAnswers[$question->getId()])) usort($arrayAnswers[$question->getId()], fn($a, $b) => removeSpecials($a['swimmer']) <=> removeSpecials($b['swimmer']));
+                if (isset($arrayAnswers[$question->getId()])) {
+                    usort($arrayAnswers[$question->getId()], fn($a, $b) => removeSpecials($a['swimmer']) <=> removeSpecials($b['swimmer']));
+                }
             } else {
-
                 foreach ($question->getOptions() as $option) {
-
                     $answers = Answer::getAll(['questionId = ' . $question->getId(), 'text = "' . $option->getText() . '"'], []);
 
                     foreach ($answers as $answer) {
-
-                        /**@var Swimmer $swimmer */
+                        /** @var Swimmer $swimmer */
                         $swimmer = Swimmer::getById($answer->getSwimmerId());
 
                         $arrayAnswers[$question->getId()][$option->getText()][] = $swimmer->getSurname() . ', ' . $swimmer->getName();
                     }
 
-                    if (isset($arrayAnswers[$question->getId()][$option->getText()])) usort($arrayAnswers[$question->getId()][$option->getText()], fn($a, $b) => removeSpecials($a) <=> removeSpecials($b));
+                    if (isset($arrayAnswers[$question->getId()][$option->getText()])) {
+                        usort($arrayAnswers[$question->getId()][$option->getText()], fn($a, $b) => removeSpecials($a) <=> removeSpecials($b));
+                    }
                 }
             }
         }

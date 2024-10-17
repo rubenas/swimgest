@@ -2,14 +2,27 @@
 
 require_once './controller/baseController.php';
 
+/**
+ * AdminOptionController class
+ *
+ * This controller manages options for questions in the admin panel of the application.
+ * It provides functionalities for creating, updating, removing, and rearranging options
+ * related to questions in questionnaires and events. The controller validates user input,
+ * interacts with the database for option management, and handles AJAX requests for 
+ * dynamic updates.
+ */
+
 class AdminOptionController extends BaseController
 {
 
-    /*Create Object from Post form*/
+    /**
+     * Create an Option object from POST data.
+     *
+     * @return array The result of the validation and the created Option object.
+     */
 
     public static function fromPost()
     {
-
         $validation = self::checkRequiredFields(array('questionId', 'text', 'number'));
 
         if (!$validation['success']) return $validation;
@@ -26,14 +39,17 @@ class AdminOptionController extends BaseController
         ];
     }
 
-    /*Add option to DB*/
+    /**
+     * Add an option to the database.
+     *
+     * @return mixed The filled questionnaire or event details view.
+     */
 
     public function add()
     {
-
         $option = self::fromPost();
 
-        option::add($option['object']);
+        Option::add($option['object']);
 
         /**@var Question $question */
         $question = Question::getById($option['object']->getQuestionId());
@@ -43,14 +59,17 @@ class AdminOptionController extends BaseController
         return is_null($question->getEventId()) ? Questionary::fill($option['object']->getQuestionId()) : $this->fillEventFromOption($option['object']);
     }
 
-    /*Add option to DB on ajax rerquest*/
+    /**
+     * Add an option to the database via AJAX request.
+     *
+     * @return mixed The filled questionnaire or event details view.
+     */
 
     public function ajaxAdd()
     {
-
         $option = self::fromPost();
 
-        option::add($option['object']);
+        Option::add($option['object']);
 
         /**@var Question $question */
         $question = Question::getById($option['object']->getQuestionId());
@@ -60,7 +79,13 @@ class AdminOptionController extends BaseController
         return is_null($question->getEventId()) ? Questionary::fill($question->getQuestionaryId()) : Event::fill($question->getEventId());
     }
 
-    /* Show remove confirmation window */
+    /**
+     * Show remove confirmation window for an option.
+     *
+     * @param int $id The ID of the option to remove.
+     * @return array The success status and the option object.
+     */
+
     public function removeConfirm($id)
     {
         $option = Option::getById($id);
@@ -75,7 +100,12 @@ class AdminOptionController extends BaseController
         ];
     }
 
-    /*Remove option from DB */
+    /**
+     * Remove an option from the database.
+     *
+     * @param int $id The ID of the option to remove.
+     * @return mixed The filled questionnaire or event details view.
+     */
 
     public function remove($id)
     {
@@ -96,7 +126,12 @@ class AdminOptionController extends BaseController
         return is_null($question->getEventId()) ? Questionary::fill($option->getQuestionId()) : $this->fillEventFromOption($option);
     }
 
-    /*Remove option from DB */
+    /**
+     * Remove an option from the database via AJAX request.
+     *
+     * @param int $id The ID of the option to remove.
+     * @return mixed The filled questionnaire or event details view.
+     */
 
     public function ajaxRemove($id)
     {
@@ -117,27 +152,31 @@ class AdminOptionController extends BaseController
         return is_null($question->getEventId()) ? Questionary::fill($question->getQuestionaryId()) : Event::fill($question->getEventId());
     }
 
-    /**Move up if it's possible */
+    /**
+     * Move an option up if possible.
+     *
+     * @param int $id The ID of the option to move up.
+     * @return mixed The filled questionnaire or event details view.
+     */
 
     public function moveUp($id)
     {
-        /**@var option $option */
-        $option = option::getById($id);
+        /**@var Option $option */
+        $option = Option::getById($id);
 
         if (!$option) return $this->notFoundError;
 
-        $questionId = $option->getquestionId();
+        $questionId = $option->getQuestionId();
 
         if ($option->getNumber() > 0) {
-
             $previousNumber = $option->getNumber() - 1;
-            $previousOption = option::getAll(["number = $previousNumber AND questionID = $questionId"], [])[0];
+            $previousOption = Option::getAll(["number = $previousNumber AND questionID = $questionId"], [])[0];
 
             $previousOption->setNumber($option->getNumber());
             $option->setNumber($previousNumber);
 
-            option::updateNumber($previousOption);
-            option::updateNumber($option);
+            Option::updateNumber($previousOption);
+            Option::updateNumber($option);
         }
 
         /**@var Question $question */
@@ -148,27 +187,31 @@ class AdminOptionController extends BaseController
         return is_null($question->getEventId()) ? Questionary::fill($option->getQuestionId()) : $this->fillEventFromOption($option);
     }
 
-    /**Move up if it's possible on ajax request*/
+    /**
+     * Move an option up if possible via AJAX request.
+     *
+     * @param int $id The ID of the option to move up.
+     * @return mixed The filled questionnaire or event details view.
+     */
 
     public function ajaxMoveUp($id)
     {
-        /**@var option $option */
-        $option = option::getById($id);
+        /**@var Option $option */
+        $option = Option::getById($id);
 
         if (!$option) return $this->notFoundError;
 
-        $questionId = $option->getquestionId();
+        $questionId = $option->getQuestionId();
 
         if ($option->getNumber() > 0) {
-
             $previousNumber = $option->getNumber() - 1;
-            $previousOption = option::getAll(["number = $previousNumber AND questionID = $questionId"], [])[0];
+            $previousOption = Option::getAll(["number = $previousNumber AND questionID = $questionId"], [])[0];
 
             $previousOption->setNumber($option->getNumber());
             $option->setNumber($previousNumber);
 
-            option::updateNumber($previousOption);
-            option::updateNumber($option);
+            Option::updateNumber($previousOption);
+            Option::updateNumber($option);
         }
 
         /**@var Question $question */
@@ -179,29 +222,34 @@ class AdminOptionController extends BaseController
         return is_null($question->getEventId()) ? Questionary::fill($question->getQuestionaryId()) : Event::fill($question->getEventId());
     }
 
-    /**Move up a option if it's possible */
+    /**
+     * Move an option down if possible.
+     *
+     * @param int $id The ID of the option to move down.
+     * @return mixed The filled questionnaire or event details view.
+     */
 
     public function moveDown($id)
     {
-        /**@var option $option */
-        $option = option::getById($id);
+        /**@var Option $option */
+        $option = Option::getById($id);
 
         if (!$option) return $this->notFoundError;
 
-        $questionId = $option->getquestionId();
+        $questionId = $option->getQuestionId();
 
-        /**@var question $question */
-        $question = question::getById($questionId);
+        /**@var Question $question */
+        $question = Question::getById($questionId);
 
         if ($option->getNumber() < $question->getNumOptions() - 1) {
             $nextNumber = $option->getNumber() + 1;
-            $nextOption = option::getAll(["number = $nextNumber AND questionID = $questionId"], [])[0];
+            $nextOption = Option::getAll(["number = $nextNumber AND questionID = $questionId"], [])[0];
 
             $nextOption->setNumber($option->getNumber());
             $option->setNumber($nextNumber);
 
-            option::updateNumber($nextOption);
-            option::updateNumber($option);
+            Option::updateNumber($nextOption);
+            Option::updateNumber($option);
         }
 
         $this->view = is_null($question->getEventId()) ? 'admin/questionary/details' : 'admin/event/details';
@@ -209,29 +257,34 @@ class AdminOptionController extends BaseController
         return is_null($question->getEventId()) ? Questionary::fill($option->getQuestionId()) : $this->fillEventFromOption($option);
     }
 
-    /**Move up a option if it's possible */
+    /**
+     * Move an option down if possible via AJAX request.
+     *
+     * @param int $id The ID of the option to move down.
+     * @return mixed The filled questionnaire or event details view.
+     */
 
     public function ajaxMoveDown($id)
     {
-        /**@var option $option */
-        $option = option::getById($id);
+        /**@var Option $option */
+        $option = Option::getById($id);
 
         if (!$option) return $this->notFoundError;
 
-        $questionId = $option->getquestionId();
+        $questionId = $option->getQuestionId();
 
-        /**@var question $question */
-        $question = question::getById($questionId);
+        /**@var Question $question */
+        $question = Question::getById($questionId);
 
         if ($option->getNumber() < $question->getNumOptions() - 1) {
             $nextNumber = $option->getNumber() + 1;
-            $nextOption = option::getAll(["number = $nextNumber AND questionID = $questionId"], [])[0];
+            $nextOption = Option::getAll(["number = $nextNumber AND questionID = $questionId"], [])[0];
 
             $nextOption->setNumber($option->getNumber());
             $option->setNumber($nextNumber);
 
-            option::updateNumber($nextOption);
-            option::updateNumber($option);
+            Option::updateNumber($nextOption);
+            Option::updateNumber($option);
         }
 
         $this->view = is_null($question->getEventId()) ? 'admin/questionary/details' : 'admin/event/subEventDetails';
@@ -239,11 +292,16 @@ class AdminOptionController extends BaseController
         return is_null($question->getEventId()) ? Questionary::fill($question->getQuestionaryId()) : Event::fill($question->getEventId());
     }
 
-    /**Returns filled event width subevents, options and answers*/
+    /**
+     * Returns filled event with subevents, options, and answers.
+     *
+     * @param Option $option The option to fill the event from.
+     * @return mixed The filled event details.
+     */
 
     public static function fillEventFromOption($option)
     {
-        /**@var Question $question*/
+        /**@var Question $question */
         $question = Question::getById($option->getQuestionId());
 
         $event = Event::getById($question->getEventId());
@@ -253,7 +311,12 @@ class AdminOptionController extends BaseController
         return Event::fill($topParentEvent->getId());
     }
 
-    /**Update numbers from options when we remove one */
+    /**
+     * Update the numbers of options when one is removed.
+     *
+     * @param Option $option The option that was removed.
+     * @return void
+     */
 
     public static function resetNumbers($option)
     {
@@ -262,11 +325,8 @@ class AdminOptionController extends BaseController
         $count = 0;
 
         foreach ($options as $option) {
-
             $option->setNumber($count);
-
             $count++;
-
             Option::updateNumber($option);
         }
     }

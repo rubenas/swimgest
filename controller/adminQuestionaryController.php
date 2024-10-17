@@ -2,14 +2,22 @@
 
 require_once './controller/baseController.php';
 
+/**
+ * Class AdminQuestionaryController
+ * Handles the administration of questionaries including listing, adding, editing, and removing.
+ */
+
 class AdminQuestionaryController extends BaseController
 {
 
-    /**List questionarys */
+    /** 
+     * Lists all questionaries.
+     *
+     * @return array Returns an array with success status and list of questionaries.
+     */
 
     public function list()
     {
-
         $this->view = 'admin/questionary/list';
 
         return [
@@ -18,21 +26,29 @@ class AdminQuestionaryController extends BaseController
         ];
     }
 
-    /**Load view questionary details*/
+    /** 
+     * Loads the view for questionary details.
+     *
+     * @param int $id The ID of the questionary to view.
+     * @return array Returns the details of the specified questionary.
+     */
 
     public function details($id)
     {
-
         $this->view = 'admin/questionary/details';
 
         return Questionary::fill($id);
     }
 
-    /**Show questionary answers */
+    /** 
+     * Shows answers to the specified questionary.
+     *
+     * @param int $id The ID of the questionary whose answers are to be shown.
+     * @return array Returns the questionary and its associated answers.
+     */
 
     public function showAnswers($id)
     {
-
         $questionary = Questionary::fill($id);
 
         if (!$questionary['success']) return $this->notFoundError;
@@ -40,13 +56,9 @@ class AdminQuestionaryController extends BaseController
         $arrayAnswers = array();
 
         foreach ($questionary['object']->getQuestions() as $question) {
-
             if ($question->getType() == 'text') {
-
                 $answers = Answer::getAll(['questionId = ' . $question->getId()], []);
-
                 foreach ($answers as $answer) {
-
                     /**@var Swimmer $swimmer */
                     $swimmer = Swimmer::getById($answer->getSwimmerId());
 
@@ -55,23 +67,21 @@ class AdminQuestionaryController extends BaseController
                         'answer' => $answer->getText()
                     ];
                 }
-
-                if (isset($arrayAnswers[$question->getId()])) usort($arrayAnswers[$question->getId()], fn($a, $b) => removeSpecials($a['swimmer']) <=> removeSpecials($b['swimmer']));
+                if (isset($arrayAnswers[$question->getId()])) {
+                    usort($arrayAnswers[$question->getId()], fn($a, $b) => removeSpecials($a['swimmer']) <=> removeSpecials($b['swimmer']));
+                }
             } else {
-
                 foreach ($question->getOptions() as $option) {
-
                     $answers = Answer::getAll(['questionId = ' . $question->getId(), 'text = "' . $option->getText() . '"'], []);
-
                     foreach ($answers as $answer) {
-
                         /**@var Swimmer $swimmer */
                         $swimmer = Swimmer::getById($answer->getSwimmerId());
 
                         $arrayAnswers[$question->getId()][$option->getText()][] = $swimmer->getSurname() . ', ' . $swimmer->getName();
                     }
-
-                    if (isset($arrayAnswers[$question->getId()][$option->getText()])) usort($arrayAnswers[$question->getId()][$option->getText()], fn($a, $b) => removeSpecials($a) <=> removeSpecials($b));
+                    if (isset($arrayAnswers[$question->getId()][$option->getText()])) {
+                        usort($arrayAnswers[$question->getId()][$option->getText()], fn($a, $b) => removeSpecials($a) <=> removeSpecials($b));
+                    }
                 }
             }
         }
@@ -84,11 +94,14 @@ class AdminQuestionaryController extends BaseController
         ];
     }
 
-    /*Create a questionary Object from Post form*/
+    /** 
+     * Creates a questionary object from the POST form data.
+     *
+     * @return array Returns the validation result and the created questionary object.
+     */
 
     public static function fromPost()
     {
-
         $validation = self::checkRequiredFields(array('name', 'deadLine'));
 
         if (!$validation['success']) return $validation;
@@ -99,7 +112,6 @@ class AdminQuestionaryController extends BaseController
         $questionary->setDeadLine($_POST['deadLine']);
 
         if ($_FILES['picture']['size'] != 0) {
-
             require_once './utils/uploadPicture.php';
 
             $route = './public/img/questionaries/' . uniqid("comp");
@@ -107,20 +119,16 @@ class AdminQuestionaryController extends BaseController
             $imageRoute = uploadPicture('picture', $route);
 
             if (isset($imageRoute['sucess']) && !$imageRoute['success']) {
-
                 $questionary->setPicture(questionary::DEFAULT_PICTURE);
-
                 return $imageRoute;
             }
 
             $questionary->setPicture($imageRoute);
         } else {
-
             $questionary->setPicture(questionary::DEFAULT_PICTURE);
         }
 
         $questionary->setDescription(isset($_POST['description']) ? $_POST['description'] : null);
-
         $questionary->setState(questionary::DEFAULT_STATE);
 
         return [
@@ -129,30 +137,35 @@ class AdminQuestionaryController extends BaseController
         ];
     }
 
-    /*Add questionary to DB*/
+    /** 
+     * Adds a questionary to the database.
+     *
+     * @return array Returns the result of the add operation including the questionary details.
+     */
 
     public function add()
     {
         $questionary = self::fromPost();
 
         if ($questionary['success']) {
-
             $result = questionary::add($questionary['object']);
         } else {
-
             $questionary['object'] = questionary::getAll('', 'deadLine');
-
             return $questionary;
         }
 
         $this->view = 'admin/questionary/details';
-
         $questionary['object']->setId($result['id']);
 
         return $questionary;
     }
 
-    /* Show remove confirmation window */
+    /** 
+     * Shows the remove confirmation window for a questionary.
+     *
+     * @param int $id The ID of the questionary to confirm removal.
+     * @return array Returns the confirmation result and the questionary object.
+     */
 
     public function removeConfirm($id)
     {
@@ -168,7 +181,12 @@ class AdminQuestionaryController extends BaseController
         ];
     }
 
-    /*Remove questionary from DB */
+    /** 
+     * Removes a questionary from the database.
+     *
+     * @param int $id The ID of the questionary to remove.
+     * @return array Returns the updated list of questionaries after removal.
+     */
 
     public function remove($id)
     {
@@ -184,10 +202,15 @@ class AdminQuestionaryController extends BaseController
         return $this->list();
     }
 
-    /**Show edit questionary window */
+    /** 
+     * Shows the edit questionary window.
+     *
+     * @param int $id The ID of the questionary to edit.
+     * @return array Returns the questionary object for editing.
+     */
+
     public function edit($id)
     {
-
         $questionary = Questionary::getById($id);
 
         if (!$questionary) return $this->notFoundError;
@@ -200,7 +223,11 @@ class AdminQuestionaryController extends BaseController
         ];
     }
 
-    /*Update questionary from POST*/
+    /** Update questionary from POST
+     * 
+     * @param int $id Questionary ID
+     * @return array Result of the update operation
+     */
 
     public function update($id)
     {
@@ -221,11 +248,14 @@ class AdminQuestionaryController extends BaseController
         return Questionary::fill($id);
     }
 
-    /**Show add picture window */
+    /** Show add picture window
+     * 
+     * @param int $id Questionary ID
+     * @return array Result containing the questionary object
+     */
 
     public function showAddPicture($id)
     {
-
         $questionary = Questionary::getById($id);
 
         if (!$questionary) return $this->notFoundError;
@@ -238,11 +268,14 @@ class AdminQuestionaryController extends BaseController
         ];
     }
 
-    /**Show remove picture window */
+    /** Show remove picture window
+     * 
+     * @param int $id Questionary ID
+     * @return array Result containing the questionary object
+     */
 
     public function showRemovePicture($id)
     {
-
         $questionary = Questionary::getById($id);
 
         if (!$questionary) return $this->notFoundError;
@@ -255,7 +288,11 @@ class AdminQuestionaryController extends BaseController
         ];
     }
 
-    /**Update questionary picture */
+    /** Update questionary picture
+     * 
+     * @param int $id Questionary ID
+     * @return array Result of the update operation
+     */
 
     public function updatePicture($id)
     {
@@ -273,9 +310,7 @@ class AdminQuestionaryController extends BaseController
         $imageRoute = uploadPicture('questionary-picture', $route);
 
         if (isset($imageRoute['success']) && !$imageRoute['success']) {
-
             $imageRoute['object'] = Questionary::fill($id)['object'];
-
             return $imageRoute;
         }
 
@@ -293,9 +328,14 @@ class AdminQuestionaryController extends BaseController
         ];
     }
 
+    /** Update picture via AJAX
+     * 
+     * @param int $id Questionary ID
+     * @return array Result of the update operation
+     */
+
     public function ajaxUpdatePicture($id)
     {
-
         $data =  $this->updatePicture($id);
 
         $this->view  = 'admin/questionary/picture';
@@ -303,11 +343,14 @@ class AdminQuestionaryController extends BaseController
         return $data;
     }
 
-    /**Remove questionary picture from DB and files */
+    /** Remove questionary picture from DB and files
+     * 
+     * @param int $id Questionary ID
+     * @return array Result of the removal operation
+     */
 
     public function removePicture($id)
     {
-
         $this->view = 'admin/questionary/details';
 
         /**@var questionary $questionary */
@@ -316,7 +359,6 @@ class AdminQuestionaryController extends BaseController
         if (!$questionary) return $this->notFoundError;
 
         if ($questionary->getPicture() == questionary::DEFAULT_PICTURE) {
-
             return [
                 'success' => false,
                 'error' => 'No puedes borrar la imagen por defecto',
@@ -325,7 +367,6 @@ class AdminQuestionaryController extends BaseController
         }
 
         if (!unlink($questionary->getPicture())) {
-
             return [
                 'success' => false,
                 'error' => 'No se ha podido borrar la imagen de perfil',
@@ -334,7 +375,6 @@ class AdminQuestionaryController extends BaseController
         }
 
         if (!Questionary::updateFromId(['picture' => questionary::DEFAULT_PICTURE], $id)) {
-
             return [
                 'success' => false,
                 'error' => 'No se ha podido borrar la ruta de la imagen de la base de datos',
@@ -347,7 +387,11 @@ class AdminQuestionaryController extends BaseController
         return Questionary::fill($id);
     }
 
-    /**Remove picture on ajax request */
+    /** Remove picture on AJAX request
+     * 
+     * @param int $id Questionary ID
+     * @return array Result of the removal operation
+     */
 
     public function ajaxRemovePicture($id)
     {
@@ -358,7 +402,11 @@ class AdminQuestionaryController extends BaseController
         return $data;
     }
 
-    /**Show add question window to Questionary */
+    /** Show add question window to Questionary
+     * 
+     * @param int $id Questionary ID
+     * @return array Result containing the questionary object
+     */
 
     public function addQuestion($id)
     {
@@ -374,7 +422,11 @@ class AdminQuestionaryController extends BaseController
         ];
     }
 
-    /**Update State */
+    /** Update State
+     * 
+     * @param int $id Questionary ID
+     * @return array Result of the update operation
+     */
 
     public function updateState($id)
     {
@@ -386,6 +438,12 @@ class AdminQuestionaryController extends BaseController
 
         return $this->list();
     }
+
+    /** Update state via AJAX
+     * 
+     * @param int $id Questionary ID
+     * @return array Result of the update operation
+     */
 
     public function ajaxUpdateState($id)
     {

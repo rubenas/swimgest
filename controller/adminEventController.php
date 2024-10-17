@@ -2,16 +2,24 @@
 
 require_once './controller/baseController.php';
 
+/**
+ * Controller for managing events in the admin panel.
+ * This controller handles event-related actions such as listing,
+ * creating, editing, and deleting events.
+ */
+
 class AdminEventController extends BaseController
 {
+    /**
+     * List events.
+     *
+     * @return array Returns an array with success status and the list of events.
+     */
 
-    /** List events */
     public function list()
     {
-
         $this->view = 'admin/event/list';
-
-        $list =  Event::getAll(['parentId IS NULL'], ['startDate']);
+        $list = Event::getAll(['parentId IS NULL'], ['startDate']);
 
         return [
             'success' => true,
@@ -19,7 +27,11 @@ class AdminEventController extends BaseController
         ];
     }
 
-    /*Create a Event Object from Post form*/
+    /**
+     * Create an Event object from POST form data.
+     *
+     * @return array Returns an array with success status and the event object or error messages.
+     */
 
     public static function fromPost()
     {
@@ -28,47 +40,34 @@ class AdminEventController extends BaseController
         if (!$validation['success']) return $validation;
 
         $event = new Event();
-
         $event->setName($_POST['name']);
-
         $event->setPlace(isset($_POST['place']) ? $_POST['place'] : NULL);
-
         $event->setStartDate((isset($_POST['startDate']) && $_POST['startDate'] != '') ? $_POST['startDate'] : NULL);
-
         $event->setEndDate((isset($_POST['endDate']) && $_POST['endDate'] != '') ? $_POST['endDate'] : NULL);
-
         $event->setDeadLine((isset($_POST['eventDeadLine']) && $_POST['eventDeadLine'] != '') ? $_POST['eventDeadLine'] : NULL);
 
         if (isset($_FILES['picture']) && $_FILES['picture']['size'] != 0) {
-
             require_once './utils/uploadPicture.php';
-
             $route = './public/img/events/' . uniqid("event");
-
             $imageRoute = uploadPicture('picture', $route);
 
-            if (isset($imageRoute['sucess']) && !$imageRoute['success']) {
-
+            if (isset($imageRoute['success']) && !$imageRoute['success']) {
                 $event->setPicture(Event::DEFAULT_PICTURE);
-
                 return $imageRoute;
             }
 
             $event->setPicture($imageRoute);
-        } else $event->setPicture(Event::DEFAULT_PICTURE);
+        } else {
+            $event->setPicture(Event::DEFAULT_PICTURE);
+        }
 
         $event->setLocation(isset($_POST['location']) ? $_POST['location'] : NULL);
-
         $event->setDescription(isset($_POST['description']) ? $_POST['description'] : NULL);
-
         $event->setparentId(isset($_POST['parentId']) ? $_POST['parentId'] : NULL);
-
         $event->setState(isset($_POST['parentId']) ? NULL : Event::DEFAULT_STATE);
 
         if ($event->getStartDate() != NULL && $event->getEndDate() != NULL) {
-
             if ($event->getEndDate() < $event->getStartDate()) {
-
                 return [
                     'success' => false,
                     'error' => 'La fecha de inicio debe ser anterior a la de fin'
@@ -77,9 +76,7 @@ class AdminEventController extends BaseController
         }
 
         if ($event->getStartDate() != NULL && $event->getDeadLine() != NULL) {
-
             if ($event->getStartDate() <= $event->getDeadLine()) {
-
                 return [
                     'success' => false,
                     'error' => 'La fecha de cierre de inscripciones debe ser anterior a la de inicio'
@@ -93,63 +90,64 @@ class AdminEventController extends BaseController
         ];
     }
 
-    /*Add event to DB*/
+    /**
+     * Add an event to the database.
+     *
+     * @return array Returns the result of the add operation, including the event details.
+     */
 
     public function add()
     {
         $event = self::fromPost();
 
         if ($event['success']) {
-
             $result = Event::add($event['object']);
         } else {
-
             $event['object'] = Event::getAll(['parentId IS NULL'], ['startDate']);
-
             $this->view = 'admin/event/list';
-
             return $event;
         }
 
         $this->view = 'admin/event/details';
-
         $event['object']->setId($result['id']);
 
         return Event::fill(Event::getTopParent($event['object'])->getId());
     }
 
-    /*Add event to DB on ajax request*/
+    /**
+     * Add an event to the database on AJAX request.
+     *
+     * @return array Returns the result of the add operation, including the event details.
+     */
 
     public function ajaxAdd()
     {
         $event = self::fromPost();
 
         if ($event['success']) {
-
             $result = Event::add($event['object']);
         } else {
-
             $event['object'] = Event::getAll(['parentId IS NULL'], ['startDate']);
-
             $this->view = 'admin/event/list';
-
             return $event;
         }
 
         $this->view = 'admin/event/subEventDetails';
-
         $event['object']->setId($result['id']);
 
         return Event::fill($event['object']->getParentId());
     }
 
-
-    /* Show remove confirmation window */
+    /**
+     * Show the remove confirmation window for an event.
+     *
+     * @param int $id The event ID.
+     * @return array Returns an array with success status and the event object.
+     */
 
     public function removeConfirm($id)
     {
         $this->view = 'admin/event/remove';
-
         $event = Event::getById($id);
 
         if (!$event) return $this->notFoundError;
@@ -160,11 +158,16 @@ class AdminEventController extends BaseController
         ];
     }
 
-    /*Remove event from DB */
+    /**
+     * Remove an event from the database.
+     *
+     * @param int $id The event ID.
+     * @return array Returns the result of the removal operation.
+     */
 
     public function remove($id)
     {
-        /**@var Event $event */
+        /** @var Event $event */
         $event = Event::getById($id);
 
         if (!$event) return $this->notFoundError;
@@ -172,7 +175,6 @@ class AdminEventController extends BaseController
         if ($event->getPicture() != Event::DEFAULT_PICTURE) unlink($event->getPicture());
 
         $topParent = Event::getTopParent($event);
-
         Event::remove($id);
 
         if ($topParent->getId() == $event->getId()) return $this->list();
@@ -182,20 +184,28 @@ class AdminEventController extends BaseController
         return Event::fill($topParent->getId());
     }
 
-    /**Load view event details*/
+    /**
+     * Load view event details
+     *
+     * @param int $id The ID of the event to be displayed.
+     * @return array The details of the event.
+     */
 
     public function details($id)
     {
-
         $this->view = 'admin/event/details';
-
         return Event::fill($id);
     }
 
-    /**Show edit event window */
+    /**
+     * Show edit event window
+     *
+     * @param int $id The ID of the event to be edited.
+     * @return array|mixed An array containing the success status and the event object or a not found error.
+     */
+
     public function edit($id)
     {
-
         $event = Event::getById($id);
 
         if (!$event) return $this->notFoundError;
@@ -208,7 +218,12 @@ class AdminEventController extends BaseController
         ];
     }
 
-    /*Update event from POST*/
+    /**
+     * Update event from POST
+     *
+     * @param int $id The ID of the event to be updated.
+     * @return array An array containing the success status, error messages if any, and the updated event object.
+     */
 
     public function update($id)
     {
@@ -229,24 +244,20 @@ class AdminEventController extends BaseController
         ];
 
         if ($columns['endDate'] != NULL && $columns['startDate'] != NULL) {
-
             if ($columns['endDate'] < $columns['startDate']) {
-
                 return [
                     'success' => false,
-                    'error' => 'La fecha de inicio debe ser anterior a la de fin',
+                    'error' => 'The start date must be earlier than the end date',
                     'object' => Event::fill($id)['object']
                 ];
             }
         }
 
         if ($columns['startDate'] != NULL && $columns['deadLine'] != NULL) {
-
             if ($columns['startDate'] <= $columns['deadLine']) {
-
                 return [
                     'success' => false,
-                    'error' => 'La fecha de cierre de inscripciones debe ser anterior a la de inicio',
+                    'error' => 'The registration deadline must be earlier than the start date',
                     'object' => Event::fill($id)['object']
                 ];
             }
@@ -259,11 +270,15 @@ class AdminEventController extends BaseController
         return Event::fill(Event::getTopParent($event)->getId());
     }
 
-    /**Show add picture window */
+    /**
+     * Show add picture window
+     *
+     * @param int $id The ID of the event for which the picture is to be added.
+     * @return array|mixed An array containing the success status and the event object or a not found error.
+     */
 
     public function showAddPicture($id)
     {
-
         $event = Event::getById($id);
 
         if (!$event) return $this->notFoundError;
@@ -276,11 +291,15 @@ class AdminEventController extends BaseController
         ];
     }
 
-    /**Show remove picture window */
+    /**
+     * Show remove picture window
+     *
+     * @param int $id The ID of the event for which the picture is to be removed.
+     * @return array|mixed An array containing the success status and the event object or a not found error.
+     */
 
     public function showRemovePicture($id)
     {
-
         $event = Event::getById($id);
 
         if (!$event) return $this->notFoundError;
@@ -293,7 +312,12 @@ class AdminEventController extends BaseController
         ];
     }
 
-    /**Update event picture */
+    /**
+     * Update event picture
+     *
+     * @param int $id The ID of the event for which the picture is to be updated.
+     * @return array An array containing the success status, error messages if any, and the updated event object.
+     */
 
     public function updatePicture($id)
     {
@@ -301,7 +325,7 @@ class AdminEventController extends BaseController
 
         $this->view  = 'admin/event/details';
 
-        /**@var Event $event */
+        /** @var Event $event */
         $event = Event::getById($id);
 
         if ($event->getPicture() != Event::DEFAULT_PICTURE) unlink($event->getPicture());
@@ -311,9 +335,7 @@ class AdminEventController extends BaseController
         $imageRoute = uploadPicture('event-picture', $route);
 
         if (isset($imageRoute['success']) && !$imageRoute['success']) {
-
             $imageRoute['object'] = Event::fill($id)['object'];
-
             return $imageRoute;
         }
 
@@ -326,56 +348,61 @@ class AdminEventController extends BaseController
 
         return [
             'success' => false,
-            'error' => 'No se ha podido añadir la ruta de la imagen a la base de datos',
+            'error' => 'Could not add the image path to the database',
             'object' => Event::fill($id)['object']
         ];
     }
 
+    /**
+     * Update event picture via AJAX request
+     *
+     * @param int $id The ID of the event for which the picture is to be updated.
+     * @return array The response data from the updatePicture method.
+     */
+
     public function ajaxUpdatePicture($id)
     {
-
         $data =  $this->updatePicture($id);
-
         $this->view  = 'admin/event/picture';
-
         return $data;
     }
 
-    /**Remove event ficture from DB and files */
+    /**
+     * Remove event picture from DB and files
+     *
+     * @param int $id The ID of the event for which the picture is to be removed.
+     * @return array An array containing the success status, error messages if any, and the updated event object.
+     */
 
     public function removePicture($id)
     {
-
         $this->view = 'admin/event/details';
 
-        /**@var Event $event */
+        /** @var Event $event */
         $event = Event::getById($id);
 
         if (!$event) return $this->notFoundError;
 
         if ($event->getPicture() == Event::DEFAULT_PICTURE) {
-
             return [
                 'success' => false,
-                'error' => 'No puedes borrar la imagen por defecto',
+                'error' => 'You cannot delete the default picture',
                 'object' => Event::fill($id)['object']
             ];
         }
 
         if (!unlink($event->getPicture())) {
-
             return [
                 'success' => false,
-                'error' => 'No se ha podido borrar la imagen de perfil',
+                'error' => 'Could not delete the profile picture',
                 'object' =>  Event::fill($id)['object']
             ];
         }
 
         if (!Event::updateFromId(['picture' => Event::DEFAULT_PICTURE], $id)) {
-
             return [
                 'success' => false,
-                'error' => 'No se ha podido borrar la ruta de la imagen de la base de datos',
+                'error' => 'Could not delete the image path from the database',
                 'object' => Event::fill($id)['object']
             ];
         }
@@ -388,24 +415,30 @@ class AdminEventController extends BaseController
         ];
     }
 
-    /**Remove picture on ajax request */
+    /**
+     * Remove picture on AJAX request
+     *
+     * @param int $id The ID of the event for which the picture is to be removed.
+     * @return array The response data from the removePicture method.
+     */
 
     public function ajaxRemovePicture($id)
     {
         $data = $this->removePicture($id);
-
         $this->view  = 'admin/event/picture';
-
         return $data;
     }
 
-    /**Load view Add subEvent to event */
+    /**
+     * Load view to add a sub-event to an event
+     *
+     * @param int $id The ID of the event to which the sub-event will be added.
+     * @return array An array containing the success status and the event object or a not found error.
+     */
 
     public function addSubEvent($id)
     {
-
         $event = Event::getById($id);
-
         $this->view = 'admin/event/addSubEvent';
 
         if (!$event) return $this->notFoundError;
@@ -416,11 +449,15 @@ class AdminEventController extends BaseController
         ];
     }
 
-    /**Show edit subevent window */
+    /**
+     * Show edit sub-event window
+     *
+     * @param int $id The ID of the sub-event to be edited.
+     * @return array|mixed An array containing the event object or a not found error.
+     */
 
     public function editSubEvent($id)
     {
-
         $event = Event::getById($id);
 
         if (!$event) return $this->notFoundError;
@@ -430,7 +467,12 @@ class AdminEventController extends BaseController
         return $event;
     }
 
-    /**Show add question window to Event */
+    /**
+     * Show add question window to Event
+     *
+     * @param int $id The ID of the event to which the question will be added.
+     * @return array An array containing the success status and the event object or a not found error.
+     */
 
     public function addQuestion($id)
     {
@@ -446,7 +488,12 @@ class AdminEventController extends BaseController
         ];
     }
 
-    /**Update State */
+    /**
+     * Update event state
+     *
+     * @param int $id The ID of the event to be updated.
+     * @return array An array containing the result of the update operation.
+     */
 
     public function updateState($id)
     {
@@ -458,6 +505,13 @@ class AdminEventController extends BaseController
 
         return $this->list();
     }
+
+    /**
+     * Update event state via AJAX request
+     *
+     * @param int $id The ID of the event to be updated.
+     * @return array An array containing the success status and the updated event object.
+     */
 
     public function ajaxUpdateState($id)
     {
