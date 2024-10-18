@@ -45,7 +45,7 @@ class AdminRaceController extends BaseController
      * 
      * @return array Returns the competition filled with the race data.
      */
-    
+
     public function add()
     {
         $this->view = 'admin/competition/details';
@@ -102,7 +102,7 @@ class AdminRaceController extends BaseController
      * @param int $id The ID of the race to be removed.
      * @return array Returns the competition filled with updated race data.
      */
-    
+
     public function remove($id)
     {
         /** @var Race $race */

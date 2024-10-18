@@ -2,22 +2,30 @@
 
 require_once './controller/baseController.php';
 
+/**
+ * AdminSessionController handles the management of sessions within a competition.
+ * It provides functionalities to create, update, delete, and organize sessions, as well as manage their related races.
+ * The class interacts with various session and competition-related models to maintain the data integrity and structure.
+ */
+
 class AdminSessionController extends BaseController
 {
 
-    /*Create a Session Object from Post form*/
+    /**
+     * Creates a Session object from POST form data.
+     * 
+     * @return array Associative array with 'success' status and the created Session object or validation errors.
+     */
 
     public static function fromPost()
     {
         $validation = self::checkRequiredFields(array('journeyId', 'name', 'time', 'inscriptionsLimit'));
 
         if (!$validation['success']) {
-
             return $validation;
         }
 
         $session = new Session();
-
         $session->setName($_POST['name']);
         $session->setJourneyId($_POST['journeyId']);
         $session->setInscriptionsLimit($_POST['inscriptionsLimit']);
@@ -29,7 +37,11 @@ class AdminSessionController extends BaseController
         ];
     }
 
-    /*Add session to DB*/
+    /**
+     * Adds a session to the database.
+     * 
+     * @return mixed Returns the result of filling the competition from the session.
+     */
 
     public function add()
     {
@@ -42,7 +54,11 @@ class AdminSessionController extends BaseController
         return $this->fillCompetitionFromSession($session['object']);
     }
 
-    /*Add session to DB and return partial view on ajax request*/
+    /**
+     * Adds a session to the database and returns a partial view on an AJAX request.
+     * 
+     * @return mixed Returns the result of filling the journey from the session.
+     */
 
     public function ajaxAdd()
     {
@@ -55,18 +71,24 @@ class AdminSessionController extends BaseController
         return Journey::fill($session['object']->getJourneyId());
     }
 
-    /* Show remove confirmation window */
+    /**
+     * Shows the remove confirmation window for a session.
+     * 
+     * @param int $id The ID of the session to confirm removal.
+     * 
+     * @return mixed Returns the session and journey name if found, or a not found error.
+     */
 
     public function removeConfirm($id)
     {
         $this->view = 'admin/session/remove';
 
-        /**@var Session $session */
+        /** @var Session $session */
         $session = Session::getById($id);
 
         if (!$session) return $this->notFoundError;
 
-        /**@var Journey $journey */
+        /** @var Journey $journey */
         $journey = Journey::getById($session->getJourneyId());
 
         if (!$journey) return $this->notFoundError;
@@ -77,7 +99,13 @@ class AdminSessionController extends BaseController
         ];
     }
 
-    /*Remove session from DB */
+    /**
+     * Removes a session from the database.
+     * 
+     * @param int $id The ID of the session to remove.
+     * 
+     * @return mixed Returns the result of filling the competition from the session or a not found error.
+     */
 
     public function remove($id)
     {
@@ -92,11 +120,17 @@ class AdminSessionController extends BaseController
         return $this->fillCompetitionFromSession($session);
     }
 
-    /*Remove from DB and return partial view on ajax request */
+    /**
+     * Removes a session from the database and returns a partial view on an AJAX request.
+     * 
+     * @param int $id The ID of the session to remove.
+     * 
+     * @return mixed Returns the result of filling the journey from the session or a not found error.
+     */
 
     public function ajaxRemove($id)
     {
-        /**@var Session $session */
+        /** @var Session $session */
         $session = Session::getById($id);
 
         if (!$session) return $this->notFoundError;
@@ -108,7 +142,13 @@ class AdminSessionController extends BaseController
         return Journey::fill($session->getJourneyId());
     }
 
-    /**Show edit session window */
+    /**
+     * Shows the edit session window.
+     * 
+     * @param int $id The ID of the session to edit.
+     * 
+     * @return array Returns the session object if found, or a not found error.
+     */
 
     public function edit($id)
     {
@@ -124,7 +164,14 @@ class AdminSessionController extends BaseController
         ];
     }
 
-    /*Update session from POST*/
+    /**
+     * Updates a session using POST data.
+     * 
+     * @param int $id The ID of the session to update.
+     * 
+     * @return mixed Returns the result of filling the competition from the session or validation errors.
+     */
+
     public function update($id)
     {
         $this->view = 'admin/competition/details';
@@ -133,7 +180,7 @@ class AdminSessionController extends BaseController
 
         if (!$validation['success']) return $validation;
 
-        /**@var Session $session */
+        /** @var Session $session */
         $session = Session::getById($id);
 
         if (!$session) return $this->notFoundError;
@@ -149,7 +196,13 @@ class AdminSessionController extends BaseController
         return $this->fillCompetitionFromSession($session);
     }
 
-    /*Update from post and return partial view on ajax request */
+    /**
+     * Updates a session using POST data and returns a partial view on an AJAX request.
+     * 
+     * @param int $id The ID of the session to update.
+     * 
+     * @return array Returns the updated session object if successful, or a not found error.
+     */
 
     public function ajaxUpdate($id)
     {
@@ -165,10 +218,17 @@ class AdminSessionController extends BaseController
         ];
     }
 
-    /**Load view Add race to session */
+    /**
+     * Loads the view to add a race to the session.
+     * 
+     * @param int $id The ID of the session to add a race to.
+     * 
+     * @return array Returns the session object if found, or a not found error.
+     */
+
     public function addRace($id)
     {
-        /**@var Session $session */
+        /** @var Session $session */
         $session = Session::getById($id);
 
         if (!$session) return $this->notFoundError;
@@ -181,11 +241,17 @@ class AdminSessionController extends BaseController
         ];
     }
 
-    /* Fills a competition with all sessions and journeys from session */
+    /**
+     * Fills a competition with all sessions and journeys related to the session.
+     * 
+     * @param Session $session The session object used to fill the competition.
+     * 
+     * @return mixed Returns the filled competition object, or a not found error.
+     */
 
     public function fillCompetitionFromSession($session)
     {
-        /**@var Journey $journey */
+        /** @var Journey $journey */
         $journey = Journey::getById($session->getJourneyId());
 
         if (!$journey) return $this->notFoundError;

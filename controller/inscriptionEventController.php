@@ -2,9 +2,28 @@
 
 include_once './controller/inscriptionController.php';
 
-class InscriptionEventController extends inscriptionController
+/**
+ * Class InscriptionEventController
+ *
+ * Controller for managing event inscriptions.
+ * This class extends InscriptionController and provides functionality
+ * for viewing event inscription details, managing event inscriptions,
+ * and handling the removal of inscriptions related to events.
+ */
+
+class InscriptionEventController extends InscriptionController
 {
-    /**Show event inscription details */
+    /**
+     * Show event inscription details
+     *
+     * This method retrieves the details of a specific event and its related
+     * answers from swimmers' inscriptions. It returns the event object and
+     * the corresponding answers.
+     *
+     * @param int $id The ID of the event.
+     * @return array Result containing the event object, inscription IDs,
+     *               and answers related to the event.
+     */
 
     public function details($id)
     {
@@ -17,7 +36,6 @@ class InscriptionEventController extends inscriptionController
         $answers = Answer::getAll(['topEventId = ' . $id], []);
 
         foreach ($answers as $answer) {
-
             $arrayAnswers[$answer->getQuestionId()][] = $answer->getText();
         }
 
@@ -28,7 +46,15 @@ class InscriptionEventController extends inscriptionController
         ];
     }
 
-    /**Manage event inscription: create and modify */
+    /**
+     * Manage event inscription: create and modify
+     *
+     * This method processes the creation and modification of event inscriptions
+     * based on the data provided in the POST request. It validates the required
+     * fields, adds new inscriptions, and updates the answers provided by the swimmers.
+     *
+     * @return array Result containing success status and the list of events.
+     */
 
     public function inscription()
     {
@@ -37,10 +63,9 @@ class InscriptionEventController extends inscriptionController
         if (!$validation['success']) return $validation;
 
         foreach ($_POST['event'] as $eventId => $v) {
-
             if (!$v) break;
 
-            /**@var Event $event */
+            /** @var Event $event */
             $event = Event::getById($eventId);
 
             if (!$event) return $this->notFoundError;
@@ -55,9 +80,7 @@ class InscriptionEventController extends inscriptionController
         }
 
         if (isset($_POST['answer'])) {
-
             foreach ($_POST['answer'] as $questionId => $texts) {
-
                 $conditions = [
                     'swimmerId = ' . $this->sessionId(),
                     'questionId = ' . $questionId,
@@ -66,15 +89,13 @@ class InscriptionEventController extends inscriptionController
                 $oldAnswers = Answer::getAll($conditions, []);
 
                 foreach ($oldAnswers as $oldAnswer) {
-
                     Answer::remove($oldAnswer->getId());
                 }
 
-                /**@var Question $question */
+                /** @var Question $question */
                 $question = Question::getById($questionId);
 
                 foreach ($texts as $text) {
-
                     $answer = new Answer();
 
                     $answer->setQuestionaryId(NULL);
@@ -91,7 +112,15 @@ class InscriptionEventController extends inscriptionController
         return $this->list();
     }
 
-    /* Show remove confirmation window */
+    /**
+     * Show remove confirmation window
+     *
+     * This method retrieves the event details for a specific event ID
+     * and prepares the view for removing the event inscription.
+     *
+     * @param int $eventId The ID of the event.
+     * @return array Result containing success status and the event object.
+     */
 
     public function removeConfirm($eventId)
     {
@@ -107,18 +136,25 @@ class InscriptionEventController extends inscriptionController
         ];
     }
 
-    /** Remove all event inscriptions from parenet Event Id */
+    /**
+     * Remove all event inscriptions from parent Event Id
+     *
+     * This method removes all inscriptions related to a specific event
+     * and its sub-events. It processes the removal and returns to the list
+     * of inscriptions if the event is a top parent.
+     *
+     * @param int $eventId The ID of the event to remove inscriptions from.
+     * @return void
+     */
 
     public function remove($eventId)
     {
-
-        /**@var Event $event */
+        /** @var Event $event */
         $event = Event::getById($eventId);
 
         $subEvents = Event::getAll(['parentId = ' . $eventId], []);
 
         foreach ($subEvents as $subEvent) {
-
             $this->remove($subEvent->getId());
         }
 

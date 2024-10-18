@@ -2,14 +2,24 @@
 
 include_once './controller/baseController.php';
 
+/**
+ * Class MarkController
+ * 
+ * This class manages the marks related to swimmers, including creating, editing, 
+ * displaying, and removing marks, as well as managing FINA points.
+ */
+
 class MarkController extends BaseController
 {
 
-    /** Create new Mark from post form*/
+    /**
+     * Create new Mark from post form.
+     * 
+     * @return array An associative array containing success status and the new Mark object or error message.
+     */
 
     public static function fromPost()
     {
-
         $validation = self::checkRequiredFields(array('swimmerId', 'style', 'distance', 'pool', 'gender', 'min', 'sec', 'dec', 'category'));
 
         if (!$validation['success']) {
@@ -44,20 +54,22 @@ class MarkController extends BaseController
         ];
     }
 
-    /* Show marks for logged swimmer  */
+    /**
+     * Show marks for logged swimmer.
+     * 
+     * @return array An associative array containing success status and the Swimmer object with marks.
+     */
 
     public function showMarks()
     {
-
         $id = $this->sessionId();
 
         $this->view = 'swimmer/marks';
 
-        /**@var Swimmer $swimmer */
+        /** @var Swimmer $swimmer */
         $swimmer = Swimmer::getById($id);
 
         if (!$swimmer) {
-
             return $this->notFoundError;
         }
 
@@ -69,7 +81,11 @@ class MarkController extends BaseController
         ];
     }
 
-    /** Create new Mark from post form*/
+    /**
+     * Add a new mark.
+     * 
+     * @return array An associative array containing success status, error message or the Swimmer's marks.
+     */
 
     public function add()
     {
@@ -79,7 +95,7 @@ class MarkController extends BaseController
 
         if ($mark['success']) {
 
-            //Checking if the mark exists
+            // Checking if the mark exists
             if (Mark::getFromUqConstraint(
                 $mark['object']->getSwimmerId(),
                 $mark['object']->getDistance(),
@@ -95,26 +111,28 @@ class MarkController extends BaseController
             }
 
             if (Mark::addToDB($mark['object'])) {
-
                 return $this->showMarks($mark['object']->getSwimmerId());
             } else {
-
                 return [
                     'success' => false,
                     'error' => 'No se ha podido añadir la marca a la base de datos'
                 ];
             }
         } else {
-
             return $mark;
         }
     }
 
-    /**Remove mark confirmation */
+    /**
+     * Remove mark confirmation.
+     * 
+     * @param int $id The ID of the mark to be removed.
+     * @return array An associative array containing success status and the Mark object or error.
+     */
 
     public function removeConfirm($id)
     {
-        /**@var Mark $mark */
+        /** @var Mark $mark */
         $mark = Mark::getById($id);
 
         if (!$mark) return $this->notFoundError;
@@ -125,35 +143,36 @@ class MarkController extends BaseController
 
         return [
             'object' => $mark,
-            'sucess' => true
+            'success' => true
         ];
     }
 
-    /**Remove mark from DB */
+    /**
+     * Remove a mark from the database.
+     * 
+     * @param int $id The ID of the mark to be removed.
+     * @return array An associative array containing success status, error message or the updated marks.
+     */
 
     public function remove($id)
     {
         $this->view = 'swimmer/marks';
 
-        /**@var Mark $mark */
+        /** @var Mark $mark */
         $mark = Mark::getById($id);
 
         if (!$mark) {
-
             return $this->notFoundError;
         }
 
         $swimmerId = $mark->getSwimmerId();
 
         if ($swimmerId != $this->sessionId()) {
-
             $this->view = 'swimmer/listCompetitions';
-
             return $this->notPermissionError;
         }
 
         if (!Mark::remove($id)) {
-
             return [
                 'success' => false,
                 'error' => 'No ha sido posible borrar la marca'
@@ -167,11 +186,16 @@ class MarkController extends BaseController
         ];
     }
 
-    /*Edit mark window */
+    /**
+     * Edit mark window.
+     * 
+     * @param int $id The ID of the mark to be edited.
+     * @return array An associative array containing success status and the Mark object.
+     */
 
     public function edit($id)
     {
-        /**@var Mark $mark */
+        /** @var Mark $mark */
         $mark = Mark::getById($id);
 
         if (!$mark) return $this->notFoundError;
@@ -182,25 +206,28 @@ class MarkController extends BaseController
 
         return [
             'object' => $mark,
-            'sucess' => true
+            'success' => true
         ];
     }
 
-    /**Update mark on DB */
+    /**
+     * Update mark in the database.
+     * 
+     * @param int $id The ID of the mark to be updated.
+     * @return array An associative array containing success status, error message or the updated marks.
+     */
+
     public function update($id)
     {
-        /**@var Mark $mark */
+        /** @var Mark $mark */
         $mark = Mark::getById($id);
 
         if (!$mark) {
-
             return $this->notFoundError;
         }
 
         if ($mark->getSwimmerId() != $this->sessionId()) {
-
             $this->view = 'swimmer/listCompetitions';
-
             return $this->notPermissionError;
         }
 
@@ -214,18 +241,16 @@ class MarkController extends BaseController
 
         $floatTime = floatval($_POST['min']) * 60 + floatval($_POST['sec']) + floatval($_POST['dec']) / 100;
 
-        /**@var Mark $mark */
+        /** @var Mark $mark */
         $mark = Mark::update($id, $floatTime);
 
         if ($mark['success']) {
-
             return [
                 'success' => true,
                 'object' => $this->showMarks($mark['object']->getSwimmerId())['object'],
                 'msg' => 'Marca actualizada correctamente'
             ];
         } else {
-
             return [
                 'success' => false,
                 'error' => 'No ha sido posible editar tu marca'
@@ -233,15 +258,21 @@ class MarkController extends BaseController
         }
     }
 
-    /**Show fina calculator */
+    /**
+     * Show the FINA calculator.
+     */
 
     public function showFinaCalculator()
     {
-
         $this->view = "swimmer/finaCalculator";
     }
 
-    /**Fina calculator */
+    /**
+     * Calculate FINA points based on the provided criteria.
+     * 
+     * @return array An associative array containing success status, error message, or calculated marks.
+     */
+
     public function finaPoints()
     {
 

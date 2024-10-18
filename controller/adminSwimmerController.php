@@ -1,14 +1,24 @@
 <?php
 require_once './controller/baseController.php';
 
+/**
+ * Class AdminSwimmerController
+ * 
+ * Controller to manage swimmer-related operations in the platform.
+ * It allows listing, adding, and displaying the confirmation window for swimmer deletion.
+ */
+
 class AdminSwimmerController extends BaseController
 {
 
-    /**List all swimmers in DB */
+    /** 
+     * List all swimmers in the database.
+     *
+     * @return array Returns an array with the success status and swimmers ordered by surname.
+     */
 
     public function list()
     {
-
         $this->view = 'admin/swimmer/list';
 
         return [
@@ -17,15 +27,17 @@ class AdminSwimmerController extends BaseController
         ];
     }
 
-    /*Create a Swimmer Object from Post form*/
+    /**
+     * Create a Swimmer object from the POST form data.
+     *
+     * @return array Returns an array with the success status and the Swimmer object if successful.
+     */
 
     public static function fromPost()
     {
-
         $validation = self::checkRequiredFields(array('name', 'surname', 'gender', 'birthYear', 'email', 'password'));
 
         if (!$validation['success']) {
-
             return $validation;
         }
 
@@ -46,7 +58,11 @@ class AdminSwimmerController extends BaseController
         ];
     }
 
-    /**Add new swimmer to DB */
+    /**
+     * Add a new swimmer to the database.
+     *
+     * @return array Returns an array with the success status and the updated list of swimmers, or an error message.
+     */
 
     public function add()
     {
@@ -55,7 +71,6 @@ class AdminSwimmerController extends BaseController
         $swimmer = self::fromPost();
 
         if (!$swimmer['success']) {
-
             return [
                 'success' => false,
                 'error' => $swimmer['error'],
@@ -71,11 +86,15 @@ class AdminSwimmerController extends BaseController
         ];
     }
 
-    /**Remove confirmation window */
+    /**
+     * Display the confirmation window to remove a swimmer.
+     *
+     * @param int $id The ID of the swimmer to remove.
+     * @return array Returns an array with the success status and the swimmer object if found.
+     */
 
     public function removeConfirm($id)
     {
-
         $swimmer = Swimmer::getById($id);
 
         if (!$swimmer) return $this->notFoundError;
@@ -88,19 +107,24 @@ class AdminSwimmerController extends BaseController
         ];
     }
 
-    /**Remove from DB */
+    /** 
+     * Remove a swimmer from the database.
+     * 
+     * @param int $id The ID of the swimmer to be removed.
+     * @return array Returns an array with the success status and updated list of swimmers.
+     */
 
     public function remove($id)
     {
-
         $this->view = 'admin/swimmer/list';
 
-        /**@var Swimmer $swimmer */
+        /** @var Swimmer $swimmer */
         $swimmer = Swimmer::getById($id);
 
         if (!$swimmer) return $this->notFoundError;
 
-        if ($id != $this->sessionId() && $swimmer->getEmail() != 'admin@admin.com') Swimmer::remove($id); //Prevent user removes itself or super-admin user
+        // Prevent the user from removing itself or the super-admin user
+        if ($id != $this->sessionId() && $swimmer->getEmail() != 'admin@admin.com') Swimmer::remove($id);
 
         return [
             'success' => true,
@@ -108,11 +132,15 @@ class AdminSwimmerController extends BaseController
         ];
     }
 
-    /**Edit swimmer details window */
+    /** 
+     * Show the edit swimmer details window.
+     * 
+     * @param int $id The ID of the swimmer to be edited.
+     * @return array Returns an array with the success status and the swimmer object.
+     */
 
     public function edit($id)
     {
-
         $swimmer = Swimmer::getById($id);
 
         if (!$swimmer) return $this->notFoundError;
@@ -125,14 +153,18 @@ class AdminSwimmerController extends BaseController
         ];
     }
 
-    /**Update swimmer from DB gettin data with POST */
+    /** 
+     * Update swimmer details in the database with POST data.
+     * 
+     * @param int $id The ID of the swimmer to update.
+     * @return array Returns an array with the success status and the updated list of swimmers.
+     */
 
     public function update($id)
     {
-
         $this->view = 'admin/swimmer/list';
 
-        /**@var Swimmer $swimmer */
+        /** @var Swimmer $swimmer */
         $swimmer = Swimmer::getById($id);
 
         if (!$swimmer) return $this->notFoundError;
@@ -140,15 +172,15 @@ class AdminSwimmerController extends BaseController
         $columns = array();
 
         foreach ($_POST as $column => $value) {
-
             if ($value != '') {
-
                 $columns[$column] = $value;
             }
         }
 
+        // Set isAdmin to false if not provided, excluding the current session user or super-admin
         if (!array_key_exists('isAdmin', $columns) && $id != $this->sessionId() && $swimmer->getEmail() != 'admin@admin.com') $columns['isAdmin'] = false;
 
+        // Hash password if it is being updated
         if (array_key_exists('password', $columns)) $columns['password'] = password_hash($columns['password'], PASSWORD_DEFAULT);
 
         Swimmer::updateFromId($columns, $id);

@@ -1,14 +1,21 @@
 <?php
 require_once './controller/baseController.php';
 
+/**
+ * Class SwimmerController
+ *
+ * This class handles swimmer profile management,
+ * including displaying profiles, updating emails and passwords.
+ */
 class SwimmerController extends BaseController
 {
-
-    /**Profile without marks */
-
+    /**
+     * Profile without marks
+     *
+     * @return array The swimmer's profile details.
+     */
     public function showProfile()
     {
-
         $id = $this->sessionId();
 
         $this->view = 'swimmer/profile';
@@ -23,19 +30,21 @@ class SwimmerController extends BaseController
         ];
     }
 
-    /**Profile with marks */
+    /**
+     * Profile with marks
+     *
+     * @return array The swimmer's full profile details with marks.
+     */
     public function showFullProfile()
     {
-
         $id = $this->sessionId();
 
         $this->view = 'swimmer/fullProfile';
 
-        /**@var Swimmer $swimmer */
+        /** @var Swimmer $swimmer */
         $swimmer = Swimmer::getById($id);
 
         if (!$swimmer) {
-
             return $this->notFoundError;
         }
 
@@ -49,11 +58,13 @@ class SwimmerController extends BaseController
 
     /* USER PROFILE EDIT */
 
-    /**Update swimmer email */
-
+    /**
+     * Update swimmer email
+     *
+     * @return array The result of the email update process.
+     */
     public function updateEmail()
     {
-
         $id = $this->sessionId();
 
         $this->view = 'swimmer/fullProfile';
@@ -61,11 +72,10 @@ class SwimmerController extends BaseController
         $validation = self::checkRequiredFields(['email']);
 
         if (!$validation['success']) {
-
             return $validation;
         }
 
-        /**@var Swimmer $swimmer */
+        /** @var Swimmer $swimmer */
         $swimmer = Swimmer::getByEmail($_POST['email']);
 
         if ($swimmer && $swimmer->getId() != $id) {
@@ -77,7 +87,6 @@ class SwimmerController extends BaseController
         }
 
         if (!Swimmer::updateFromId(['email' => $_POST['email']], $id)) {
-
             return [
                 'success' => false,
                 'object' => Swimmer::getById($id),
@@ -92,11 +101,13 @@ class SwimmerController extends BaseController
         ];
     }
 
-    /**Update swimmer email on ajax request */
-
+    /**
+     * Update swimmer email on ajax request
+     *
+     * @return array The result of the AJAX email update process.
+     */
     public function ajaxUpdateEmail()
     {
-
         $data = $this->updateEmail();
 
         $this->view = 'swimmer/profile';
@@ -104,11 +115,13 @@ class SwimmerController extends BaseController
         return $data;
     }
 
-    /**Update swimmer password */
-
+    /**
+     * Update swimmer password
+     *
+     * @return array The result of the password update process.
+     */
     public function updatePassword()
     {
-
         $id = $this->sessionId();
 
         $this->view = 'swimmer/profile';
@@ -116,14 +129,11 @@ class SwimmerController extends BaseController
         $validation = self::checkRequiredFields(['password', 'password2']);
 
         if (!$validation['success']) {
-
             $validation['object'] = Swimmer::getById($id);
-
             return $validation;
         }
 
-        if ($_POST['password'] != $_POST['password2']) { //Check diferent passwords
-
+        if ($_POST['password'] != $_POST['password2']) { // Check different passwords
             return [
                 'success' => false,
                 'object' => Swimmer::getById($id),
@@ -131,8 +141,7 @@ class SwimmerController extends BaseController
             ];
         }
 
-        if (strlen($_POST['password']) < 8) { //Minimun pass lenght = 8
-
+        if (strlen($_POST['password']) < 8) { // Minimum password length = 8
             return [
                 'success' => false,
                 'object' => Swimmer::getById($id),
@@ -140,14 +149,14 @@ class SwimmerController extends BaseController
             ];
         }
 
-        if (!(preg_match('/[a-z]/', $_POST['password']) //Password must content numbers, capitals and small letters
+        if (!(preg_match('/[a-z]/', $_POST['password']) // Password must contain numbers, capitals, and small letters
             && preg_match('/[A-Z]/', $_POST['password'])
             && preg_match('/[0-9]/', $_POST['password'])
         )) {
             return [
                 'success' => false,
                 'object' => Swimmer::getById($id),
-                'error' => 'La contraseña debe contener almenos una letra mayúscula, una minúscula y un número'
+                'error' => 'La contraseña debe contener al menos una letra mayúscula, una minúscula y un número'
             ];
         }
 
@@ -164,11 +173,14 @@ class SwimmerController extends BaseController
         ];
     }
 
-    /**Swimmer picture update on ajax request */
+    /**
+     * Swimmer picture update on ajax request
+     *
+     * @return array The result of the AJAX password update process.
+     */
 
     public function ajaxUpdatePassword()
     {
-
         $data = $this->updatePassword();
 
         $this->view = 'swimmer/profile';
@@ -176,7 +188,13 @@ class SwimmerController extends BaseController
         return $data;
     }
 
-    /**Swimmer picture update */
+    /**
+     * Update swimmer picture
+     *
+     * This method handles the uploading and updating of the swimmer's profile picture.
+     *
+     * @return array The result of the picture update process.
+     */
 
     public function updatePicture()
     {
@@ -186,7 +204,7 @@ class SwimmerController extends BaseController
 
         $this->view  = 'swimmer/fullProfile';
 
-        /**@var Swimmer $swimmer */
+        /** @var Swimmer $swimmer */
         $swimmer = Swimmer::getById($id);
 
         if ($swimmer->getPicture() != Swimmer::DEFAULT_PICTURE) unlink($swimmer->getPicture());
@@ -196,14 +214,12 @@ class SwimmerController extends BaseController
         $imageRoute = uploadPicture('profile-picture', $route);
 
         if (isset($imageRoute['success']) && !$imageRoute['success']) {
-
             $imageRoute['object'] = Swimmer::getById($id);
 
             return $imageRoute;
         }
 
         if (Swimmer::updateFromId(['picture' => $imageRoute], $id)) {
-
             return [
                 'success' => true,
                 'object' => Swimmer::getById($id)
@@ -216,11 +232,14 @@ class SwimmerController extends BaseController
         ];
     }
 
-    /**Swimmer picture update on ajax request */
+    /**
+     * Swimmer picture update on ajax request
+     *
+     * @return array The result of the AJAX picture update process.
+     */
 
     public function ajaxUpdatePicture()
     {
-
         $data = $this->updatePicture();
 
         $this->view = 'swimmer/profile';
@@ -228,22 +247,26 @@ class SwimmerController extends BaseController
         return $data;
     }
 
-    /**Swimmer picture remove */
+    /**
+     * Remove swimmer picture
+     *
+     * This method handles the removal of the swimmer's profile picture.
+     *
+     * @return array The result of the picture removal process.
+     */
 
     public function removePicture()
     {
-
         $id = $this->sessionId();
 
         $this->view = 'swimmer/fullProfile';
 
-        /**@var Swimmer $swimmer */
+        /** @var Swimmer $swimmer */
         $swimmer = Swimmer::getById($id);
 
         if (!$swimmer) return $this->notFoundError;
 
         if ($swimmer->getPicture() == Swimmer::DEFAULT_PICTURE) {
-
             return [
                 'success' => false,
                 'error' => 'No puedes borrar la imagen por defecto',
@@ -252,7 +275,6 @@ class SwimmerController extends BaseController
         }
 
         if (!unlink($swimmer->getPicture())) {
-
             return [
                 'success' => false,
                 'error' => 'No se ha podido borrar la imagen de perfil',
@@ -261,7 +283,6 @@ class SwimmerController extends BaseController
         }
 
         if (!Swimmer::updateFromId(['picture' => Swimmer::DEFAULT_PICTURE], $id)) {
-
             return [
                 'success' => false,
                 'error' => 'No se ha podido borrar la ruta de la imagen de la base de datos',
@@ -277,11 +298,14 @@ class SwimmerController extends BaseController
         ];
     }
 
-    /**Swimmer remove picture update on ajax request */
+    /**
+     * Swimmer remove picture update on ajax request
+     *
+     * @return array The result of the AJAX picture removal process.
+     */
 
     public function ajaxRemovePicture()
     {
-
         $data = $this->removePicture();
 
         $this->view = 'swimmer/profile';
@@ -289,15 +313,19 @@ class SwimmerController extends BaseController
         return $data;
     }
 
-    /**Update password when its mandatory */
+    /**
+     * Update password when it's mandatory
+     *
+     * This method updates the swimmer's password when a forced password change is required.
+     *
+     * @return array The result of the password update process.
+     */
 
     public function forcedUpdatePass()
     {
-
         $result = $this->updatePassword();
 
         if (!$result['success']) {
-
             $this->view = 'login/updatePassword';
 
             return $result;

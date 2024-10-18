@@ -2,20 +2,30 @@
 
 require_once './controller/baseController.php';
 
-/* LOGIN AND USER ACESSS */
+/**
+ * Class LoginController
+ *
+ * Controller for managing user login, logout, and password reset functionalities.
+ * This class handles user authentication, session management, and token generation
+ * for forgotten passwords.
+ */
 
 class LoginController extends BaseController
 {
-
-    /**Manage user login */
+    /**
+     * Manage user login
+     *
+     * This method validates the user credentials and manages the login process.
+     * It sets session variables upon successful login and redirects to the appropriate view.
+     *
+     * @return array Result containing success status or error messages.
+     */
 
     public function login()
     {
-
         $validation = self::checkRequiredFields(['username', 'password']);
 
         if (!$validation['success']) {
-
             return $validation;
         }
 
@@ -24,9 +34,7 @@ class LoginController extends BaseController
         $result = Swimmer::login($_POST['username'], $_POST['password'], $keepSession);
 
         if (!$result['success']) {
-
             $this->view = 'login/login';
-
             return $result;
         }
 
@@ -38,9 +46,7 @@ class LoginController extends BaseController
         $_SESSION['forceNewPass'] = $result['object']->getForceNewPass();
 
         if ($result['object']->getForceNewPass()) {
-
             $this->view = 'login/updatePassword';
-
             return $result;
         }
 
@@ -53,30 +59,40 @@ class LoginController extends BaseController
         return $controller->list();
     }
 
-    /**Manage logout */
+    /**
+     * Manage logout
+     *
+     * This method handles user logout, clearing the session and
+     * redirecting to the login view.
+     *
+     * @return array Result containing success status or error messages.
+     */
 
     public function logout()
     {
-
         $result = Swimmer::logout();
 
         if (!$result['success']) {
-
             return $result;
         }
 
         $this->view = 'login/login';
     }
 
-    /**Token to reset forgotten password */
+    /**
+     * Token to reset forgotten password
+     *
+     * This method generates a token for resetting the user's forgotten password
+     * and sends an email with the reset link.
+     *
+     * @return array Result containing success status or error messages.
+     */
 
     public function createToken()
     {
-
         $validation = self::checkRequiredFields(['email']);
 
         if (!$validation['success']) {
-
             return $validation;
         }
 
@@ -85,7 +101,6 @@ class LoginController extends BaseController
         $this->view = 'login/login';
 
         if (!$swimmer) {
-
             return [
                 'success' => false,
                 'error' => 'Este email no existe en la base de datos.'
@@ -95,7 +110,6 @@ class LoginController extends BaseController
         $result = $swimmer->createToken();
 
         if (!$result['success']) {
-
             return $result;
         }
 
@@ -118,26 +132,33 @@ class LoginController extends BaseController
         ];
     }
 
-    public function forgottenPass() //Manage forgotten pass link
+    /**
+     * Manage forgotten password link
+     *
+     * This method validates the token for resetting the password and
+     * allows the user to update their password if the token is valid.
+     *
+     * @return array Result containing success status or error messages.
+     */
+    
+    public function forgottenPass()
     {
         $token = $_GET['token'];
         $id = $_GET['id'];
 
         $this->view = 'login/login';
 
-        /**@var Swimmer $swimmer */
+        /** @var Swimmer $swimmer */
         $swimmer = Swimmer::getById($id);
 
         if (!$swimmer) {
-
             return [
                 'success' => false,
                 'msg' => 'No existe el usuario en la base de datos'
             ];
         }
 
-        if ($swimmer->getResetPassToken() != $token) {  
-
+        if ($swimmer->getResetPassToken() != $token) {
             return [
                 'success' => false,
                 'msg' => 'Enlace no válido'
@@ -147,7 +168,6 @@ class LoginController extends BaseController
         $now = date("Y-m-d H:i:s");
 
         if (new DateTime($now) > new DateTime($swimmer->getTokenExpDate())) {
-
             return [
                 'success' => false,
                 'msg' => 'El enlace ha caducado, vuelve a solicitar otro'

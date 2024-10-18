@@ -2,22 +2,28 @@
 
 include_once './controller/inscriptionController.php';
 
+/**
+ * Controller for handling competition inscription details.
+ */
 class InscriptionCompetitionController extends inscriptionController
 {
-
-    /**Show competition inscription details */
-
+    /**
+     * Displays the details of a competition inscription, including marks and race information.
+     * 
+     * @param int $id The competition ID.
+     * @return array An array containing competition details, marks, and inscription IDs.
+     */
     public function details($id)
     {
         $this->view = 'inscription/competition/details';
 
+        /** @var Competition $competition */
         $competition = Competition::fill($id)['object'];
 
         $marks = array();
         $inscriptionIds = array();
 
         $defaultMark = new Mark();
-
         $defaultMark->setTime('00:00:00.00');
 
         foreach ($competition->getJourneys() as $journey) {
@@ -42,9 +48,11 @@ class InscriptionCompetitionController extends inscriptionController
                         $mark1 = Mark::getFromUqConstraint($this->sessionId(), $race->getDistance(), $race->getStyle(), '25m');
                         $mark2 = Mark::getFromUqConstraint($this->sessionId(), $race->getDistance(), $race->getStyle(), '50m');
 
-                        if ($mark1 && $mark2) $marks[$race->getId()] = ($mark1->getFloatTime() < $mark2->getFloatTime()) ? $mark1 : $mark2;
-
-                        else $marks[$race->getId()] = $mark1 ? $mark1 : ($mark2 ? $mark2 : $defaultMark);
+                        if ($mark1 && $mark2) {
+                            $marks[$race->getId()] = ($mark1->getFloatTime() < $mark2->getFloatTime()) ? $mark1 : $mark2;
+                        } else {
+                            $marks[$race->getId()] = $mark1 ? $mark1 : ($mark2 ? $mark2 : $defaultMark);
+                        }
                     }
                 }
             }
@@ -57,7 +65,15 @@ class InscriptionCompetitionController extends inscriptionController
         ];
     }
 
-    /**Manage competition inscription: create and modify */
+    /**
+     * Manages competition inscription, allowing swimmers to create and modify their inscriptions.
+     * 
+     * This method checks if the necessary fields are provided, validates the inscription limits
+     * for sessions, journeys, and competitions, and adds or updates inscriptions accordingly.
+     * 
+     * @return array The competition details with error information if any validation fails, 
+     *               or the updated list of inscriptions on success.
+     */
 
     public function inscription()
     {
@@ -65,7 +81,7 @@ class InscriptionCompetitionController extends inscriptionController
 
         if (!$validation['success']) return $validation;
 
-        /**@var Competition $competition */
+        /** @var Competition $competition */
         $competition = Competition::getById($_POST['competitionId']);
 
         if (!$competition) return $this->notFoundError;
@@ -79,7 +95,7 @@ class InscriptionCompetitionController extends inscriptionController
 
             if (!$v) break;
 
-            /**@var Race $race */
+            /** @var Race $race */
             $race = Race::getById($raceId);
 
             if (!$race) return $this->notFoundError;
@@ -89,12 +105,14 @@ class InscriptionCompetitionController extends inscriptionController
             $inscription->setRaceId($raceId);
             $inscription->setCompetitionId($competition->getId());
 
-            if ($race->getIsRelay()) $inscriptions[] = $inscription;
+            if ($race->getIsRelay()) {
 
-            else {
-                /**@var Session $session */
+                $inscriptions[] = $inscription;
+            } else {
+
+                /** @var Session $session */
                 $session = Session::getById($race->getSessionId());
-                /**@var Journey $journey */
+                /** @var Journey $journey */
                 $journey = Journey::getById($session->getJourneyId());
 
                 isset($nSessionInscriptions[$session->getId()]) ? $nSessionInscriptions[$session->getId()]++ : $nSessionInscriptions[$session->getId()] = 1;
@@ -132,28 +150,32 @@ class InscriptionCompetitionController extends inscriptionController
         }
 
         if (!isset($error)) {
-
             foreach ($inscriptions as $inscription) {
 
                 $oldInscription = Inscription::getAll(['swimmerId = ' . $this->sessionId(), 'raceId = ' . $inscription->getRaceId()], []);
 
-                if ($oldInscription) Inscription::updateFromId(['mark' => $inscription->getMark()], $oldInscription[0]->getId());
-
-                else Inscription::add($inscription);
+                if ($oldInscription) {
+                    Inscription::updateFromId(['mark' => $inscription->getMark()], $oldInscription[0]->getId());
+                } else {
+                    Inscription::add($inscription);
+                }
             }
 
             return $this->list();
         } else {
 
             $data = $this->details($_POST['competitionId']);
-
             $data['error'] = $error;
-
             return $data;
         }
     }
 
-    /* Show remove confirmation window */
+
+    /** Show remove confirmation window
+     * 
+     * @param int $competitionId Competition ID
+     * @return array Result containing the competition object or an error
+     */
 
     public function removeConfirm($competitionId)
     {
@@ -169,7 +191,11 @@ class InscriptionCompetitionController extends inscriptionController
         ];
     }
 
-    /** Remove all inscriptions from competitionID */
+    /** Remove all inscriptions from competitionID
+     * 
+     * @param int $competitionId Competition ID
+     * @return array Result of the removal operation
+     */
 
     public function remove($competitionId)
     {

@@ -2,10 +2,21 @@
 
 require_once './controller/inscriptionController.php';
 
+/**
+ * Class QuestionaryController
+ *
+ * This class handles the management of questionaries for swimmers,
+ * including displaying questionary details, managing answers, and removing answers.
+ */
+
 class QuestionaryController extends InscriptionController
 {
-
-    /**Show questionary details to swimmer*/
+    /**
+     * Show questionary details to swimmer
+     *
+     * @param int $id The ID of the questionary to display.
+     * @return array The details of the questionary and the swimmer's answers.
+     */
 
     public function details($id)
     {
@@ -18,7 +29,6 @@ class QuestionaryController extends InscriptionController
         $arrayAnswers = array();
 
         foreach ($answers as $answer) {
-
             $arrayAnswers[$answer->getQuestionId()][] = $answer->getText();
         }
 
@@ -30,7 +40,11 @@ class QuestionaryController extends InscriptionController
         ];
     }
 
-    /**Manage answers received from post deleting old registered answers previously*/
+    /**
+     * Manage answers received from post, deleting old registered answers previously.
+     *
+     * @return array The result of the answer management process.
+     */
 
     public function fromPost()
     {
@@ -39,7 +53,6 @@ class QuestionaryController extends InscriptionController
         if (!$validation['success']) return $validation;
 
         foreach ($_POST['answer'] as $questionId => $texts) {
-
             $conditions = [
                 'swimmerId = ' . $this->sessionId(),
                 'questionId = ' . $questionId,
@@ -48,12 +61,10 @@ class QuestionaryController extends InscriptionController
             $oldAnswers = Answer::getAll($conditions, []);
 
             foreach ($oldAnswers as $oldAnswer) {
-
                 Answer::remove($oldAnswer->getId());
             }
 
             foreach ($texts as $text) {
-
                 $answer = new Answer();
 
                 $answer->setQuestionaryId($_POST['questionaryId']);
@@ -69,7 +80,12 @@ class QuestionaryController extends InscriptionController
         return $this->list();
     }
 
-    /* Show remove confirmation window */
+    /**
+     * Show remove confirmation window.
+     *
+     * @param int $questionaryId The ID of the questionary to remove.
+     * @return array The confirmation result for the removal.
+     */
 
     public function removeConfirm($questionaryId)
     {
@@ -85,7 +101,12 @@ class QuestionaryController extends InscriptionController
         ];
     }
 
-    /** Remove all answers from questionary ID */
+    /**
+     * Remove all answers from questionary ID.
+     *
+     * @param int $questionaryId The ID of the questionary to remove answers from.
+     * @return array The result of the removal process.
+     */
 
     public function remove($questionaryId)
     {
