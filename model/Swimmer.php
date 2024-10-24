@@ -60,9 +60,10 @@ class Swimmer extends BaseModel
         if ($keepSession) {
             ini_set('session.gc_maxlifetime', 31536000);
             session_set_cookie_params(31536000);
-        } else {
-            session_start();
-        }
+        } 
+
+        session_start();
+        
 
         return [
             'success' => true,
