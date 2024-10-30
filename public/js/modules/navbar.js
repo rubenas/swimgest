@@ -1,5 +1,3 @@
-/*Gestión del botón hamburguer del menú de navegación*/
-
 /**
  * Initializes the settings for the navbar togglers.
  * Adds click event listeners to elements that control the visibility of the navigation menus.

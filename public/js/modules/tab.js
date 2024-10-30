@@ -1,3 +1,7 @@
+import { loadModalSettings } from './modal.js';
+import { ajaxGetRequest } from './ajax.js';
+import { loadSelectRacesSettings } from './selectRaces.js';
+import { loadAjaxSettings } from './ajaxActions.js';
 
 /**
  * Initializes tab functionality by adding click event listeners to tab links.
