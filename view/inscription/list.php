@@ -16,7 +16,7 @@ if(!$eventIds) $eventIds = [];
         <?php foreach ($events as $event) { ?>
             <article class="card row mt-1">
                 <section class="col-12 col-sm-3 profile-picture">
-                    <img class="img-card img-rounded" src="<?php echo  $event->getPicture() ?>">
+                    <img class="img-card img-rounded" src="<?php echo  $event->getPicture() ?>" alt="Imagen representativa del evento">
                 </section>
                 <section class="col-12 col-sm-9 text-card">
                     <header class="pt-1 px-1">
