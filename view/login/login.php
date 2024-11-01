@@ -31,7 +31,7 @@ include './utils/config.php';
                         <h3>Inicio de sesión</h3>
                     </header>
                     <main class="p-1">
-                        <form id="login_form" method="post" action="login/login">
+                        <form id="login_form" method="post" action="login">
                             <div class="row mb-1">
                                 <label for="username">Nombre de usuario</label>
                                 <input class="w-100" type="email" id="username" name="username" placeholder="Correo electrónico" required>

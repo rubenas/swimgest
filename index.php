@@ -65,6 +65,9 @@ if (!file_exists('utils/config.php')) { //If config file doesn't extist, go to i
 } else if ($controller->hasToUpdatePass() || $_GET['action'] == 'forgottenPass') { //If user has to change password
 
     require_once 'view/login/updatePassword.php';
+} else if($controller->getView() == null || $controller->getView() == '') {
+
+    require_once '404.html';
 } else if (isset($_GET['just_view'])) { //Ajax requests 
 
     require_once 'view/' . $controller->getView() . '.php';

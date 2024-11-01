@@ -24,20 +24,20 @@
                         &nbsp;Inicio
                     </a>
                     <div class="dropdown-content">
-                        <a href="inscription/list">
+                        <a href="inscriptions">
                             <span class="material-symbols-outlined">
                                 event_available
                             </span>
                             &nbsp;Inscripciones
                         </a>
-                        <a href="swimmer/showFullProfile">
+                        <a href="my-profile">
                             <span class="material-symbols-outlined">
                                 person
                             </span>
                             &nbsp;
                             Mi perfil
                         </a>
-                        <a href="mark/showFinaCalculator">
+                        <a href="fina-calculator">
                             <span class="material-symbols-outlined">
                                 calculate
                             </span>
@@ -47,38 +47,38 @@
                 </li>
                 <?php if ($data['isAdmin']) { ?>
                     <li class="nav-item dropdown">
-                        <a href="adminSwimmer/list">
+                        <a href="swimmers">
                             <span class="material-symbols-outlined">
                                 admin_panel_settings
                             </span>
                             &nbsp;Administración
                         </a>
                         <div class="dropdown-content">
-                            <a href="adminSwimmer/list"'>
+                            <a href="swimmers"'>
                                 <span class="material-symbols-outlined">
                                     person
                                 </span>
                                 &nbsp;Nadadores
                             </a>
-                            <a href="adminEmail/list">
+                            <a href="emails">
                                 <span class="material-symbols-outlined">
                                     mail
                                 </span>
                                 &nbsp;Emails
                             </a>
-                            <a href="adminCompetition/list"'>
+                            <a href="competitions">
                                 <span class="material-symbols-outlined">
                                     pool
                                 </span>
                                 &nbsp;Competiciones
                             </a>
-                            <a href="adminEvent/list">
+                            <a href="events">
                                 <span class="material-symbols-outlined">
                                     event
                                 </span>
                                 &nbsp;Eventos
                             </a>
-                            <a href="adminQuestionary/list">
+                            <a href="questionaries">
                                 <span class="material-symbols-outlined">
                                     psychology_alt
                                 </span>
@@ -88,7 +88,7 @@
                     </li>
                 <?php } ?>
                 <li class="nav-item">
-                    <a href="login/logout">
+                    <a href="logout">
                         <span class="material-symbols-outlined">
                             logout
                         </span>

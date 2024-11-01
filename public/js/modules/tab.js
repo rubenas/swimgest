@@ -77,6 +77,8 @@ function showTab(id) {
     }
 
     activateTabLink(id);
+
+    window.history.replaceState('', 'SwimGest', './'+id);
 }
 
 /**
