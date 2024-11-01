@@ -528,4 +528,105 @@ class AdminEventController extends BaseController
             'object' => Event::getById($id)
         ];
     }
+
+    /**
+     * Displays the confirmation page for sending an email for a specific event.
+     *
+     * This function sets the view for the confirmation page and retrieves the
+     * details of the event and all available email templates.
+     *
+     * @param int $id The ID of the event for which the confirmation is being shown.
+     * @return array An associative array containing the event and email template data along with a success status.
+     */
+
+    public function showSendEmailConfirm($id)
+    {
+        $this->view = 'admin/event/sendEmailConfirm';
+
+        return [
+            'success' => true,
+            'event' => Event::getById($id),
+            'emails' => Email::getAll()
+        ];
+    }
+
+    /**
+     * Displays the preview of a selected email template with data for a specific event.
+     *
+     * This function sets the view for email checking, retrieves the selected email template,
+     * and if the event exists, customizes the email content using event-specific information.
+     * If the event is not found, a not found error is returned.
+     *
+     * @param int $eventId The ID of the event for which the email is being previewed.
+     * @return array Returns an associative array with success status, the event, and the customized email,
+     *               or a not found error if the event does not exist.
+     */
+
+    public function showCheckEmail($eventId)
+    {
+        $this->view = 'admin/event/checkEmail';
+
+        $email = Email::getById($_POST['template-id']);
+
+        if (!$email) {
+            $email = new Email();
+        }
+
+        $event = Event::getById($eventId);
+
+        if (!$event) {
+            return $this->notFoundError;
+        } else {
+            require_once './utils/makeEmailBody.php';
+
+            $result = makeEmail($email->getSubject(), $email->getBody(), $event);
+
+            $email->setSubject($result['subject']);
+            $email->setBody($result['body']);
+
+            return [
+                'success' => true,
+                'event' => $event,
+                'email' => $email
+            ];
+        }
+    }
+
+    /**
+     * Sends an email to all swimmers
+     *
+     * @return array with success or error mesage
+     */
+
+    public function sendToAll()
+    {
+
+        require_once './utils/sendEmail.php';
+        require './utils/config.php';
+
+        $swimmers = Swimmer::getAll();
+
+        $recipients = [];
+
+        foreach ($swimmers as $swimmer) {
+
+            $recipients[] = $swimmer->getEmail();
+        }
+
+        $this->view = 'admin/event/list';
+
+        $result = sendEmail($recipients, $_POST['subject'], $_POST['body'], $smtpConfig);
+
+        if (!$result['success']) {
+
+            $result['object'] = Event::getAll(['parentId IS NULL'], ['startDate']);
+            return $result;
+        }
+
+        return [
+            'success' => true,
+            'msg' => 'Mensaje enviado correctamente',
+            'object' => Event::getAll(['parentId IS NULL'], ['startDate'])
+        ];
+    }
 }

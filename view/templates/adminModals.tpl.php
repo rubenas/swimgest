@@ -218,3 +218,40 @@
         </footer>
     </div>
 </section>
+<section class="modal" id="modal-add-email">
+    <div class="modal-content">
+        <header class="modal-header">
+            <h3>Añadir plantilla de correo
+                <span class="material-symbols-outlined close">
+                    close
+                </span>
+            </h3>
+        </header>
+        <main class="modal-main">
+            <form class="row ai-center jc-between" id="add-email" action="adminEmail/add" method="post">
+                <div class="mt-1 form-group col-12">
+                    <label for="email-name">Título*</label>
+                    <input type="text" id="email-title" name="title" required autocomplete="true">
+                </div>
+                <div class="mt-1 form-group col-12">
+                    <label for="email-subject">Asunto*</label>
+                    <input type="text" id="email-subject" name="subject" required autocomplete="true">
+                </div>
+                <div class="mt-1 form-group col-12">
+                    <label for="email-body">Cuerpo del mensaje</label>
+                    <textarea id="email-body" name="body" class="editor"></textarea>
+                </div>
+                <div class="mt-1 col-12 row">
+                    <button type="submit" id="add-email-btn" class="btn mr-1" ajax-request='{"url" : "adminEmail/add/v"}'>Aceptar</button>
+                    <button type="reset" class="close btn-secondary">Cancelar</button>
+                </div>
+                <div class="error"></div>
+                <div class="success"></div>
+            </form>
+        </main>
+        <hr class="mx-1">
+        <footer class="modal-footer">
+            * Campos obligatorios
+        </footer>
+    </div>
+</section>

@@ -467,4 +467,106 @@ class AdminCompetitionController extends BaseController
             'object' => Competition::getById($id)
         ];
     }
+
+    /**
+     * Displays the confirmation page for sending an email for a specific competition.
+     *
+     * This function sets the view for the confirmation page and retrieves the
+     * details of the competition and all available email templates.
+     *
+     * @param int $id The ID of the competition for which the confirmation is being shown.
+     * @return array An associative array containing the competition and email template data along with a success status.
+     */
+    
+    public function showSendEmailConfirm($id)
+    {
+        $this->view = 'admin/competition/sendEmailConfirm';
+
+        return [
+            'success' => true,
+            'competition' => Competition::getById($id),
+            'emails' => Email::getAll()
+        ];
+    }
+
+    /**
+     * Displays the preview of a selected email template with data for a specific competition.
+     *
+     * This function sets the view for email checking, retrieves the selected email template,
+     * and if the competition exists, customizes the email content using competition-specific information.
+     * If the competition is not found, a not found error is returned.
+     *
+     * @param int $competitionId The ID of the competition for which the email is being previewed.
+     * @return array Returns an associative array with success status, the competition, and the customized email,
+     *               or a not found error if the competition does not exist.
+     */
+
+    public function showCheckEmail($competitionId)
+    {
+        $this->view = 'admin/competition/checkEmail';
+
+        $email = Email::getById($_POST['template-id']);
+
+        if (!$email) {
+            $email = new Email();
+        }
+
+        $competition = Competition::getById($competitionId);
+
+        if (!$competition) {
+            return $this->notFoundError;
+        } else {
+            require_once './utils/makeEmailBody.php';
+
+            $result = makeEmail($email->getSubject(), $email->getBody(), $competition);
+
+            $email->setSubject($result['subject']);
+            $email->setBody($result['body']);
+
+            return [
+                'success' => true,
+                'competition' => $competition,
+                'email' => $email
+            ];
+        }
+    }
+
+
+    /**
+     * Sends an email to all swimmers
+     *
+     * @return array with success or error mesage
+     */
+
+    public function sendToAll()
+    {
+
+        require_once './utils/sendEmail.php';
+        require './utils/config.php';
+
+        $swimmers = Swimmer::getAll();
+
+        $recipients = [];
+
+        foreach ($swimmers as $swimmer) {
+
+            $recipients[] = $swimmer->getEmail();
+        }
+
+        $this->view = 'admin/competition/list';
+
+        $result = sendEmail($recipients, $_POST['subject'], $_POST['body'], $smtpConfig);
+
+        if (!$result['success']) {
+
+            $result['object'] = Competition::getAll();
+            return $result;
+        }
+
+        return [
+            'success' => true,
+            'msg' => 'Mensaje enviado correctamente',
+            'object' => Competition::getAll()
+        ];
+    }
 }

@@ -8,7 +8,7 @@
         </a>
     </li>
     <li class="inactive">
-        <a href="adminEmail/list" tab-target="emails">
+        <a href="adminEmail/list" tab-target="emails" ajax-request='{"url": "adminEmail/list/v" }'>
             <span class="material-symbols-outlined">
                 mail
             </span>

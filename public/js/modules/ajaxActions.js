@@ -77,7 +77,7 @@ export function loadAjaxSettings(element) {
     removeQuestionaryPictureSettings(element);
 
     // Updates state of inscriptions on events, competitions and questionaries
-    loadUpdateStateSettings(element);
+    loadUpdateStateSettings();
 }
 
 /**
@@ -896,22 +896,25 @@ function removeQuestionaryPictureSettings(element) {
 /**
  * Sets up settings for loading update state options.
  *
- * @param {HTMLElement} element - The root element to search within.
  */
 
-function loadUpdateStateSettings(element) {
-    const forms = element.querySelectorAll("[id*='-state-']");
+function loadUpdateStateSettings() {
+    const forms = document.querySelectorAll("[id*='-state-']");
 
     for (let form of forms) {
         const selectState = form.querySelector("[name='state']");
         const button = form.querySelector("button[type='submit']");
-
+        const button2 = form.querySelector("button[id*='send-email-confirm-']");
+        
         selectState.addEventListener("change", function () {
             const dataToAction = {
                 "idToReplace": form.id
             };
 
             ajaxPostRequest(form, button, "html", replaceElement, dataToAction);
+
+            if (selectState[selectState.selectedIndex].value == 'open') button2.click();
+
         });
     }
 }
@@ -1005,6 +1008,7 @@ function replaceElement(element, data) {
     moveRaceSettings(newElement);
     moveOptionSettings(newElement);
     loadTabSettings(newElement);
+    loadUpdateStateSettings();
 
     let modals = document.querySelectorAll(data.idToClose);
     for (let modal of modals) {

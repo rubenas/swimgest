@@ -460,4 +460,105 @@ class AdminQuestionaryController extends BaseController
             'object' => Questionary::getById($id)
         ];
     }
+
+    /**
+     * Displays the confirmation page for sending an email for a specific questionary.
+     *
+     * This function sets the view for the confirmation page and retrieves the
+     * details of the questionary and all available email templates.
+     *
+     * @param int $id The ID of the questionary for which the confirmation is being shown.
+     * @return array An associative array containing the questionary and email template data along with a success status.
+     */
+
+     public function showSendEmailConfirm($id)
+     {
+         $this->view = 'admin/questionary/sendEmailConfirm';
+ 
+         return [
+             'success' => true,
+             'questionary' => Questionary::getById($id),
+             'emails' => Email::getAll()
+         ];
+     }
+ 
+     /**
+      * Displays the preview of a selected email template with data for a specific questionary.
+      *
+      * This function sets the view for email checking, retrieves the selected email template,
+      * and if the questionary exists, customizes the email content using questionary-specific information.
+      * If the questionary is not found, a not found error is returned.
+      *
+      * @param int $questionaryId The ID of the questionary for which the email is being previewed.
+      * @return array Returns an associative array with success status, the questionary, and the customized email,
+      *               or a not found error if the questionary does not exist.
+      */
+ 
+     public function showCheckEmail($questionaryId)
+     {
+         $this->view = 'admin/questionary/checkEmail';
+ 
+         $email = Email::getById($_POST['template-id']);
+ 
+         if (!$email) {
+             $email = new Email();
+         }
+ 
+         $questionary = Questionary::getById($questionaryId);
+ 
+         if (!$questionary) {
+             return $this->notFoundError;
+         } else {
+             require_once './utils/makeEmailBody.php';
+ 
+             $result = makeEmail($email->getSubject(), $email->getBody(), $questionary);
+ 
+             $email->setSubject($result['subject']);
+             $email->setBody($result['body']);
+ 
+             return [
+                 'success' => true,
+                 'questionary' => $questionary,
+                 'email' => $email
+             ];
+         }
+     }
+ 
+     /**
+      * Sends an email to all swimmers
+      *
+      * @return array with success or error mesage
+      */
+ 
+     public function sendToAll()
+     {
+ 
+         require_once './utils/sendEmail.php';
+         require './utils/config.php';
+ 
+         $swimmers = Swimmer::getAll();
+ 
+         $recipients = [];
+ 
+         foreach ($swimmers as $swimmer) {
+ 
+             $recipients[] = $swimmer->getEmail();
+         }
+ 
+         $this->view = 'admin/questionary/list';
+ 
+         $result = sendEmail($recipients, $_POST['subject'], $_POST['body'], $smtpConfig);
+ 
+         if (!$result['success']) {
+ 
+             $result['object'] = Questionary::getAll([], ['deadLine']);
+             return $result;
+         }
+ 
+         return [
+             'success' => true,
+             'msg' => 'Mensaje enviado correctamente',
+             'object' => Questionary::getAll([], ['deadLine'])
+         ];
+     }
 }

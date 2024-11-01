@@ -13,6 +13,7 @@ require_once './model/Question.php';
 require_once './model/Answer.php';
 require_once './model/Option.php';
 require_once './model/Inscription.php';
+require_once './model/Email.php';
 
 /** 
  * Base controller with common methods for handling session data, permissions, 

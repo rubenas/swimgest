@@ -13,4 +13,5 @@
         </option>
     </select>
     <button type="submit" style="display:none" ajax-request='{"url":"adminCompetition/ajaxUpdateState/<?php echo $competition->getId() ?>/v"}'></button>
+    <button id="send-email-confirm-<?php echo $competition->getId();?>" modal-target="modal-send-competition-email-confirm-<?php echo $competition->getId();?>" style="display:none" ajax-request='{"url":"adminCompetition/showSendEmailConfirm/<?php echo $competition->getId() ?>/v"}'></button>
 </form>

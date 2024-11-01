@@ -51,9 +51,20 @@ function createModalWindow(event, id, button) {
  */
 
 function createModalFromServerRequest(html) {
+
+    console.log(html);
     let modal = html.querySelector(".modal");
-    document.getElementById("modalWindows").appendChild(modal);
+    let modalWindowsSection  = document.getElementById("modalWindows");
+    modalWindowsSection.appendChild(modal);
+
+    let modals = modalWindowsSection.querySelectorAll('.modal');
+
+    for (let i = 0; i< modals.length; i++) { //if there are open modals, they have to be closed before showing the new one
+        if (modals[i].style.display == 'flex') closeModalWindow(modals[i]);
+    }
+
     showModal(modal);
+    loadModalSettings(modal);
     loadAjaxSettings(modal);
     loadSelectRacesSettings(modal);
     loadCKEditorSettings(modal);

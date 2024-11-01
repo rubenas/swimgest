@@ -13,4 +13,5 @@
         </option>
     </select>
     <button type="submit" style="display:none" ajax-request='{"url":"adminEvent/ajaxUpdateState/<?php echo $event->getId() ?>/v"}'></button>
+    <button id="send-email-confirm-<?php echo $event->getId();?>" modal-target="modal-send-event-email-confirm-<?php echo $event->getId();?>" style="display:none" ajax-request='{"url":"adminEvent/showSendEmailConfirm/<?php echo $event->getId() ?>/v"}'></button>
 </form>

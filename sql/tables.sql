@@ -23,6 +23,8 @@ DROP TABLE IF EXISTS sessions;
 DROP TABLE IF EXISTS journeys;
 
 DROP TABLE IF EXISTS competitions;
+
+DROP TABLE IF EXISTS emails;
  
 CREATE TABLE swimmers (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -233,4 +235,11 @@ CREATE TABLE answers (
     REFERENCES questions(id)
     ON UPDATE CASCADE
     ON DELETE CASCADE
+);
+
+CREATE TABLE emails (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(256) NOT NULL,
+    subject VARCHAR(256) NOT NULL,
+    body LONGTEXT
 );

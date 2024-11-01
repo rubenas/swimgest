@@ -13,4 +13,6 @@
         </option>
     </select>
     <button type="submit" style="display:none" ajax-request='{"url":"adminQuestionary/ajaxUpdateState/<?php echo $questionary->getId() ?>/v"}'></button>
+    <button id="send-email-confirm-<?php echo $questionary->getId();?>" modal-target="modal-send-questionary-email-confirm-<?php echo $questionary->getId();?>" style="display:none" ajax-request='{"url":"adminQuestionary/showSendEmailConfirm/<?php echo $questionary->getId() ?>/v"}'></button>
+</form>
 </form>

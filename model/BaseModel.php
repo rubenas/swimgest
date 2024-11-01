@@ -27,7 +27,7 @@ abstract class BaseModel
     {
         if (!isset(self::$connection) || is_null(self::$connection)) {
 
-            require_once './utils/config.php';
+            require './utils/config.php';
 
             try {
                 self::$connection = new PDO(

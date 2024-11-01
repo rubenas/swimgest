@@ -54,5 +54,6 @@ $events = $data['content']['object'];
             <?php  } ?>
         </section>
         <div class="error"><?php if (isset($data['content']['error'])) echo $data['content']['error']; ?></div>
+        <div class="success"><?php if (isset($data['content']['msg'])) echo $data['content']['msg']; ?></div>
     </main>
 </section>
