@@ -57,3 +57,4 @@ $events = $data['content']['object'];
         <div class="success"><?php if (isset($data['content']['msg'])) echo $data['content']['msg']; ?></div>
     </main>
 </section>
+<script type="module">import {activateTabLink} from './public/js/modules/tab.js';activateTabLink('events');</script>

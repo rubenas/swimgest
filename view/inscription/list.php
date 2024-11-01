@@ -83,3 +83,4 @@ if(!$eventIds) $eventIds = [];
 </section>
 <div class="error"><?php if (isset($data['content']['error'])) echo $data['content']['error']; ?></div>
 </section>
+<script type="module">import {activateTabLink} from './public/js/modules/tab.js';activateTabLink('inscriptions');</script>

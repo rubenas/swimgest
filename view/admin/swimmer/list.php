@@ -41,3 +41,4 @@
         <div class="error"><?php if (isset($data['content']['error'])) echo $data['content']['error']; ?></div>
     </main>
 </section>
+<script type="module">import {activateTabLink} from './public/js/modules/tab.js';activateTabLink('swimmers');</script>

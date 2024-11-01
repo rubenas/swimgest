@@ -1,5 +1,5 @@
 <ul>
-    <li class="active">
+    <li class="inactive">
         <a href="inscription/list" tab-target="inscriptions" ajax-request='{"url": "inscription/list/v" }'>
             <span class="material-symbols-outlined">
                 event_available

@@ -9,3 +9,4 @@
          ?>
     </main>
 </section>
+<script type="module">import {activateTabLink} from './public/js/modules/tab.js';activateTabLink('my-profile');</script>

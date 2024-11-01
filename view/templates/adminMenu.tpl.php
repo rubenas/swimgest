@@ -1,5 +1,5 @@
 <ul>
-    <li class="active">
+    <li class="inactive">
         <a href="adminSwimmer/list" tab-target="swimmers" ajax-request='{"url": "adminSwimmer/list/v" }'>
             <span class="material-symbols-outlined">
                 person
