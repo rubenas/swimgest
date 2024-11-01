@@ -34,7 +34,7 @@ function uploadPicture($postName, $route)
 
         case "image/jpeg":
         case "image/jpg":
-            $extension = ".jpg";
+            $extension = ".webp";
             $im = imagecreatefromjpeg($_FILES[$postName]['tmp_name']);
             break;
 
@@ -61,9 +61,9 @@ function uploadPicture($postName, $route)
     $im = imagecrop($im, ['x' => (imagesx($im) - $size) / 2, 'y' => (imagesy($im) - $size) / 2, 'width' => $size, 'height' => $size]);
 
 
-    //Resizing max 1080px
+    //Resizing max 500px
 
-    $newSize = min($size, 1080);
+    $newSize = min($size, 500);
 
     $im2 = imagecreatetruecolor($newSize, $newSize);
     imagealphablending($im2, FALSE);
@@ -75,9 +75,9 @@ function uploadPicture($postName, $route)
 
     $imageRoute = $route . $extension;
 
-    if ($extension == '.jpg') {
+    if ($extension == '.webp') {
 
-        imagejpeg($im2, $imageRoute, 60);
+        imagewebp($im2, $imageRoute, 60);
     } else if ($extension == '.png') {
 
         imagepng($im2, $imageRoute, 6);
