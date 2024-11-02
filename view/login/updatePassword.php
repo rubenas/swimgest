@@ -1,3 +1,5 @@
+<?php include './utils/config.php'; ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -21,7 +23,7 @@
             <h1 class="my-1 px-1">Debes modificar tu contraseña para continuar</h1>
             <div class="row jc-center pt-2">
                 <div class="row jc-center col-5 col-md-3 col-lg-2">
-                    <img class="img-fluid w-80" src="public/img/logo_escualos.svg">
+                    <img class="img-fluid w-80" src="<?php echo $logoRoute; ?>">
                 </div>
             </div>
         </header>

@@ -28,7 +28,7 @@ $email = $data['content']['email'];
         </main>
         <hr class="mx-1 mt-1">
         <footer class="modal-footer">
-            * Campos obligatorios
+            Puedes usar las propiedades del cuestionario como comodines que serán reemplazados en el mensaje final: [name], [description], [deadLine] y [logo].
         </footer>
         <div class="error"><?php if (isset($data['content']['error'])) echo $data['content']['error']; ?></div>
     </main>

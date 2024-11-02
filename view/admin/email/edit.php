@@ -33,7 +33,7 @@
         </main>
         <hr class="mx-1">
         <footer class="modal-footer">
-            * Campos obligatorios
+            Puedes usar las propiedades del evento/cuestionario como comodines que serán reemplazados en el mensaje final: [name], [place], [location], [startDate], [endDate], [deadLine], [inscriptionsLimit], [description] y [logo].
         </footer>
     </div>
 </section>

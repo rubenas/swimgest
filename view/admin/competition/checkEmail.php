@@ -28,7 +28,7 @@ $email = $data['content']['email'];
         </main>
         <hr class="mx-1 mt-1">
         <footer class="modal-footer">
-            * Campos obligatorios
+            Puedes usar las propiedades de la competición como comodines que serán reemplazados en el mensaje final: [name], [place], [location], [startDate], [endDate], [deadLine], [inscriptionsLimit], [description] y [logo].
         </footer>
         <div class="error"><?php if (isset($data['content']['error'])) echo $data['content']['error']; ?></div>
     </main>

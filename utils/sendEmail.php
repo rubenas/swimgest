@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-/** Sends an email to an array of recipients (Object swimmer) using phpmailer */
+/** Sends an email to an array of recipients using phpmailer */
 
 function sendEmail($recipients, $subject, $body, $smtpConfig)
 {

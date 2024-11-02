@@ -30,8 +30,8 @@
                     <input type="number"  min="1900" max="2099" step="1" id="birthYear" name="birthYear" required>
                 </div>
                 <div class="mt-1 form-group col-12 col-sm-3">
-                    <label for="name">Licencia</label>
-                    <input type="text" id="text" name="licence" autocomplete="true">
+                    <label for="name">Licencia*</label>
+                    <input type="text" id="text" name="licence" autocomplete="true" required>
                 </div>
                 <div class="mt-1 form-group col-12 col-sm-7">
                     <label for="name">Email*</label>
@@ -251,7 +251,7 @@
         </main>
         <hr class="mx-1">
         <footer class="modal-footer">
-            * Campos obligatorios
+            Puedes usar las propiedades del evento/cuestionario como comodines que serán reemplazados en el mensaje final: [name], [place], [location], [startDate], [endDate], [deadLine], [inscriptionsLimit], [description] y [logo].
         </footer>
     </div>
 </section>

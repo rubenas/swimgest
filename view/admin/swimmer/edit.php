@@ -12,16 +12,16 @@
 
             <form class="row ai-center jc-between" method="post" action="adminSwimmer/update/<?php echo $swimmer->getId(); ?>">
                 <div class="mt-1 form-group col-12 col-sm-4">
-                    <label for="name">Nombre</label>
-                    <input type="text" id="name" name="name" value="<?php echo $swimmer->getName(); ?>">
+                    <label for="name">Nombre*</label>
+                    <input type="text" id="name" name="name" required value="<?php echo $swimmer->getName(); ?>">
                 </div>
                 <div class="mt-1 form-group col-12 col-sm-7">
-                    <label for="surname">Apellidos</label>
-                    <input type="text" id="surname" name="surname" value="<?php echo $swimmer->getSurname(); ?>">
+                    <label for="surname">Apellidos*</label>
+                    <input type="text" id="surname" name="surname" required value="<?php echo $swimmer->getSurname(); ?>">
                 </div>
                 <div class="mt-1 form-group col-12 col-sm-3">
-                    <label for="gender">Género</label>
-                    <select id="gender" name="gender">
+                    <label for="gender">Género*</label>
+                    <select id="gender" name="gender" required>
                         <option value="" disabled>Género</option>
                         <option value="male" <?php
                                                 if ($swimmer->getGender() == 'male') {
@@ -36,20 +36,20 @@
                     </select>
                 </div>
                 <div class="mt-1 form-group col-12 col-sm-4">
-                    <label for="birtYear">Año de nacimiento</label>
-                    <input type="number" min="1900" max="2099" step="1" id="birtYear" name="birthYear" value="<?php echo $swimmer->getBirthYear(); ?>">
+                    <label for="birtYear">Año de nacimiento*</label>
+                    <input type="number" min="1900" max="2099" step="1" id="birtYear" name="birthYear" value="<?php echo $swimmer->getBirthYear(); ?>" required>
                 </div>
                 <div class="mt-1 form-group col-12 col-sm-3">
-                    <label for="name">Licencia</label>
-                    <input type="text" id="licence" name="licence" value="<?php echo $swimmer->getLicence(); ?>">
+                    <label for="name">Licencia*</label>
+                    <input type="text" id="licence" name="licence" value="<?php echo $swimmer->getLicence(); ?>" required>
                 </div>
                 <div class="mt-1 form-group col-12 col-sm-7">
-                    <label for="name">Email</label>
-                    <input type="email" id="email" name="email" value="<?php echo $swimmer->getEmail(); ?>">
+                    <label for="name">Email*</label>
+                    <input type="email" id="email" name="email" value="<?php echo $swimmer->getEmail(); ?>" required>
                 </div>
                 <div class="mt-1 form-group col-12 col-sm-4">
-                    <label for="password">Contraseña</label>
-                    <input type="password" id="password" name="password" autocomplete="true">
+                    <label for="password">Contraseña*</label>
+                    <input type="password" id="password" name="password" autocomplete="true" required>
                 </div>
                 <?php
                 if ($data['id'] != $swimmer->getId() && $swimmer->getEmail() != 'admin@admin.com') { ?>
