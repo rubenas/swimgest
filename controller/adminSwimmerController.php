@@ -78,7 +78,13 @@ class AdminSwimmerController extends BaseController
             ];
         }
 
-        Swimmer::add($swimmer['object']);
+        $result = Swimmer::add($swimmer['object']);
+
+        if (!$result['success']) {
+
+            $result['object'] = Swimmer::getAll([], ['surname']);
+            return $result;
+        }
 
         return [
             'success' => true,
@@ -182,12 +188,20 @@ class AdminSwimmerController extends BaseController
 
         // Hash password if it is being updated
         if (array_key_exists('password', $columns)) $columns['password'] = password_hash($columns['password'], PASSWORD_DEFAULT);
+        try {
+        
+            Swimmer::updateFromId($columns, $id);
+            return [
+                'success' => true,
+                'object' => Swimmer::getAll([], ['surname'])
+            ];
+        } catch (PDOException $e) {
 
-        Swimmer::updateFromId($columns, $id);
-
-        return [
-            'success' => true,
-            'object' => Swimmer::getAll([], ['surname'])
-        ];
+            return [
+                'success' => false,
+                'error' => $e->getMessage(),
+                'object' => Swimmer::getAll([], ['surname'])
+            ];
+        }
     }
 }

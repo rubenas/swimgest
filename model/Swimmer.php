@@ -143,7 +143,20 @@ class Swimmer extends BaseModel
             ':isAdmin' => $swimmer->getIsAdmin()
         ];
 
-        return $query->execute($values);
+        try {
+            
+            $query->execute($values);
+            return [
+                'success' => true
+            ];
+            
+        } catch (PDOException $e) {
+
+            return [
+                'success' => false,
+                'error' => $e->getMessage()
+            ];
+        }
     }
 
     /**
