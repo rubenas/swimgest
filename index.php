@@ -59,13 +59,13 @@ if (!file_exists('utils/config.php')) { //If config file doesn't extist, go to i
 } else if ($controller->isInstallingProcess()) { //If installation didn't finish
 
     require_once 'view/install/installing.php';
-} else if (!$controller->isLogged() || ($data['isAdminArea'] && !$data['isAdmin'])) { //If user is logged in
+} else if (!$controller->isLogged() || ($data['isAdminArea'] && !$data['isAdmin'])) { //If user is not logged in
 
     require_once 'view/login/login.php';
 } else if ($controller->hasToUpdatePass() || $_GET['action'] == 'forgottenPass') { //If user has to change password
 
     require_once 'view/login/updatePassword.php';
-} else if($controller->getView() == null || $controller->getView() == '') {
+} else if ($controller->getView() == null || $controller->getView() == '') {
 
     require_once '404.html';
 } else if (isset($_GET['just_view'])) { //Ajax requests 

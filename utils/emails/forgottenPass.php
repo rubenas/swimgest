@@ -3,7 +3,7 @@
 function forgottenPassEmail($swimmer)
 {
 
-    $subject = 'Recuperación de contraseña en cnescualos.es';
+    $subject = 'Recuperación de contraseña SwimGest';
 
     $body = '<p>Hola, ' . $swimmer->getName() . ':</p>';
 

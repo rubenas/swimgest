@@ -39,23 +39,23 @@ function makeEmail($subject, $body, $object)
 
 function makeCompetitionEmail($subject, $body, $competition)
 {
-    $subject = str_replace('[name]', $competition->getName(), $subject);
-    $subject = str_replace('[place]', $competition->getPlace(), $subject);
-    $subject = str_replace('[location]', $competition->getLocation(), $subject);
-    $subject = str_replace('[description]', $competition->getDescription(), $subject);
-    $subject = str_replace('[startDate]', formatDMYDate($competition->getStartDate()), $subject);
-    $subject = str_replace('[endDate]', formatDMYDate($competition->getEndDate()), $subject);
-    $subject = str_replace('[deadLine]', formatDMYHMDate($competition->getDeadLine()), $subject);
-    $subject = str_replace('[inscriptionsLimit]', $competition->getInscriptionsLimit(), $subject);
+    $subject = str_replace('[name]', $competition->getName()  ?? '', $subject);
+    $subject = str_replace('[place]', $competition->getPlace() ?? '', $subject);
+    $subject = str_replace('[location]', $competition->getLocation() ?? '', $subject);
+    $subject = str_replace('[description]', $competition->getDescription() ?? '', $subject);
+    $subject = str_replace('[startDate]', formatDMYDate($competition->getStartDate()) ?? '', $subject);
+    $subject = str_replace('[endDate]', formatDMYDate($competition->getEndDate()) ?? '', $subject);
+    $subject = str_replace('[deadLine]', formatDMYHMDate($competition->getDeadLine()) ?? '', $subject);
+    $subject = str_replace('[inscriptionsLimit]', $competition->getInscriptionsLimit() ?? '', $subject);
 
-    $body = str_replace('[name]', $competition->getName(), $body);
-    $body = str_replace('[place]', $competition->getPlace(), $body);
-    $body = str_replace('[location]', $competition->getLocation(), $body);
-    $body = str_replace('[description]', $competition->getDescription(), $body);
-    $body = str_replace('[startDate]', formatDMYDate($competition->getStartDate()), $body);
-    $body = str_replace('[endDate]', formatDMYDate($competition->getEndDate()), $body);
-    $body = str_replace('[deadLine]', formatDMYHMDate($competition->getDeadLine()), $body);
-    $body = str_replace('[inscriptionsLimit]', $competition->getInscriptionsLimit(), $body);
+    $body = str_replace('[name]', $competition->getName() ?? '', $body);
+    $body = str_replace('[place]', $competition->getPlace() ?? '', $body);
+    $body = str_replace('[location]', $competition->getLocation() ?? '', $body);
+    $body = str_replace('[description]', $competition->getDescription() ?? '', $body);
+    $body = str_replace('[startDate]', formatDMYDate($competition->getStartDate()) ?? '', $body);
+    $body = str_replace('[endDate]', formatDMYDate($competition->getEndDate()) ?? '', $body);
+    $body = str_replace('[deadLine]', formatDMYHMDate($competition->getDeadLine()) ?? '', $body);
+    $body = str_replace('[inscriptionsLimit]', $competition->getInscriptionsLimit() ?? '', $body);
 
     require './utils/config.php'; 
     /**
