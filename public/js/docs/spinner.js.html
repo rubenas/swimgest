@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: spinner.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,39 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: spinner.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Displays the loading spinner or animation in the specified section.
+ *
+ * @param {HTMLElement} section - The section element in which to display the loader.
+ */
 
+export function showLoading(section) {
+   const loading = section.querySelector(".loading");
+   loading.classList.add("display");
+}
 
-    <h3> </h3>
+/**
+* Hides the loading spinner or animation in the specified section.
+*
+* @param {HTMLElement} section - The section element in which to hide the loader.
+*/
 
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+export function hideLoading(section) {
+   const loading = section.querySelector(".loading");
+   loading.classList.remove("display");
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: loadCKEditor.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,45 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: loadCKEditor.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Initializes CKEditor for all textareas with the class "editor" within the specified element or document.
+ *
+ * @param {HTMLElement} [element=document] - The parent element to search for forms. Defaults to the entire document if not provided.
+ */
 
+export function loadCKEditorSettings(element) {
+    if (element == null) element = document;
+    const forms = element.querySelectorAll("form");
 
-    <h3> </h3>
+    for (let form of forms) {
+        const textarea = form.querySelector(".editor");
 
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+        if (textarea != null) {
+            ClassicEditor
+                .create(textarea)
+                .then(editor => editor.editing.view.document.on("change",
+                    function () {
+                        textarea.value = editor.getData();
+                    })
+                )
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

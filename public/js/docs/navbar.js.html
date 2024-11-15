@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: navbar.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,53 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: navbar.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Initializes the settings for the navbar togglers.
+ * Adds click event listeners to elements that control the visibility of the navigation menus.
+ */
 
+export function loadNavbarSettings() {
+    let navbarTogglers = document.querySelectorAll("*[nav-target]");
+    for (let i = 0; i &lt; navbarTogglers.length; i++) {
+        let id = navbarTogglers[i].getAttribute("nav-target");
+        let display = false;
+        navbarTogglers[i].addEventListener("click", function () {
+            display = toggleNav(id, display);
+        }, false);
+    }
+}
 
-    <h3> </h3>
+/**
+ * Toggles the display state of the navigation menu.
+ *
+ * @param {string} id - The ID of the navigation element to toggle.
+ * @param {boolean} display - The current display state of the navigation element.
+ * @returns {boolean} - The updated display state of the navigation element.
+ */
 
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+function toggleNav(id, display) {
+    let nav = document.getElementById(id);
+    if (!display) {
+        nav.style.display = "flex";
+        display = true;
+    } else {
+        nav.style.display = "none";
+        display = false;
+    }
+    return display;
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
